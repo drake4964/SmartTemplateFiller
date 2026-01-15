@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.smarttemplatefiller.TeachModeController"
+            prefWidth="700" prefHeight="600">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+    
+    <center>
+        <VBox spacing="15">
+            
+            <!-- Section 1: Mapping Configuration -->
+            <TitledPane text="+ Add New Mapping" collapsible="false">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <Label text="Source Column:" style="-fx-font-weight: bold;"/>
+                        <ComboBox fx:id="columnComboBox" prefWidth="120" promptText="Select..."/>
+                        
+                        <Label text="-&gt;"/>
+                        
+                        <Label text="Excel Cell:" style="-fx-font-weight: bold;"/>
+                        <TextField fx:id="cellField" promptText="e.g. A2" prefWidth="80"/>
+                        
+                        <Label text="Direction:" style="-fx-font-weight: bold;"/>
+                        <ComboBox fx:id="directionComboBox" prefWidth="110"/>
+                    </HBox>
+                    
+                    <HBox spacing="15" alignment="CENTER_LEFT">
+                        <Label text="Row Pattern:" style="-fx-font-weight: bold;"/>
+                        <ComboBox fx:id="rowPatternComboBox" prefWidth="120" promptText="Optional"/>
+                        
+                        <Label text="or Manual Rows:"/>
+                        <TextField fx:id="manualRowField" promptText="e.g. 1,3,5,7" prefWidth="120"/>
+                        
+                        <Label text="Title:"/>
+                        <TextField fx:id="titleField" promptText="Column header" prefWidth="120"/>
+                    </HBox>
+                    
+                    <HBox alignment="CENTER_LEFT">
+                        <Button text="+ Add Mapping" onAction="#handleAddMapping" 
+                                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;"/>
+                    </HBox>
+                </VBox>
+            </TitledPane>
+            
+            <!-- Section 2: Mappings List with Drag-Drop -->
+            <TitledPane text="Mappings (drag to reorder)" collapsible="false" VBox.vgrow="ALWAYS">
+                <VBox spacing="5">
+                    <padding>
+                        <Insets top="5" right="5" bottom="5" left="5"/>
+                    </padding>
+                    
+                    <ListView fx:id="mappingListView" VBox.vgrow="ALWAYS" prefHeight="150"
+                              style="-fx-background-color: #f5f5f5;"/>
+                    
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Button text="Delete Selected" onAction="#handleDeleteSelected"/>
+                        <Button text="Move Up" onAction="#handleMoveUp"/>
+                        <Button text="Move Down" onAction="#handleMoveDown"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="Clear All" onAction="#handleClearAll" 
+                                style="-fx-text-fill: #d32f2f;"/>
+                    </HBox>
+                </VBox>
+            </TitledPane>
+            
+            <!-- Section 3: Smart Preview -->
+            <TitledPane text="Smart Preview (data that will be exported)" collapsible="false">
+                <VBox spacing="5">
+                    <padding>
+                        <Insets top="5" right="5" bottom="5" left="5"/>
+                    </padding>
+                    <TextArea fx:id="smartPreview" prefHeight="120" editable="false" 
+                              wrapText="true" style="-fx-font-family: monospace;"/>
+                </VBox>
+            </TitledPane>
+            
+        </VBox>
+    </center>
+    
+    <bottom>
+        <HBox spacing="10" alignment="CENTER" style="-fx-padding: 10 0 0 0;">
+            <Button text="Save Mapping" onAction="#handleSaveMapping" prefWidth="120"
+                    style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+            <Button text="Load Mapping" onAction="#handleLoadMapping" prefWidth="120"
+                    style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+        </HBox>
+    </bottom>
+    
+</BorderPane>

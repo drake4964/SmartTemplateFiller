@@ -1,0 +1,80 @@
+---
+title: SmartTemplateFiller - Component Diagram
+---
+classDiagram
+    class MainApp {
+        +start(Stage primaryStage)
+        +main(String[] args)
+    }
+    
+    class MainController {
+        -Stage stage
+        -TableView tableView
+        +setStage(Stage stage)
+        +handleLoadTxt(ActionEvent event)
+        +handleTeachMode(ActionEvent event)
+        +handleExportToExcel(ActionEvent event)
+        -showAlert(String title, String message)
+        -showInfo(String title, String message)
+    }
+    
+    class TeachModeController {
+        -ComboBox columnComboBox
+        -TextField cellField
+        -ComboBox directionComboBox
+        -ComboBox rowPatternComboBox
+        -TextField manualRowField
+        -TextField titleField
+        -ListView mappingListView
+        -TextArea smartPreview
+        -TableView tableView
+        -List colMappings
+        +setTableView(TableView tableView)
+        +initialize()
+        +handleAddMapping()
+        +handleDeleteSelected()
+        +handleMoveUp()
+        +handleMoveDown()
+        +handleClearAll()
+        +handleSaveMapping()
+        +handleLoadMapping()
+        -updateMappingListView()
+        -updateSmartPreview()
+        -clearInputFields()
+        -showValidationError(String message)
+    }
+    
+    class TxtParser {
+        +parseFile(File file)$ List~List~String~~
+        +parseFixedColumnTable(File file)$ List~List~String~~
+        -loadColumnConfig()$ Map~String,Integer~
+        +parseMultiLineGroupedBlock(File file)$ List~List~String~~
+        +parseFlatTable(File file)$ List~List~String~~
+        +generateIndexes(int totalRows, String patternType, int startIndex)$ List~Integer~
+    }
+    
+    class ExcelWriter {
+        +writeAdvancedMappedFile(File txtFile, File mappingFile, File outputFile)$
+    }
+    
+    class FileChooserBuilder {
+        -Stage stage
+        -FileChooser chooser
+        -File lastDirectory$
+        +FileChooserBuilder(Stage stage)
+        +withTitle(String title) FileChooserBuilder
+        +withExtension(String label, String[] extensions) FileChooserBuilder
+        +withInitialDirectory(File directory) FileChooserBuilder
+        +open() File
+        +save(String defaultFileName) File
+        -updateLastDirectory(File file)
+        +resetLastDirectory()$
+    }
+    
+    MainApp --> MainController : loads
+    MainController --> TxtParser : uses
+    MainController --> TeachModeController : opens
+    MainController --> ExcelWriter : uses
+    MainController --> FileChooserBuilder : uses
+    TeachModeController --> TxtParser : uses generateIndexes
+    ExcelWriter --> TxtParser : uses parseFile

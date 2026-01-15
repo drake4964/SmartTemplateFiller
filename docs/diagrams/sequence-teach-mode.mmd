@@ -1,0 +1,51 @@
+---
+title: Teach Mode Sequence
+---
+sequenceDiagram
+    autonumber
+    actor User
+    participant MC as MainController
+    participant TMC as TeachModeController
+    participant TV as TableView
+    participant FC as FileChooser
+    participant FS as File System
+
+    User->>MC: Click "Teach Mode"
+    MC->>MC: Check tableView not empty
+    alt No data loaded
+        MC->>User: Show warning alert
+    else Data exists
+        MC->>TMC: Load teach_mode.fxml
+        MC->>TMC: setTableView(tableView)
+        TMC->>TV: Get column count
+        TV-->>TMC: Column count
+        TMC->>TMC: Populate columnComboBox
+        
+        MC->>User: Show modal dialog
+        
+        loop Add Mappings
+            User->>TMC: Select column
+            User->>TMC: Enter cell reference
+            User->>TMC: Choose direction
+            User->>TMC: Set row pattern
+            User->>TMC: Click "Add Mapping"
+            TMC->>TMC: Validate inputs
+            TMC->>TMC: Create mapping object
+            TMC->>TMC: Add to colMappings
+            TMC->>TMC: updatePreview()
+            TMC->>TV: Get data for selected rows
+            TV-->>TMC: Row values
+            TMC->>TMC: updateSmartPreview()
+            TMC-->>User: Update preview panels
+        end
+        
+        User->>TMC: Click "Save Mapping"
+        TMC->>FC: Show save dialog
+        FC-->>User: File dialog
+        User->>FC: Choose file
+        FC-->>TMC: File path
+        TMC->>FS: Write JSON (Jackson)
+        FS-->>TMC: Success
+        
+        User->>MC: Close dialog
+    end

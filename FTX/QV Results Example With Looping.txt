@@ -1,0 +1,489 @@
+
+         Element          Actual         Nominal         Deviat.         Up Tol.        Low Tol.       Pass/Fail
+                                                        (TP Dev)        (TP Tol)                                
+Circle: Circle-7[1](ID:1, From 343 Pts.) 
+     Diameter =           0.4010          0.4000          0.0010          0.0500         -0.0500            PASS
+
+Circle: Circle-7[2](ID:2, From 309 Pts.) 
+     Diameter =           0.4018          0.4000          0.0018          0.0500         -0.0500            PASS
+
+Circle: Circle-7[3](ID:3, From 340 Pts.) 
+     Diameter =           0.4016          0.4000          0.0016          0.0500         -0.0500            PASS
+
+Circle: Circle-7[4](ID:4, From 345 Pts.) 
+     Diameter =           0.4004          0.4000          0.0004          0.0500         -0.0500            PASS
+
+Circle: Circle-7[5](ID:5, From 341 Pts.) 
+     Diameter =           0.4042          0.4000          0.0042          0.0500         -0.0500            PASS
+
+Circle: Circle-7[6](ID:6, From 347 Pts.) 
+     Diameter =           0.4022          0.4000          0.0022          0.0500         -0.0500            PASS
+
+Circle: Circle-8[1](ID:7, From 341 Pts.) 
+     Diameter =           0.4004          0.4000          0.0004          0.0500         -0.0500            PASS
+
+Circle: Circle-8[2](ID:8, From 345 Pts.) 
+     Diameter =           0.4009          0.4000          0.0009          0.0500         -0.0500            PASS
+
+Circle: Circle-8[3](ID:9, From 345 Pts.) 
+     Diameter =           0.4001          0.4000          0.0001          0.0500         -0.0500            PASS
+
+Circle: Circle-8[4](ID:10, From 343 Pts.) 
+     Diameter =           0.4022          0.4000          0.0022          0.0500         -0.0500            PASS
+
+Circle: Circle-8[5](ID:11, From 346 Pts.) 
+     Diameter =           0.4033          0.4000          0.0033          0.0500         -0.0500            PASS
+
+Circle: Circle-8[6](ID:12, From 345 Pts.) 
+     Diameter =           0.4010          0.4000          0.0010          0.0500         -0.0500            PASS
+
+Circle: Circle-9[1](ID:13, From 338 Pts.) 
+     Diameter =           0.4022          0.4000          0.0022          0.0500         -0.0500            PASS
+
+Circle: Circle-9[2](ID:14, From 345 Pts.) 
+     Diameter =           0.4016          0.4000          0.0016          0.0500         -0.0500            PASS
+
+Circle: Circle-9[3](ID:15, From 346 Pts.) 
+     Diameter =           0.4010          0.4000          0.0010          0.0500         -0.0500            PASS
+
+Circle: Circle-9[4](ID:16, From 338 Pts.) 
+     Diameter =           0.4020          0.4000          0.0020          0.0500         -0.0500            PASS
+
+Circle: Circle-9[5](ID:17, From 346 Pts.) 
+     Diameter =           0.4018          0.4000          0.0018          0.0500         -0.0500            PASS
+
+Circle: Circle-9[6](ID:18, From 330 Pts.) 
+     Diameter =           0.4026          0.4000          0.0026          0.0500         -0.0500            PASS
+
+Circle: Circle-1[1](ID:19, From 621 Pts.) 
+     Diameter =           0.7271          0.7000          0.0271          0.0500         -0.0500            PASS
+
+Circle: Circle-1[2](ID:20, From 635 Pts.) 
+     Diameter =           0.7284          0.7000          0.0284          0.0500         -0.0500            PASS
+
+Circle: Circle-1[3](ID:21, From 614 Pts.) 
+     Diameter =           0.7288          0.7000          0.0288          0.0500         -0.0500            PASS
+
+Circle: Circle-1[4](ID:22, From 616 Pts.) 
+     Diameter =           0.7285          0.7000          0.0285          0.0500         -0.0500            PASS
+
+Circle: Circle-1[5](ID:23, From 446 Pts.) 
+     Diameter =           0.7273          0.7000          0.0273          0.0500         -0.0500            PASS
+
+Circle: Circle-1[6](ID:24, From 619 Pts.) 
+     Diameter =           0.7282          0.7000          0.0282          0.0500         -0.0500            PASS
+
+Circle: Circle-1[7](ID:25, From 603 Pts.) 
+     Diameter =           0.7343          0.7000          0.0343          0.0500         -0.0500            PASS
+
+Circle: Circle-1[8](ID:26, From 611 Pts.) 
+     Diameter =           0.7318          0.7000          0.0318          0.0500         -0.0500            PASS
+
+Circle: Circle-1[9](ID:27, From 565 Pts.) 
+     Diameter =           0.7335          0.7000          0.0335          0.0500         -0.0500            PASS
+
+Circle: Circle-1[10](ID:28, From 537 Pts.) 
+     Diameter =           0.7320          0.7000          0.0320          0.0500         -0.0500            PASS
+
+Circle: Circle-1[11](ID:29, From 617 Pts.) 
+     Diameter =           0.7313          0.7000          0.0313          0.0500         -0.0500            PASS
+
+Circle: Circle-1[12](ID:30, From 539 Pts.) 
+     Diameter =           0.7305          0.7000          0.0305          0.0500         -0.0500            PASS
+
+Circle: Circle-1[13](ID:31, From 606 Pts.) 
+     Diameter =           0.7290          0.7000          0.0290          0.0500         -0.0500            PASS
+
+Circle: Circle-1[14](ID:32, From 627 Pts.) 
+     Diameter =           0.7356          0.7000          0.0356          0.0500         -0.0500            PASS
+
+Circle: Circle-1[15](ID:33, From 623 Pts.) 
+     Diameter =           0.7279          0.7000          0.0279          0.0500         -0.0500            PASS
+
+Circle: Circle-1[16](ID:34, From 612 Pts.) 
+     Diameter =           0.7265          0.7000          0.0265          0.0500         -0.0500            PASS
+
+Circle: Circle-1[17](ID:35, From 627 Pts.) 
+     Diameter =           0.7260          0.7000          0.0260          0.0500         -0.0500            PASS
+
+Circle: Circle-1[18](ID:36, From 602 Pts.) 
+     Diameter =           0.7306          0.7000          0.0306          0.0500         -0.0500            PASS
+
+Circle: Circle-1[19](ID:37, From 558 Pts.) 
+     Diameter =           0.7280          0.7000          0.0280          0.0500         -0.0500            PASS
+
+Circle: Circle-1[20](ID:38, From 604 Pts.) 
+     Diameter =           0.7272          0.7000          0.0272          0.0500         -0.0500            PASS
+
+Circle: Circle-1[21](ID:39, From 595 Pts.) 
+     Diameter =           0.7286          0.7000          0.0286          0.0500         -0.0500            PASS
+
+Circle: Circle-1[22](ID:40, From 597 Pts.) 
+     Diameter =           0.7295          0.7000          0.0295          0.0500         -0.0500            PASS
+
+Circle: Circle-1[23](ID:41, From 613 Pts.) 
+     Diameter =           0.7283          0.7000          0.0283          0.0500         -0.0500            PASS
+
+Circle: Circle-1[24](ID:42, From 615 Pts.) 
+     Diameter =           0.7276          0.7000          0.0276          0.0500         -0.0500            PASS
+
+Circle: Circle-1[25](ID:43, From 589 Pts.) 
+     Diameter =           0.7318          0.7000          0.0318          0.0500         -0.0500            PASS
+
+Circle: Circle-1[26](ID:44, From 619 Pts.) 
+     Diameter =           0.7287          0.7000          0.0287          0.0500         -0.0500            PASS
+
+Circle: Circle-1[27](ID:45, From 611 Pts.) 
+     Diameter =           0.7299          0.7000          0.0299          0.0500         -0.0500            PASS
+
+Circle: Circle-1[28](ID:46, From 595 Pts.) 
+     Diameter =           0.7259          0.7000          0.0259          0.0500         -0.0500            PASS
+
+Circle: Circle-1[29](ID:47, From 629 Pts.) 
+     Diameter =           0.7280          0.7000          0.0280          0.0500         -0.0500            PASS
+
+Circle: Circle-1[30](ID:48, From 601 Pts.) 
+     Diameter =           0.7324          0.7000          0.0324          0.0500         -0.0500            PASS
+
+Circle: Circle-1[31](ID:49, From 594 Pts.) 
+     Diameter =           0.7329          0.7000          0.0329          0.0500         -0.0500            PASS
+
+Circle: Circle-1[32](ID:50, From 621 Pts.) 
+     Diameter =           0.7294          0.7000          0.0294          0.0500         -0.0500            PASS
+
+Circle: Circle-1[33](ID:51, From 609 Pts.) 
+     Diameter =           0.7295          0.7000          0.0295          0.0500         -0.0500            PASS
+
+Circle: Circle-1[34](ID:52, From 625 Pts.) 
+     Diameter =           0.7335          0.7000          0.0335          0.0500         -0.0500            PASS
+
+Circle: Circle-1[35](ID:53, From 626 Pts.) 
+     Diameter =           0.7321          0.7000          0.0321          0.0500         -0.0500            PASS
+
+Circle: Circle-1[36](ID:54, From 605 Pts.) 
+     Diameter =           0.7293          0.7000          0.0293          0.0500         -0.0500            PASS
+
+Circle: Circle-1[37](ID:55, From 631 Pts.) 
+     Diameter =           0.7288          0.7000          0.0288          0.0500         -0.0500            PASS
+
+Circle: Circle-1[38](ID:56, From 555 Pts.) 
+     Diameter =           0.7288          0.7000          0.0288          0.0500         -0.0500            PASS
+
+Circle: Circle-1[39](ID:57, From 549 Pts.) 
+     Diameter =           0.7312          0.7000          0.0312          0.0500         -0.0500            PASS
+
+Circle: Circle-1[40](ID:58, From 618 Pts.) 
+     Diameter =           0.7290          0.7000          0.0290          0.0500         -0.0500            PASS
+
+Circle: Circle-1[41](ID:59, From 583 Pts.) 
+     Diameter =           0.7307          0.7000          0.0307          0.0500         -0.0500            PASS
+
+Circle: Circle-1[42](ID:60, From 576 Pts.) 
+     Diameter =           0.7299          0.7000          0.0299          0.0500         -0.0500            PASS
+
+Circle: Circle-1[43](ID:61, From 574 Pts.) 
+     Diameter =           0.7296          0.7000          0.0296          0.0500         -0.0500            PASS
+
+Circle: Circle-1[44](ID:62, From 585 Pts.) 
+     Diameter =           0.7298          0.7000          0.0298          0.0500         -0.0500            PASS
+
+Circle: Circle-1[45](ID:63, From 606 Pts.) 
+     Diameter =           0.7263          0.7000          0.0263          0.0500         -0.0500            PASS
+
+Circle: Circle-1[46](ID:64, From 551 Pts.) 
+     Diameter =           0.7304          0.7000          0.0304          0.0500         -0.0500            PASS
+
+Circle: Circle-1[47](ID:65, From 613 Pts.) 
+     Diameter =           0.7295          0.7000          0.0295          0.0500         -0.0500            PASS
+
+Circle: Circle-1[48](ID:66, From 605 Pts.) 
+     Diameter =           0.7300          0.7000          0.0300          0.0500         -0.0500            PASS
+
+Circle: Circle-2[1](ID:67, From 623 Pts.) 
+     Diameter =           0.7293          0.7000          0.0293          0.0500         -0.0500            PASS
+
+Circle: Circle-2[2](ID:68, From 607 Pts.) 
+     Diameter =           0.7280          0.7000          0.0280          0.0500         -0.0500            PASS
+
+Circle: Circle-2[3](ID:69, From 595 Pts.) 
+     Diameter =           0.7299          0.7000          0.0299          0.0500         -0.0500            PASS
+
+Circle: Circle-2[4](ID:70, From 604 Pts.) 
+     Diameter =           0.7272          0.7000          0.0272          0.0500         -0.0500            PASS
+
+Circle: Circle-2[5](ID:71, From 618 Pts.) 
+     Diameter =           0.7268          0.7000          0.0268          0.0500         -0.0500            PASS
+
+Circle: Circle-2[6](ID:72, From 610 Pts.) 
+     Diameter =           0.7292          0.7000          0.0292          0.0500         -0.0500            PASS
+
+Circle: Circle-2[7](ID:73, From 511 Pts.) 
+     Diameter =           0.7289          0.7000          0.0289          0.0500         -0.0500            PASS
+
+Circle: Circle-2[8](ID:74, From 571 Pts.) 
+     Diameter =           0.7312          0.7000          0.0312          0.0500         -0.0500            PASS
+
+Circle: Circle-2[9](ID:75, From 621 Pts.) 
+     Diameter =           0.7308          0.7000          0.0308          0.0500         -0.0500            PASS
+
+Circle: Circle-2[10](ID:76, From 626 Pts.) 
+     Diameter =           0.7276          0.7000          0.0276          0.0500         -0.0500            PASS
+
+Circle: Circle-2[11](ID:77, From 546 Pts.) 
+     Diameter =           0.7309          0.7000          0.0309          0.0500         -0.0500            PASS
+
+Circle: Circle-2[12](ID:78, From 590 Pts.) 
+     Diameter =           0.7264          0.7000          0.0264          0.0500         -0.0500            PASS
+
+Circle: Circle-2[13](ID:79, From 614 Pts.) 
+     Diameter =           0.7294          0.7000          0.0294          0.0500         -0.0500            PASS
+
+Circle: Circle-2[14](ID:80, From 623 Pts.) 
+     Diameter =           0.7286          0.7000          0.0286          0.0500         -0.0500            PASS
+
+Circle: Circle-2[15](ID:81, From 581 Pts.) 
+     Diameter =           0.7270          0.7000          0.0270          0.0500         -0.0500            PASS
+
+Circle: Circle-2[16](ID:82, From 631 Pts.) 
+     Diameter =           0.7273          0.7000          0.0273          0.0500         -0.0500            PASS
+
+Circle: Circle-2[17](ID:83, From 618 Pts.) 
+     Diameter =           0.7282          0.7000          0.0282          0.0500         -0.0500            PASS
+
+Circle: Circle-2[18](ID:84, From 630 Pts.) 
+     Diameter =           0.7291          0.7000          0.0291          0.0500         -0.0500            PASS
+
+Circle: Circle-2[19](ID:85, From 594 Pts.) 
+     Diameter =           0.7278          0.7000          0.0278          0.0500         -0.0500            PASS
+
+Circle: Circle-2[20](ID:86, From 591 Pts.) 
+     Diameter =           0.7284          0.7000          0.0284          0.0500         -0.0500            PASS
+
+Circle: Circle-2[21](ID:87, From 620 Pts.) 
+     Diameter =           0.7281          0.7000          0.0281          0.0500         -0.0500            PASS
+
+Circle: Circle-2[22](ID:88, From 620 Pts.) 
+     Diameter =           0.7257          0.7000          0.0257          0.0500         -0.0500            PASS
+
+Circle: Circle-2[23](ID:89, From 618 Pts.) 
+     Diameter =           0.7288          0.7000          0.0288          0.0500         -0.0500            PASS
+
+Circle: Circle-2[24](ID:90, From 612 Pts.) 
+     Diameter =           0.7302          0.7000          0.0302          0.0500         -0.0500            PASS
+
+Circle: Circle-2[25](ID:91, From 575 Pts.) 
+     Diameter =           0.7265          0.7000          0.0265          0.0500         -0.0500            PASS
+
+Circle: Circle-2[26](ID:92, From 630 Pts.) 
+     Diameter =           0.7268          0.7000          0.0268          0.0500         -0.0500            PASS
+
+Circle: Circle-2[27](ID:93, From 605 Pts.) 
+     Diameter =           0.7296          0.7000          0.0296          0.0500         -0.0500            PASS
+
+Circle: Circle-2[28](ID:94, From 616 Pts.) 
+     Diameter =           0.7274          0.7000          0.0274          0.0500         -0.0500            PASS
+
+Circle: Circle-2[29](ID:95, From 600 Pts.) 
+     Diameter =           0.7291          0.7000          0.0291          0.0500         -0.0500            PASS
+
+Circle: Circle-2[30](ID:96, From 630 Pts.) 
+     Diameter =           0.7346          0.7000          0.0346          0.0500         -0.0500            PASS
+
+Circle: Circle-2[31](ID:97, From 607 Pts.) 
+     Diameter =           0.7279          0.7000          0.0279          0.0500         -0.0500            PASS
+
+Circle: Circle-2[32](ID:98, From 608 Pts.) 
+     Diameter =           0.7291          0.7000          0.0291          0.0500         -0.0500            PASS
+
+Circle: Circle-2[33](ID:99, From 618 Pts.) 
+     Diameter =           0.7282          0.7000          0.0282          0.0500         -0.0500            PASS
+
+Circle: Circle-2[34](ID:100, From 622 Pts.) 
+     Diameter =           0.7291          0.7000          0.0291          0.0500         -0.0500            PASS
+
+Circle: Circle-2[35](ID:101, From 560 Pts.) 
+     Diameter =           0.7312          0.7000          0.0312          0.0500         -0.0500            PASS
+
+Circle: Circle-2[36](ID:102, From 604 Pts.) 
+     Diameter =           0.7263          0.7000          0.0263          0.0500         -0.0500            PASS
+
+Circle: Circle-2[37](ID:103, From 628 Pts.) 
+     Diameter =           0.7265          0.7000          0.0265          0.0500         -0.0500            PASS
+
+Circle: Circle-2[38](ID:104, From 636 Pts.) 
+     Diameter =           0.7275          0.7000          0.0275          0.0500         -0.0500            PASS
+
+Circle: Circle-2[39](ID:105, From 625 Pts.) 
+     Diameter =           0.7307          0.7000          0.0307          0.0500         -0.0500            PASS
+
+Circle: Circle-2[40](ID:106, From 584 Pts.) 
+     Diameter =           0.7396          0.7000          0.0396          0.0500         -0.0500            PASS
+
+Circle: Circle-2[41](ID:107, From 630 Pts.) 
+     Diameter =           0.7326          0.7000          0.0326          0.0500         -0.0500            PASS
+
+Circle: Circle-2[42](ID:108, From 611 Pts.) 
+     Diameter =           0.7271          0.7000          0.0271          0.0500         -0.0500            PASS
+
+Circle: Circle-2[43](ID:109, From 635 Pts.) 
+     Diameter =           0.7247          0.7000          0.0247          0.0500         -0.0500            PASS
+
+Circle: Circle-2[44](ID:110, From 560 Pts.) 
+     Diameter =           0.7279          0.7000          0.0279          0.0500         -0.0500            PASS
+
+Circle: Circle-2[45](ID:111, From 609 Pts.) 
+     Diameter =           0.7354          0.7000          0.0354          0.0500         -0.0500            PASS
+
+Circle: Circle-2[46](ID:112, From 625 Pts.) 
+     Diameter =           0.7281          0.7000          0.0281          0.0500         -0.0500            PASS
+
+Circle: Circle-2[47](ID:113, From 614 Pts.) 
+     Diameter =           0.7298          0.7000          0.0298          0.0500         -0.0500            PASS
+
+Circle: Circle-2[48](ID:114, From 619 Pts.) 
+     Diameter =           0.7285          0.7000          0.0285          0.0500         -0.0500            PASS
+
+Circle: Circle-3[1](ID:115, From 603 Pts.) 
+     Diameter =           0.7313          0.7000          0.0313          0.0500         -0.0500            PASS
+
+Circle: Circle-3[2](ID:116, From 595 Pts.) 
+     Diameter =           0.7328          0.7000          0.0328          0.0500         -0.0500            PASS
+
+Circle: Circle-3[3](ID:117, From 556 Pts.) 
+     Diameter =           0.7318          0.7000          0.0318          0.0500         -0.0500            PASS
+
+Circle: Circle-3[4](ID:118, From 624 Pts.) 
+     Diameter =           0.7312          0.7000          0.0312          0.0500         -0.0500            PASS
+
+Circle: Circle-3[5](ID:119, From 619 Pts.) 
+     Diameter =           0.7298          0.7000          0.0298          0.0500         -0.0500            PASS
+
+Circle: Circle-3[6](ID:120, From 616 Pts.) 
+     Diameter =           0.7311          0.7000          0.0311          0.0500         -0.0500            PASS
+
+Circle: Circle-3[7](ID:121, From 626 Pts.) 
+     Diameter =           0.7306          0.7000          0.0306          0.0500         -0.0500            PASS
+
+Circle: Circle-3[8](ID:122, From 610 Pts.) 
+     Diameter =           0.7307          0.7000          0.0307          0.0500         -0.0500            PASS
+
+Circle: Circle-3[9](ID:123, From 597 Pts.) 
+     Diameter =           0.7326          0.7000          0.0326          0.0500         -0.0500            PASS
+
+Circle: Circle-3[10](ID:124, From 617 Pts.) 
+     Diameter =           0.7326          0.7000          0.0326          0.0500         -0.0500            PASS
+
+Circle: Circle-3[11](ID:125, From 598 Pts.) 
+     Diameter =           0.7309          0.7000          0.0309          0.0500         -0.0500            PASS
+
+Circle: Circle-3[12](ID:126, From 566 Pts.) 
+     Diameter =           0.7299          0.7000          0.0299          0.0500         -0.0500            PASS
+
+Circle: Circle-3[13](ID:127, From 467 Pts.) 
+     Diameter =           0.7315          0.7000          0.0315          0.0500         -0.0500            PASS
+
+Circle: Circle-3[14](ID:128, From 621 Pts.) 
+     Diameter =           0.7301          0.7000          0.0301          0.0500         -0.0500            PASS
+
+Circle: Circle-3[15](ID:129, From 617 Pts.) 
+     Diameter =           0.7325          0.7000          0.0325          0.0500         -0.0500            PASS
+
+Circle: Circle-3[16](ID:130, From 622 Pts.) 
+     Diameter =           0.7299          0.7000          0.0299          0.0500         -0.0500            PASS
+
+Circle: Circle-3[17](ID:131, From 613 Pts.) 
+     Diameter =           0.7294          0.7000          0.0294          0.0500         -0.0500            PASS
+
+Circle: Circle-3[18](ID:132, From 621 Pts.) 
+     Diameter =           0.7294          0.7000          0.0294          0.0500         -0.0500            PASS
+
+Circle: Circle-3[19](ID:133, From 583 Pts.) 
+     Diameter =           0.7308          0.7000          0.0308          0.0500         -0.0500            PASS
+
+Circle: Circle-3[20](ID:134, From 602 Pts.) 
+     Diameter =           0.7294          0.7000          0.0294          0.0500         -0.0500            PASS
+
+Circle: Circle-3[21](ID:135, From 593 Pts.) 
+     Diameter =           0.7316          0.7000          0.0316          0.0500         -0.0500            PASS
+
+Circle: Circle-3[22](ID:136, From 597 Pts.) 
+     Diameter =           0.7296          0.7000          0.0296          0.0500         -0.0500            PASS
+
+Circle: Circle-3[23](ID:137, From 623 Pts.) 
+     Diameter =           0.7283          0.7000          0.0283          0.0500         -0.0500            PASS
+
+Circle: Circle-3[24](ID:138, From 629 Pts.) 
+     Diameter =           0.7309          0.7000          0.0309          0.0500         -0.0500            PASS
+
+Circle: Circle-3[25](ID:139, From 557 Pts.) 
+     Diameter =           0.7323          0.7000          0.0323          0.0500         -0.0500            PASS
+
+Circle: Circle-3[26](ID:140, From 617 Pts.) 
+     Diameter =           0.7305          0.7000          0.0305          0.0500         -0.0500            PASS
+
+Circle: Circle-3[27](ID:141, From 611 Pts.) 
+     Diameter =           0.7304          0.7000          0.0304          0.0500         -0.0500            PASS
+
+Circle: Circle-3[28](ID:142, From 626 Pts.) 
+     Diameter =           0.7314          0.7000          0.0314          0.0500         -0.0500            PASS
+
+Circle: Circle-3[29](ID:143, From 592 Pts.) 
+     Diameter =           0.7299          0.7000          0.0299          0.0500         -0.0500            PASS
+
+Circle: Circle-3[30](ID:144, From 610 Pts.) 
+     Diameter =           0.7321          0.7000          0.0321          0.0500         -0.0500            PASS
+
+Circle: Circle-3[31](ID:145, From 579 Pts.) 
+     Diameter =           0.7334          0.7000          0.0334          0.0500         -0.0500            PASS
+
+Circle: Circle-3[32](ID:146, From 604 Pts.) 
+     Diameter =           0.7328          0.7000          0.0328          0.0500         -0.0500            PASS
+
+Circle: Circle-3[33](ID:147, From 582 Pts.) 
+     Diameter =           0.7340          0.7000          0.0340          0.0500         -0.0500            PASS
+
+Circle: Circle-3[34](ID:148, From 612 Pts.) 
+     Diameter =           0.7308          0.7000          0.0308          0.0500         -0.0500            PASS
+
+Circle: Circle-3[35](ID:149, From 616 Pts.) 
+     Diameter =           0.7308          0.7000          0.0308          0.0500         -0.0500            PASS
+
+Circle: Circle-3[36](ID:150, From 617 Pts.) 
+     Diameter =           0.7320          0.7000          0.0320          0.0500         -0.0500            PASS
+
+Circle: Circle-3[37](ID:151, From 618 Pts.) 
+     Diameter =           0.7320          0.7000          0.0320          0.0500         -0.0500            PASS
+
+Circle: Circle-3[38](ID:152, From 622 Pts.) 
+     Diameter =           0.7299          0.7000          0.0299          0.0500         -0.0500            PASS
+
+Circle: Circle-3[39](ID:153, From 575 Pts.) 
+     Diameter =           0.7297          0.7000          0.0297          0.0500         -0.0500            PASS
+
+Circle: Circle-3[40](ID:154, From 552 Pts.) 
+     Diameter =           0.7353          0.7000          0.0353          0.0500         -0.0500            PASS
+
+Circle: Circle-3[41](ID:155, From 575 Pts.) 
+     Diameter =           0.7309          0.7000          0.0309          0.0500         -0.0500            PASS
+
+Circle: Circle-3[42](ID:156, From 551 Pts.) 
+     Diameter =           0.7342          0.7000          0.0342          0.0500         -0.0500            PASS
+
+Circle: Circle-3[43](ID:157, From 619 Pts.) 
+     Diameter =           0.7299          0.7000          0.0299          0.0500         -0.0500            PASS
+
+Circle: Circle-3[44](ID:158, From 612 Pts.) 
+     Diameter =           0.7315          0.7000          0.0315          0.0500         -0.0500            PASS
+
+Circle: Circle-3[45](ID:159, From 627 Pts.) 
+     Diameter =           0.7314          0.7000          0.0314          0.0500         -0.0500            PASS
+
+Circle: Circle-3[46](ID:160, From 602 Pts.) 
+     Diameter =           0.7306          0.7000          0.0306          0.0500         -0.0500            PASS
+
+Circle: Circle-3[47](ID:161, From 609 Pts.) 
+     Diameter =           0.7273          0.7000          0.0273          0.0500         -0.0500            PASS
+
+Circle: Circle-3[48](ID:162, From 626 Pts.) 
+     Diameter =           0.7303          0.7000          0.0303          0.0500         -0.0500            PASS
+

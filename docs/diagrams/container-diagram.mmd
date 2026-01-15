@@ -1,0 +1,23 @@
+---
+title: SmartTemplateFiller - Container Diagram
+---
+C4Container
+    title Container Diagram for SmartTemplateFiller
+
+    Person(user, "User", "Quality Control Engineer")
+
+    Container_Boundary(app, "SmartTemplateFiller Application") {
+        Container(ui, "JavaFX UI Layer", "JavaFX, FXML", "Main window and Teach Mode dialogs")
+        Container(controllers, "Controllers", "Java", "MainController, TeachModeController")
+        Container(parser, "Parser Module", "Java", "TxtParser - multi-strategy file parsing")
+        Container(writer, "Writer Module", "Java, Apache POI", "ExcelWriter - XLSX generation")
+    }
+
+    System_Ext(fileSystem, "File System", "TXT, ASC, JSON, XLSX files")
+
+    Rel(user, ui, "Interacts with", "Mouse/Keyboard")
+    Rel(ui, controllers, "Events")
+    Rel(controllers, parser, "Parse files")
+    Rel(controllers, writer, "Export Excel")
+    Rel(parser, fileSystem, "Reads TXT/ASC/JSON")
+    Rel(writer, fileSystem, "Writes XLSX")

@@ -1,0 +1,44 @@
+---
+title: Data Model - ERD
+---
+erDiagram
+    PARSED_DATA {
+        int rowIndex PK
+        string[] columnValues
+    }
+    
+    MAPPING_CONFIG {
+        int id PK
+        int sourceColumn FK
+        string startCell
+        string direction
+        string title
+    }
+    
+    ROW_PATTERN {
+        int mappingId FK
+        string type
+        int startIndex
+    }
+    
+    ROW_INDEXES {
+        int mappingId FK
+        int rowIndex
+    }
+    
+    EXCEL_OUTPUT {
+        string sheetName
+        string cellRef PK
+        string value
+    }
+    
+    COLUMN_CONFIG {
+        string columnName PK
+        int width
+    }
+
+    MAPPING_CONFIG ||--o| ROW_PATTERN : "has optional"
+    MAPPING_CONFIG ||--o{ ROW_INDEXES : "has optional"
+    MAPPING_CONFIG }|--|| PARSED_DATA : "references column"
+    MAPPING_CONFIG ||--o{ EXCEL_OUTPUT : "produces"
+    COLUMN_CONFIG ||--o{ PARSED_DATA : "defines parsing"

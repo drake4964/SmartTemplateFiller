@@ -1,0 +1,49 @@
+---
+title: Export Workflow Sequence
+---
+sequenceDiagram
+    autonumber
+    actor User
+    participant MC as MainController
+    participant FC as FileChooser
+    participant TP as TxtParser
+    participant EW as ExcelWriter
+    participant FS as File System
+
+    User->>MC: Click "Export to Excel"
+    MC->>FC: Open TXT file dialog
+    FC-->>User: Show dialog
+    User->>FC: Select TXT file
+    FC-->>MC: Return txtFile
+    
+    MC->>FC: Open mapping JSON dialog
+    FC-->>User: Show dialog
+    User->>FC: Select mapping.json
+    FC-->>MC: Return mappingFile
+    
+    MC->>FC: Open save Excel dialog
+    FC-->>User: Show dialog
+    User->>FC: Choose output.xlsx
+    FC-->>MC: Return outputFile
+    
+    MC->>EW: writeAdvancedMappedFile(txtFile, mappingFile, outputFile)
+    
+    EW->>TP: parseFile(txtFile)
+    TP->>FS: Read file content
+    FS-->>TP: File data
+    TP-->>EW: List of rows
+    
+    EW->>FS: Read mappingFile
+    FS-->>EW: JSON content
+    
+    loop For each mapping
+        EW->>EW: Calculate target cells
+        EW->>EW: Extract source data by row pattern
+        EW->>EW: Write to workbook
+    end
+    
+    EW->>FS: Write outputFile
+    FS-->>EW: Success
+    EW-->>MC: Complete
+    
+    MC->>User: Show success alert

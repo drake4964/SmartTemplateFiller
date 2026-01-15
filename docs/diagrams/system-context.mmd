@@ -1,0 +1,18 @@
+---
+title: SmartTemplateFiller - System Context Diagram
+---
+C4Context
+    title System Context Diagram for SmartTemplateFiller
+
+    Person(user, "User", "Quality Control Engineer or CMM Operator")
+    
+    System(stf, "SmartTemplateFiller", "Desktop application for transforming measurement data into Excel reports")
+    
+    System_Ext(txtFiles, "Text Data Files", "TXT/ASC measurement data from CMM or other sources")
+    System_Ext(mappingFiles, "Mapping JSON Files", "Reusable column mapping configurations")
+    System_Ext(excelFiles, "Excel Reports", "XLSX output files for further analysis")
+
+    Rel(user, stf, "Uses")
+    Rel(txtFiles, stf, "Reads")
+    Rel(mappingFiles, stf, "Reads/Writes")
+    Rel(stf, excelFiles, "Writes")

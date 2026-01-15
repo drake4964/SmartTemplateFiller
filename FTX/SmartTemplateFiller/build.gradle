@@ -1,0 +1,42 @@
+plugins {
+    id 'application'
+    id 'java'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
+}
+
+mainClassName = 'com.example.smarttemplatefiller.MainApp'
+
+repositories {
+    mavenCentral()
+}
+
+def javafxVersion = '17.0.15'
+
+javafx {
+    version = '17.0.15'
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+dependencies {
+    // JavaFX
+    implementation "org.openjfx:javafx-controls:$javafxVersion"
+    implementation "org.openjfx:javafx-fxml:$javafxVersion"
+
+    // JSON for Teach Mode
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.3'
+
+    // Apache POI for Excel
+    implementation 'org.apache.poi:poi-ooxml:5.2.3'
+    implementation 'org.apache.poi:poi:5.2.3'
+}
+
+application {
+    mainClass = 'com.example.smarttemplatefiller.MainApp'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+

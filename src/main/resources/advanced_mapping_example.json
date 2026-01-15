@@ -1,0 +1,27 @@
+{
+    "colMappings": [
+        {
+            "sourceColumn": 1,
+            "startCell": "B2",
+            "direction": "vertical",
+            "rowIndexes": [
+                1,
+                3,
+                5,
+                7,
+                9
+            ]
+        },
+        {
+            "sourceColumn": 5,
+            "startCell": "A2",
+            "direction": "vertical",
+            "rowIndexes": [
+                0,
+                2,
+                4,
+                6
+            ]
+        }
+    ]
+}

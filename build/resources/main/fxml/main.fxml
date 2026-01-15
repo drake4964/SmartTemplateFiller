@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.smarttemplatefiller.MainController">
+    <top>
+        <ToolBar>
+            <Button text="Load TXT File" onAction="#handleLoadTxt"/>
+            <Button text="Teach Mode" onAction="#handleTeachMode"/>
+            <Button text="Export to Excel" onAction="#handleExportToExcel"/>
+        </ToolBar>
+    </top>
+    <center>
+        <TableView fx:id="tableView">
+            <!-- Columns are added dynamically in code -->
+        </TableView>
+    </center>
+</BorderPane>
