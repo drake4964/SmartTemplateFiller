@@ -142,6 +142,29 @@ public class MainController {
         }
     }
 
+    @FXML
+    private void handleRunningMode(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/running_mode.fxml"));
+            Parent root = loader.load();
+
+            RunningModeController controller = loader.getController();
+
+            Stage runningModeStage = new Stage();
+            runningModeStage.setTitle("Running Mode - Automated Conversion");
+            runningModeStage.setScene(new Scene(root));
+            runningModeStage.initOwner(stage);
+
+            controller.setStage(runningModeStage);
+
+            runningModeStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Unable to load Running Mode UI: " + e.getMessage());
+        }
+    }
+
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);

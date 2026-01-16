@@ -11,6 +11,7 @@ SmartTemplateFiller provides a focused set of features for data transformation f
 | File Parsing | Implemented | High | [feature-file-parsing.md](feature-file-parsing.md) |
 | Teach Mode | Implemented | High | [feature-teach-mode.md](feature-teach-mode.md) |
 | Excel Export | Implemented | High | [feature-excel-export.md](feature-excel-export.md) |
+| Running Mode | Implemented | High | [feature-running-mode.md](feature-running-mode.md) |
 | Excel Preview | Implemented | High | Included in Teach Mode |
 | Mapping Persistence | Implemented | Medium | Included in Teach Mode |
 | Drag-Drop Reorder | Implemented | Medium | Included in Teach Mode |

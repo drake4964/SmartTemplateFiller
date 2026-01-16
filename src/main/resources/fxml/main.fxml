@@ -10,6 +10,7 @@
             <Button text="Load TXT File" onAction="#handleLoadTxt"/>
             <Button text="Teach Mode" onAction="#handleTeachMode"/>
             <Button text="Export to Excel" onAction="#handleExportToExcel"/>
+            <Button text="Running Mode" onAction="#handleRunningMode"/>
         </ToolBar>
     </top>
     <center>
