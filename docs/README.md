@@ -2,7 +2,7 @@
 
 > **Auto-generated documentation** for AI agents and human developers.
 > 
-> *Last updated after bug fixes and enhancements*
+> *Last updated: Excel Preview feature added*
 
 ## Quick Links
 
@@ -22,9 +22,9 @@
 ### Features
 - [Feature List](features/feature-list.md) - All features with status
 - [File Parsing](features/feature-file-parsing.md) - Multi-strategy TXT/ASC parser
-- [Teach Mode](features/feature-teach-mode.md) - Interactive mapping configuration
+- [Teach Mode](features/feature-teach-mode.md) - Interactive mapping with Excel preview
 - [Excel Export](features/feature-excel-export.md) - XLSX generation
-- [FileChooserBuilder](features/feature-file-chooser.md) - Fluent file dialogs with directory memory
+- [FileChooserBuilder](features/feature-file-chooser.md) - Fluent file dialogs
 - [Feature Dependencies](features/feature-dependencies.md) - Component interactions
 
 ### Workflows
@@ -41,8 +41,8 @@
 - [ERD](diagrams/erd.mmd) - Data model
 
 ### Decisions
-- [Architectural Decisions](decisions/architectural-decisions.md) - Key ADRs (7 total)
-- [Assumptions](decisions/assumptions.md) - Analysis assumptions + bug/enhancement log
+- [Architectural Decisions](decisions/architectural-decisions.md) - Key ADRs (9 total)
+- [Assumptions](decisions/assumptions.md) - Analysis assumptions + change log
 
 ## For AI Agents
 
@@ -69,4 +69,6 @@ This documentation is structured for programmatic consumption:
 | Date | Changes |
 |------|---------|
 | Initial | 20 documentation files generated |
-| Update | 8 bugs fixed, 4 enhancements implemented, docs updated |
+| Update 1 | 8 bugs fixed, 4 enhancements implemented |
+| Update 2 | Teach Mode UX: drag-drop, Excel preview added |
+| Update 3 | Fixed row pattern logic, removed emoji encoding issues |

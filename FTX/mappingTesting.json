@@ -1,0 +1,19 @@
+[ {
+  "sourceColumn" : 1,
+  "startCell" : "B2",
+  "direction" : "vertical",
+  "title" : "Id No",
+  "rowPattern" : {
+    "type" : "odd",
+    "start" : 0
+  }
+}, {
+  "sourceColumn" : 0,
+  "startCell" : "A2",
+  "direction" : "vertical",
+  "title" : "Numbering",
+  "rowPattern" : {
+    "type" : "odd",
+    "start" : 0
+  }
+} ]

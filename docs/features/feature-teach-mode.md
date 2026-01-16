@@ -2,7 +2,7 @@
 
 ## Summary
 
-Interactive UI for creating column-to-cell mappings with drag-and-drop reordering and live data preview.
+Interactive UI for creating column-to-cell mappings with drag-and-drop reordering and Excel-like data preview.
 
 ## Entry Point
 
@@ -15,34 +15,47 @@ Interactive UI for creating column-to-cell mappings with drag-and-drop reorderin
 The Teach Mode window is organized into three collapsible sections:
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│  ➕ Add New Mapping                                     │
-│  ┌───────────────────────────────────────────────────┐  │
-│  │ Source Column: [▼]  → Excel Cell: [___]           │  │
-│  │ Direction: [▼]  Row Pattern: [▼]  Manual: [___]   │  │
-│  │ Title: [___]         [➕ Add Mapping]              │  │
-│  └───────────────────────────────────────────────────┘  │
-│                                                         │
-│  📋 Mappings (drag to reorder)                         │
-│  ┌───────────────────────────────────────────────────┐  │
-│  │ 1. Col 1 → A2 [vertical] — "Diameter"             │  │
-│  │ 2. Col 2 → B2 [vertical] (odd rows)               │  │
-│  │ 3. Col 3 → C2 [horizontal] (5 specific rows)      │  │
-│  └───────────────────────────────────────────────────┘  │
-│  [🗑️ Delete] [⬆️ Up] [⬇️ Down]         [🧹 Clear All] │
-│                                                         │
-│  👁️ Smart Preview (data that will be exported)        │
-│  ┌───────────────────────────────────────────────────┐  │
-│  │ 📊 Diameter (→ A2):                               │  │
-│  │    25.001, 25.003, 24.998, 25.002, 25.000         │  │
-│  │                                                   │  │
-│  │ 📊 Col 2 (→ B2):                                  │  │
-│  │    10.5, 10.6, 10.4 ... (2 more)                  │  │
-│  └───────────────────────────────────────────────────┘  │
-│                                                         │
-│         [💾 Save Mapping]  [📂 Load Mapping]           │
-└─────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  + Add New Mapping                                        |
+|  +------------------------------------------------------+ |
+|  | Source Column: [v]  ->  Excel Cell: [___]            | |
+|  | Direction: [v]  Row Pattern: [v]  Manual: [___]      | |
+|  | Title: [___]         [+ Add Mapping]                 | |
+|  +------------------------------------------------------+ |
+|                                                           |
+|  Mappings (drag to reorder)                              |
+|  +------------------------------------------------------+ |
+|  | 1. Col 1 -> A2 [vertical] (odd rows) - "Diameter"    | |
+|  | 2. Col 2 -> B2 [vertical] (all rows)                 | |
+|  | 3. Col 3 -> C2 [horizontal] (5 specific rows)        | |
+|  +------------------------------------------------------+ |
+|  [Delete Selected] [Move Up] [Move Down]    [Clear All]  |
+|                                                           |
+|  Excel Preview (how data will appear)                    |
+|  +------------------------------------------------------+ |
+|  |     |    A       |    B       |    C       |         | |
+|  |  1  | [Diameter] |            |            |         | |
+|  |  2  | 25.001     | 10.5       | 0.002      |         | |
+|  |  3  | 25.003     | 10.6       | 0.001      |         | |
+|  |  4  | 24.998     | 10.4       | 0.003      |         | |
+|  +------------------------------------------------------+ |
+|  Showing preview (rows 1-4, columns A-C)                 |
+|                                                           |
+|         [Save Mapping]  [Load Mapping]                   |
++----------------------------------------------------------+
 ```
+
+## Excel-Like Preview
+
+The preview shows data exactly as it will appear in Excel:
+
+| Feature | Description |
+|---------|-------------|
+| Column headers | Excel letters (A, B, C, ..., AA, AB, ...) |
+| Row numbers | Actual Excel row numbers |
+| Grid layout | Matches exported Excel structure |
+| Titles | Shown in brackets `[Title]` in header row |
+| Status bar | Shows preview range (e.g., "rows 1-8, columns A-C") |
 
 ## Drag-and-Drop Reordering
 
@@ -51,11 +64,6 @@ Mappings can be reordered by dragging:
 2. Drag to the desired position
 3. Release to drop
 4. Visual highlight shows drop target
-
-**Technical Implementation**:
-- Custom `ListCell` factory with drag handlers
-- Custom `DataFormat` for mapping index transfer
-- Visual feedback via style changes during drag
 
 ## UI Components
 
@@ -68,36 +76,29 @@ Mappings can be reordered by dragging:
 | `manualRowField` | Explicit row indices (e.g., "1,3,5") |
 | `titleField` | Column header for Excel output |
 | `mappingListView` | Drag-reorderable list of mappings |
-| `smartPreview` | Live preview of data to export |
+| `excelPreviewTable` | Excel-like grid preview |
+| `previewStatusLabel` | Shows preview range info |
 
 ## Mapping Actions
 
 | Button | Action |
 |--------|--------|
-| ➕ **Add Mapping** | Create mapping from current fields |
-| 🗑️ **Delete Selected** | Remove selected mapping |
-| ⬆️ **Move Up** | Move selected mapping up |
-| ⬇️ **Move Down** | Move selected mapping down |
-| 🧹 **Clear All** | Remove all mappings (with confirmation) |
-| 💾 **Save Mapping** | Export to JSON file |
-| 📂 **Load Mapping** | Import from JSON file |
+| **+ Add Mapping** | Create mapping from current fields |
+| **Delete Selected** | Remove selected mapping |
+| **Move Up** | Move selected mapping up |
+| **Move Down** | Move selected mapping down |
+| **Clear All** | Remove all mappings (with confirmation) |
+| **Save Mapping** | Export to JSON file |
+| **Load Mapping** | Import from JSON file |
 
-## Smart Preview
+## Row Selection Modes
 
-Shows actual data values that will be exported:
-- Header with column title and target cell
-- First 5 values from each mapping
-- "... (N more)" indicator for additional values
-- Updates automatically when mappings change
-
-Example:
-```
-📊 Diameter (→ A2):
-   25.001, 25.003, 24.998, 25.002, 25.000
-
-📊 Roundness (→ B2):
-   0.002, 0.001, 0.003 ... (7 more)
-```
+| Mode | Description | Rows Selected |
+|------|-------------|---------------|
+| **Odd Rows** | Display rows 1, 3, 5, 7... | Row 1, Row 3, Row 5... |
+| **Even Rows** | Display rows 2, 4, 6, 8... | Row 2, Row 4, Row 6... |
+| **All Rows** | All rows from data | All rows |
+| **Manual** | User-specified indices | e.g., "1,3,5,7" |
 
 ## Input Validation
 
@@ -108,18 +109,15 @@ Example:
 | Direction | Must be selected |
 | Manual Rows | Numbers only, comma-separated |
 
-Validation errors shown as alert dialogs with clear messages.
-
 ## Mapping Configuration (JSON)
 
 ```json
 {
-  "sourceColumn": 4,
+  "sourceColumn": 0,
   "startCell": "A2",
   "direction": "vertical",
   "title": "Diameter",
-  "rowPattern": { "type": "odd", "start": 1 },
-  "rowIndexes": [1, 3, 5, 7, 9]
+  "rowPattern": { "type": "odd", "start": 0 }
 }
 ```
 
@@ -133,6 +131,6 @@ Validation errors shown as alert dialogs with clear messages.
    - Choose direction and row pattern
    - Add optional title
    - Click "Add Mapping"
-4. Drag to reorder if needed
-5. Review in Smart Preview
+4. Review in Excel Preview
+5. Drag to reorder if needed
 6. Save mapping for reuse

@@ -156,3 +156,25 @@
 - Custom DataFormat for drag data transfer
 - Need to handle edge cases (drag to empty, drag to same position)
 
+---
+
+## ADR-009: Excel-Like Preview TableView
+
+**Status**: Accepted (Added during UX enhancement phase)
+
+**Context**: Users needed to verify how data would appear in Excel before export. TextArea preview was not intuitive.
+
+**Decision**: Replace TextArea with TableView that mimics Excel grid appearance.
+
+**Rationale**:
+- Column headers use Excel letters (A, B, C, AA, AB...)
+- Row numbers match actual Excel row numbers
+- Grid layout shows exact output structure
+- Titles displayed in context
+- Much more intuitive for users
+
+**Consequences**:
+- Complex grid calculation logic
+- Need to handle variable grid sizes
+- Uses Apache POI's `CellReference` for column letter conversion
+

@@ -477,10 +477,11 @@ public class TeachModeController {
         }
 
         // Create row number column
+        final int finalMinRow = minRow;
         TableColumn<ObservableList<String>, String> rowNumCol = new TableColumn<>("");
         rowNumCol.setCellValueFactory(data -> {
             int idx = excelPreviewTable.getItems().indexOf(data.getValue());
-            return new SimpleStringProperty(String.valueOf(minRow + idx + 1));
+            return new SimpleStringProperty(String.valueOf(finalMinRow + idx + 1));
         });
         rowNumCol.setPrefWidth(40);
         rowNumCol.setStyle("-fx-alignment: CENTER; -fx-background-color: #f0f0f0; -fx-font-weight: bold;");

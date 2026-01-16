@@ -8,48 +8,60 @@ SmartTemplateFiller provides a focused set of features for data transformation f
 
 | Feature | Status | Priority | Documentation |
 |---------|--------|----------|---------------|
-| File Parsing | ✅ Implemented | High | [feature-file-parsing.md](feature-file-parsing.md) |
-| Teach Mode | ✅ Implemented | High | [feature-teach-mode.md](feature-teach-mode.md) |
-| Excel Export | ✅ Implemented | High | [feature-excel-export.md](feature-excel-export.md) |
-| Mapping Persistence | ✅ Implemented | Medium | Included in Teach Mode |
-| Data Preview | ✅ Implemented | Medium | Included in Teach Mode |
-| Cell Reference Validation | ✅ Implemented | Medium | Included in Teach Mode |
-| Last Directory Memory | ✅ Implemented | Medium | [feature-file-chooser.md](feature-file-chooser.md) |
-| Mapping Reordering | ✅ Implemented | Medium | Included in Teach Mode |
+| File Parsing | Implemented | High | [feature-file-parsing.md](feature-file-parsing.md) |
+| Teach Mode | Implemented | High | [feature-teach-mode.md](feature-teach-mode.md) |
+| Excel Export | Implemented | High | [feature-excel-export.md](feature-excel-export.md) |
+| Excel Preview | Implemented | High | Included in Teach Mode |
+| Mapping Persistence | Implemented | Medium | Included in Teach Mode |
+| Drag-Drop Reorder | Implemented | Medium | Included in Teach Mode |
+| Cell Reference Validation | Implemented | Medium | Included in Teach Mode |
+| Last Directory Memory | Implemented | Medium | [feature-file-chooser.md](feature-file-chooser.md) |
 
 ## Feature Descriptions
 
 ### File Parsing
-Automatically parse TXT/ASC files with intelligent format detection supporting three parsing strategies.
+Automatically parse TXT/ASC files with intelligent format detection supporting three parsing strategies:
+- Multi-line grouped block (CMM output)
+- Fixed-column table
+- Flat table (generic)
 
 ### Teach Mode
-Interactive UI for configuring column-to-cell mappings with live preview of mapped values. Includes:
+Interactive UI for configuring column-to-cell mappings with:
+- **Excel-like preview** showing data as it will appear in output
 - **Drag-and-drop reordering** of mappings
-- TitledPane sections for organized layout
-- ListView with visual drag feedback
-- Enhanced Smart Preview with headers and value limits
+- Organized layout with TitledPane sections
 - Input validation with clear error messages
-- Move up/down buttons as fallback for keyboard users
+- Move up/down buttons as keyboard fallback
 - Clear all with confirmation prompt
 
-
 ### Excel Export
-Generate XLSX files by applying mapping rules to parsed data rows. Supports columns beyond Z (AA, AB, etc.).
+Generate XLSX files by applying mapping rules to parsed data rows:
+- Supports columns beyond Z (AA, AB, etc.) using `CellReference`
+- Both vertical and horizontal data directions
+- Optional title rows
+- Proper resource management with try-with-resources
+
+### Excel Preview
+Real-time TableView preview in Teach Mode:
+- Column headers with Excel letters (A, B, C...)
+- Row numbers matching Excel output
+- Grid layout shows exact output structure
+- Titles displayed in brackets
+- Status bar shows preview range
 
 ### Mapping Persistence
 Save and load mapping configurations as JSON files for reuse across sessions.
 
-### Data Preview
-Real-time preview of mapped data before export in the Teach Mode interface.
+### Drag-Drop Reorder
+Drag mappings in ListView to change order. Visual feedback during drag operation.
 
 ### Cell Reference Validation
-Validates Excel cell references (e.g., A1, B2, AA123) before adding mappings.
+Validates Excel cell references before adding mappings:
+- Valid: A1, B2, AA123, ZZ999
+- Invalid: 1A, A, 123
 
 ### Last Directory Memory
 File dialogs automatically remember the last used directory within a session.
-
-### Mapping Reordering
-Move mappings up/down in the list to control output order.
 
 ## Feature Roadmap
 
@@ -58,4 +70,3 @@ Move mappings up/down in the list to control output order.
 | Template-based Excel export | Medium | Not started |
 | Batch file processing | Low | Not started |
 | Custom parsing rules | Low | Not started |
-

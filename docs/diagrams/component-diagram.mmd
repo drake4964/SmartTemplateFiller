@@ -26,7 +26,8 @@ classDiagram
         -TextField manualRowField
         -TextField titleField
         -ListView mappingListView
-        -TextArea smartPreview
+        -TableView excelPreviewTable
+        -Label previewStatusLabel
         -TableView tableView
         -List colMappings
         +setTableView(TableView tableView)
@@ -38,10 +39,12 @@ classDiagram
         +handleClearAll()
         +handleSaveMapping()
         +handleLoadMapping()
+        -setupDragAndDrop()
         -updateMappingListView()
-        -updateSmartPreview()
+        -updateExcelPreview()
         -clearInputFields()
         -showValidationError(String message)
+        -showInfo(String message)
     }
     
     class TxtParser {
@@ -71,10 +74,20 @@ classDiagram
         +resetLastDirectory()$
     }
     
+    class MappingData {
+        +int sourceCol
+        +int startRow
+        +int startCol
+        +String direction
+        +String title
+        +List values
+    }
+    
     MainApp --> MainController : loads
     MainController --> TxtParser : uses
     MainController --> TeachModeController : opens
     MainController --> ExcelWriter : uses
     MainController --> FileChooserBuilder : uses
     TeachModeController --> TxtParser : uses generateIndexes
+    TeachModeController --> MappingData : creates
     ExcelWriter --> TxtParser : uses parseFile

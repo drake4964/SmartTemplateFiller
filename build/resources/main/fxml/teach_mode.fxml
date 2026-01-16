@@ -5,7 +5,7 @@
 <?import javafx.geometry.Insets?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.smarttemplatefiller.TeachModeController"
-            prefWidth="700" prefHeight="600">
+            prefWidth="750" prefHeight="650">
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>
     </padding>
@@ -52,13 +52,13 @@
             </TitledPane>
             
             <!-- Section 2: Mappings List with Drag-Drop -->
-            <TitledPane text="Mappings (drag to reorder)" collapsible="false" VBox.vgrow="ALWAYS">
+            <TitledPane text="Mappings (drag to reorder)" collapsible="false">
                 <VBox spacing="5">
                     <padding>
                         <Insets top="5" right="5" bottom="5" left="5"/>
                     </padding>
                     
-                    <ListView fx:id="mappingListView" VBox.vgrow="ALWAYS" prefHeight="150"
+                    <ListView fx:id="mappingListView" prefHeight="100"
                               style="-fx-background-color: #f5f5f5;"/>
                     
                     <HBox spacing="10" alignment="CENTER_LEFT">
@@ -72,14 +72,16 @@
                 </VBox>
             </TitledPane>
             
-            <!-- Section 3: Smart Preview -->
-            <TitledPane text="Smart Preview (data that will be exported)" collapsible="false">
+            <!-- Section 3: Excel-like Smart Preview -->
+            <TitledPane text="Excel Preview (how data will appear)" collapsible="false" VBox.vgrow="ALWAYS">
                 <VBox spacing="5">
                     <padding>
                         <Insets top="5" right="5" bottom="5" left="5"/>
                     </padding>
-                    <TextArea fx:id="smartPreview" prefHeight="120" editable="false" 
-                              wrapText="true" style="-fx-font-family: monospace;"/>
+                    <TableView fx:id="excelPreviewTable" VBox.vgrow="ALWAYS" prefHeight="180"
+                               style="-fx-font-family: 'Consolas', monospace; -fx-font-size: 11px;"/>
+                    <Label fx:id="previewStatusLabel" text="Add mappings to see preview" 
+                           style="-fx-text-fill: #666666; -fx-font-style: italic;"/>
                 </VBox>
             </TitledPane>
             
