@@ -1,0 +1,26 @@
+{
+  "schemaVersion" : "2.0",
+  "mappings" : [ {
+    "id" : "d9dfb1b9-cb64-40a7-b8ae-ee7b98febc03",
+    "sourceFileSlot" : 1,
+    "sourceColumn" : "A",
+    "targetCell" : "A2",
+    "direction" : "VERTICAL",
+    "includeTitle" : false,
+    "title" : "Header 2",
+    "rowPattern" : {
+      "start" : 0,
+      "type" : "odd"
+    },
+    "rowIndexes" : null
+  } ],
+  "fileSlots" : [ {
+    "slot" : 1,
+    "description" : "default",
+    "expectedPattern" : null
+  } ],
+  "watchConfig" : null,
+  "archiveConfig" : null,
+  "multiFile" : false,
+  "requiredFileCount" : 1
+}

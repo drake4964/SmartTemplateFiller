@@ -1,5 +1,7 @@
 package com.example.smarttemplatefiller;
 
+import com.example.smarttemplatefiller.model.*;
+import com.example.smarttemplatefiller.util.MappingUpgrader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -12,10 +14,13 @@ import org.apache.poi.ss.util.CellReference;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class TeachModeController {
+    @FXML
+    private ComboBox<String> fileSlotComboBox;
     @FXML
     private ComboBox<String> columnComboBox;
     @FXML
@@ -34,9 +39,17 @@ public class TeachModeController {
     private TableView<ObservableList<String>> excelPreviewTable;
     @FXML
     private Label previewStatusLabel;
+    @FXML
+    private ListView<String> loadedFilesListView;
+    @FXML
+    private Label fileCountLabel;
 
     private TableView<List<String>> tableView;
     private final List<Map<String, Object>> colMappings = new ArrayList<>();
+
+    // Multi-file support
+    private final Map<Integer, File> loadedFiles = new LinkedHashMap<>();
+    private final Map<Integer, TableView<List<String>>> loadedTables = new LinkedHashMap<>();
 
     // For drag-and-drop
     private static final DataFormat MAPPING_FORMAT = new DataFormat("application/x-mapping-index");
@@ -57,6 +70,17 @@ public class TeachModeController {
         directionComboBox.setItems(FXCollections.observableArrayList("vertical", "horizontal"));
         directionComboBox.setValue("vertical");
         rowPatternComboBox.setItems(FXCollections.observableArrayList("Odd Rows", "Even Rows", "All Rows"));
+
+        // Initialize file slot dropdown (T024)
+        List<String> slots = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            slots.add("File " + i);
+        }
+        fileSlotComboBox.setItems(FXCollections.observableArrayList(slots));
+        fileSlotComboBox.setValue("File 1"); // Default to File 1
+
+        // Initialize file count
+        fileCountLabel.setText("0");
 
         // Setup drag-and-drop for ListView
         setupDragAndDrop();
@@ -174,7 +198,14 @@ public class TeachModeController {
             return;
         }
 
+        // Get selected file slot (T024)
+        String selectedSlot = fileSlotComboBox.getValue();
+        int fileSlot = selectedSlot != null
+                ? Integer.parseInt(selectedSlot.replace("File ", ""))
+                : 1;
+
         Map<String, Object> map = new LinkedHashMap<>();
+        map.put("sourceFileSlot", fileSlot); // NEW: Multi-file support
         map.put("sourceColumn", selectedCol);
         map.put("startCell", startCell);
         map.put("direction", direction);
@@ -271,17 +302,75 @@ public class TeachModeController {
             return;
         }
 
+        // T027: Save with MappingConfiguration (v2.0 schema)
+        MappingConfiguration config = new MappingConfiguration();
+        config.setSchemaVersion("2.0");
+
+        // Add file slots if multi-file mode
+        if (!loadedFiles.isEmpty()) {
+            for (Map.Entry<Integer, File> entry : loadedFiles.entrySet()) {
+                FileSlot slot = new FileSlot();
+                slot.setSlot(entry.getKey());
+                slot.setDescription(entry.getValue().getName());
+                config.addFileSlot(slot);
+            }
+        } else {
+            // Single file mode - add default slot
+            FileSlot slot = new FileSlot();
+            slot.setSlot(1);
+            slot.setDescription("default");
+            config.addFileSlot(slot);
+        }
+
+        // Convert legacy mappings to MultiFileMapping
+        for (Map<String, Object> legacy : colMappings) {
+            MultiFileMapping mapping = new MultiFileMapping();
+
+            // Get file slot
+            int fileSlot = legacy.containsKey("sourceFileSlot")
+                    ? ((Number) legacy.get("sourceFileSlot")).intValue()
+                    : 1;
+            mapping.setSourceFileSlot(fileSlot);
+
+            // Convert column index to letter
+            int colIndex = ((Number) legacy.get("sourceColumn")).intValue();
+            mapping.setSourceColumn(String.valueOf((char) ('A' + colIndex)));
+
+            mapping.setTargetCell((String) legacy.get("startCell"));
+
+            // Convert direction
+            String dir = (String) legacy.get("direction");
+            mapping.setDirection("vertical".equalsIgnoreCase(dir)
+                    ? Direction.VERTICAL
+                    : Direction.HORIZONTAL);
+
+            // Title
+            if (legacy.containsKey("title")) {
+                mapping.setTitle((String) legacy.get("title"));
+            }
+
+            // Row pattern or specific rows
+            if (legacy.containsKey("rowPattern")) {
+                mapping.setRowPattern((Map<String, Object>) legacy.get("rowPattern"));
+            } else if (legacy.containsKey("rowIndexes")) {
+                mapping.setRowIndexes((List<Integer>) legacy.get("rowIndexes"));
+            }
+
+            config.addMapping(mapping);
+        }
+
+        // Save with pretty print
         ObjectMapper mapper = new ObjectMapper();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Mapping File");
-        fileChooser.setInitialFileName("mapping.json");
+        fileChooser.setInitialFileName("mapping-v2.json");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
         File file = fileChooser.showSaveDialog(null);
 
         if (file != null) {
             try {
-                mapper.writerWithDefaultPrettyPrinter().writeValue(file, colMappings);
-                showInfo("Mapping saved to:\n" + file.getName());
+                mapper.writerWithDefaultPrettyPrinter().writeValue(file, config);
+                showInfo("Multi-file mapping saved (v" + config.getSchemaVersion() + "):\n" + file.getName());
             } catch (IOException e) {
                 showValidationError("Failed to save: " + e.getMessage());
             }
@@ -290,7 +379,6 @@ public class TeachModeController {
 
     @FXML
     private void handleLoadMapping() {
-        ObjectMapper mapper = new ObjectMapper();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Load Mapping File");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON Files", "*.json"));
@@ -298,16 +386,132 @@ public class TeachModeController {
 
         if (file != null) {
             try {
-                List<Map<String, Object>> mappings = mapper.readValue(
-                        file,
-                        mapper.getTypeFactory().constructCollectionType(List.class, Map.class));
+                // T028: Use MappingUpgrader for backward compatibility
+                MappingUpgrader upgrader = new MappingUpgrader();
+                MappingConfiguration config = upgrader.loadAndUpgrade(Paths.get(file.getAbsolutePath()));
+
+                // Convert MappingConfiguration to internal format
                 colMappings.clear();
-                colMappings.addAll(mappings);
+
+                for (MultiFileMapping mfm : config.getMappings()) {
+                    Map<String, Object> map = new LinkedHashMap<>();
+
+                    // File slot
+                    map.put("sourceFileSlot", mfm.getSourceFileSlot());
+
+                    // Convert column letter to index
+                    String col = mfm.getSourceColumn();
+                    int colIndex = col.charAt(0) - 'A';
+                    map.put("sourceColumn", colIndex);
+
+                    map.put("startCell", mfm.getTargetCell());
+
+                    // Convert direction
+                    map.put("direction",
+                            mfm.getDirection() == Direction.VERTICAL ? "vertical" : "horizontal");
+
+                    if (mfm.getTitle() != null) {
+                        map.put("title", mfm.getTitle());
+                    }
+
+                    colMappings.add(map);
+                }
+
                 updateMappingListView();
                 updateExcelPreview();
-                showInfo("Loaded " + mappings.size() + " mappings from:\n" + file.getName());
+
+                String versionInfo = config.getSchemaVersion() != null
+                        ? " (schema v" + config.getSchemaVersion() + ")"
+                        : " (auto-upgraded from v1.0)";
+                showInfo("Loaded " + config.getMappings().size() + " mappings" + versionInfo + ":\n" + file.getName());
+
             } catch (IOException e) {
                 showValidationError("Failed to load: " + e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * T029-T030: Load multiple files for multi-file merge (2-10 files)
+     */
+    @FXML
+    private void handleLoadMultipleFiles() {
+        FileChooser chooser = new FileChooser();
+        chooser.setTitle("Load Input Files (2-10 files supported)");
+        chooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Text Files", "*.txt", "*.asc"),
+                new FileChooser.ExtensionFilter("All Files", "*.*"));
+
+        List<File> files = chooser.showOpenMultipleDialog(null);
+        if (files != null && !files.isEmpty()) {
+            // T030: Validate 2-10 files
+            if (files.size() < 2) {
+                showValidationError("Multi-file mode requires at least 2 files.\nPlease select 2-10 files.");
+                return;
+            }
+            if (files.size() > 10) {
+                showValidationError("Maximum 10 files allowed.\nYou selected " + files.size()
+                        + " files.\n\nPlease select 10 or fewer files.");
+                return;
+            }
+
+            loadMultipleFilesIntoSlots(files);
+        }
+    }
+
+    private void loadMultipleFilesIntoSlots(List<File> files) {
+        loadedFiles.clear();
+        loadedTables.clear();
+
+        // Store files - they will be parsed when mappings are created
+        for (int i = 0; i < files.size(); i++) {
+            int slot = i + 1;
+            File file = files.get(i);
+            loadedFiles.put(slot, file);
+            // Tables will be loaded on-demand
+        }
+
+        updateLoadedFilesList();
+        updateFileSlotComboBoxAvailable();
+        showInfo("Loaded " + files.size() + " files successfully!");
+    }
+
+    private void updateLoadedFilesList() {
+        ObservableList<String> items = FXCollections.observableArrayList();
+        List<Integer> sortedSlots = new ArrayList<>(loadedFiles.keySet());
+        Collections.sort(sortedSlots);
+
+        for (int slot : sortedSlots) {
+            File file = loadedFiles.get(slot);
+            items.add("File " + slot + ": " + file.getName());
+        }
+
+        loadedFilesListView.setItems(items);
+        fileCountLabel.setText(String.valueOf(loadedFiles.size()));
+    }
+
+    private void updateFileSlotComboBoxAvailable() {
+        if (loadedFiles.isEmpty()) {
+            // Reset to all slots
+            List<String> slots = new ArrayList<>();
+            for (int i = 1; i <= 10; i++) {
+                slots.add("File " + i);
+            }
+            fileSlotComboBox.setItems(FXCollections.observableArrayList(slots));
+            fileSlotComboBox.setValue("File 1");
+        } else {
+            // Only show loaded file slots
+            List<String> available = new ArrayList<>();
+            List<Integer> sortedSlots = new ArrayList<>(loadedFiles.keySet());
+            Collections.sort(sortedSlots);
+
+            for (int slot : sortedSlots) {
+                available.add("File " + slot);
+            }
+
+            fileSlotComboBox.setItems(FXCollections.observableArrayList(available));
+            if (!available.isEmpty()) {
+                fileSlotComboBox.setValue(available.get(0));
             }
         }
     }
@@ -316,6 +520,12 @@ public class TeachModeController {
         ObservableList<String> items = FXCollections.observableArrayList();
         for (int i = 0; i < colMappings.size(); i++) {
             Map<String, Object> map = colMappings.get(i);
+
+            // Get file slot (default to 1 for backward compatibility) - T025
+            int fileSlot = map.containsKey("sourceFileSlot")
+                    ? ((Number) map.get("sourceFileSlot")).intValue()
+                    : 1;
+
             int source = ((Number) map.get("sourceColumn")).intValue() + 1;
             String cell = (String) map.get("startCell");
             String dir = (String) map.get("direction");
@@ -323,7 +533,10 @@ public class TeachModeController {
 
             StringBuilder sb = new StringBuilder();
             sb.append(i + 1).append(". ");
-            sb.append("Col ").append(source).append(" -> ").append(cell);
+
+            // T026: NEW FORMAT: "File1:ColA → A1"
+            sb.append("File").append(fileSlot).append(":Col").append(source);
+            sb.append(" → ").append(cell);
             sb.append(" [").append(dir).append("]");
 
             if (map.containsKey("rowPattern")) {

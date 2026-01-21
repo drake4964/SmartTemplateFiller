@@ -46,17 +46,26 @@ public class TxtParser {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) {
+                    continue; // Skip empty lines to prevent gaps in output
+                }
+
                 List<String> row = new ArrayList<>();
                 int cursor = 0;
+                boolean parsingFailed = false;
+
                 for (Integer width : columnWidths.values()) {
                     if (cursor >= line.length()) {
                         row.add("");
-                        cursor += width;
-                        continue;
+                    } else {
+                        int end = Math.min(cursor + width, line.length());
+                        try {
+                            String field = line.substring(cursor, end).trim();
+                            row.add(field);
+                        } catch (Exception e) {
+                            row.add(""); // Safety fallback
+                        }
                     }
-                    int end = Math.min(cursor + width, line.length());
-                    String field = line.substring(cursor, end).trim();
-                    row.add(field);
                     cursor += width;
                 }
                 result.add(row);

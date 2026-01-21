@@ -2,6 +2,28 @@ plugins {
     id 'application'
     id 'java'
     id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'jacoco'
+}
+
+test {
+    finalizedBy jacocoTestReport // report is always generated after tests run
+    jacoco {
+        enabled = true
+        destinationFile = layout.buildDirectory.file("jacoco/test.exec").get().asFile
+    }
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+    
+    reports {
+        xml.required = true
+        html.required = true
+    }
+    
+    classDirectories.setFrom(files(sourceSets.main.output))
+    sourceDirectories.setFrom(files(sourceSets.main.java.srcDirs))
+    executionData.setFrom(fileTree(dir: layout.buildDirectory, includes: ['**/*.exec', '**/*.ec']))
 }
 
 mainClassName = 'com.example.smarttemplatefiller.MainApp'
@@ -28,6 +50,13 @@ dependencies {
     // Apache POI for Excel
     implementation 'org.apache.poi:poi-ooxml:5.2.3'
     implementation 'org.apache.poi:poi:5.2.3'
+
+    // Logging
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    implementation 'org.slf4j:slf4j-simple:2.0.9'
+
+    // Testing
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
 }
 
 application {
@@ -39,4 +68,7 @@ java {
         languageVersion = JavaLanguageVersion.of(17)
     }
 }
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
 

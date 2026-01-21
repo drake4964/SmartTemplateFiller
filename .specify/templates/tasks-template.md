@@ -261,3 +261,73 @@ With multiple developers:
 - Commit after each task or logical group
 - Stop at any checkpoint to validate story independently
 - Avoid: vague tasks, same file conflicts, cross-story dependencies that break independence
+
+---
+
+## Story Point Estimation
+
+**Purpose**: Estimate effort by developer experience level. Story points (SP) represent relative complexity, not hours.
+
+### Point Scale Reference
+
+| SP | Complexity | Description |
+|----|------------|-------------|
+| 1 | Trivial | Config change, typo fix, simple rename |
+| 2 | Simple | Straightforward task, clear implementation |
+| 3 | Moderate | Some complexity, may require research |
+| 5 | Complex | Significant logic, multiple components |
+| 8 | Very Complex | Major feature, cross-cutting concerns |
+| 13 | Epic | Should be broken down further |
+
+### Developer Level Multipliers
+
+Different experience levels complete tasks at different speeds. Use these multipliers for time estimation:
+
+| Level | Experience | Multiplier | Notes |
+|-------|------------|------------|-------|
+| **Junior** | 0-2 years | 2.5x | Needs guidance, more review cycles |
+| **Mid** | 2-5 years | 1.5x | Some independence, occasional guidance |
+| **Senior** | 5+ years | 1.0x (baseline) | Autonomous, mentors others |
+
+### Estimation Formula
+
+```text
+Estimated Hours = Story Points × Base Hours × Level Multiplier
+
+Where Base Hours = 2 hours per story point (adjust per team)
+```
+
+### Example Estimation Table
+
+| Phase | Tasks | Total SP | Junior (2.5x) | Mid (1.5x) | Senior (1.0x) |
+|-------|-------|----------|---------------|------------|---------------|
+| Setup | T001-T009 | [SP] | [hours] | [hours] | [hours] |
+| Foundational | T010-T013 | [SP] | [hours] | [hours] | [hours] |
+| User Story 1 | T014-T023 | [SP] | [hours] | [hours] | [hours] |
+| User Story 2 | T024-T032 | [SP] | [hours] | [hours] | [hours] |
+| User Story 3 | T033-T049 | [SP] | [hours] | [hours] | [hours] |
+| Polish | T050+ | [SP] | [hours] | [hours] | [hours] |
+| **Total** | | **[SP]** | **[hours]** | **[hours]** | **[hours]** |
+
+### Task Complexity Guidelines
+
+| Task Type | Typical SP | Example |
+|-----------|------------|---------|
+| Create model class | 1-2 | Simple POJO, few fields |
+| Create service interface | 1 | Define contract |
+| Implement service | 3-5 | Business logic |
+| Modify existing class | 2-3 | Add new functionality |
+| Create UI component | 3-5 | New controller + FXML |
+| Modify UI | 2-3 | Update existing layout |
+| Write unit test | 1-2 | Per test class |
+| Integration test | 3-5 | End-to-end scenario |
+| Documentation | 1-2 | Feature guide |
+
+### Estimation Instructions
+
+1. **Assign SP to each task** based on complexity guidelines
+2. **Sum SP per phase** and per user story
+3. **Apply multiplier** based on developer level
+4. **Add buffer** (20% for unknowns)
+5. **Review with team** and adjust
+

@@ -1,12 +1,31 @@
 # SmartTemplateFiller
 
-A JavaFX desktop application that parses TXT/ASC measurement data files and maps them to Excel templates using configurable JSON mappings.
+A JavaFX application for automating the conversion of TXT/ASC machine output files to Excel spreadsheets with customizable column mappings.
 
 ## Features
 
-- **Multi-format file parsing** - Supports CMM output, fixed-column tables, and generic flat tables
-- **Teach Mode** - Interactive UI with drag-and-drop mapping configuration
-- **Smart Preview** - See actual data values before export
+### Single-File Mode (v1.0)
+- Load TXT or ASC files with any delimiter
+- Preview parsed data in a table view
+- **Teach Mode**: Create custom column mappings to Excel cells
+- **Running Mode**: Auto-watch folders and process files automatically
+- Save and reuse mapping configurations (JSON)
+- Export to Excel (.xlsx) with flexible row/column layouts
+
+### NEW: Multi-File Merge Export (v2.0)
+- **Combine 2-10 input files** into a single Excel output
+- **Flexible mapping**: Row-based, column-based, or mixed mappings
+- **File matching**: Auto-match files by prefix or exact basename
+- **Folder watching**: Monitor multiple folders, auto-process when all files ready
+- **Timestamped archiving**: Keep inputs + outputs together for traceability
+- **Backward compatible**: Existing v1.0 mappings work seamlessly
+
+#### Multi-File Capabilities
+- Support 2-10 input TXT/ASC files simultaneously
+- Each mapping specifies: Source File + Source Column → Output Cell
+- JSON schema v2.0 with versioning and migration support
+- File stability check (configurable, default 2 seconds)
+- Session-only folder watching (doesn't persist after app close)a values before export
 - **Excel Export** - Generate XLSX files with flexible column mappings
 
 ---

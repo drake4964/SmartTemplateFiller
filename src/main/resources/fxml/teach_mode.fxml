@@ -13,6 +13,27 @@
     <center>
         <VBox spacing="15">
             
+            
+            <!-- Section 0: Loaded Files Panel -->
+            <TitledPane text="Loaded Files (2-10 files supported)" collapsible="false">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Label text="Files loaded:"/>
+                        <Label fx:id="fileCountLabel" text="0" style="-fx-font-weight: bold;"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button text="+ Load Files (Multi-File Mode)" onAction="#handleLoadMultipleFiles"
+                                style="-fx-background-color: #9C27B0; -fx-text-fill: white;"/>
+                    </HBox>
+                    
+                    <ListView fx:id="loadedFilesListView" prefHeight="80"
+                              style="-fx-background-color: #fafafa;"/>
+                </VBox>
+            </TitledPane>
+            
             <!-- Section 1: Mapping Configuration -->
             <TitledPane text="+ Add New Mapping" collapsible="false">
                 <VBox spacing="10">
@@ -21,8 +42,11 @@
                     </padding>
                     
                     <HBox spacing="15" alignment="CENTER_LEFT">
-                        <Label text="Source Column:" style="-fx-font-weight: bold;"/>
-                        <ComboBox fx:id="columnComboBox" prefWidth="120" promptText="Select..."/>
+                        <Label text="Source File:" style="-fx-font-weight: bold;"/>
+                        <ComboBox fx:id="fileSlotComboBox" prefWidth="100" promptText="File 1"/>
+                        
+                        <Label text="Column:" style="-fx-font-weight: bold;"/>
+                        <ComboBox fx:id="columnComboBox" prefWidth="100" promptText="Select..."/>
                         
                         <Label text="-&gt;"/>
                         

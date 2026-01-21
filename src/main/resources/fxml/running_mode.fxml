@@ -5,7 +5,7 @@
 <?import javafx.geometry.Insets?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.smarttemplatefiller.RunningModeController"
-            prefWidth="650" prefHeight="550">
+            prefWidth="750" prefHeight="650">
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>
     </padding>
@@ -28,14 +28,6 @@
                         <Button text="Browse..." onAction="#handleBrowseMapping"/>
                     </HBox>
                     
-                    <!-- Watch Folder -->
-                    <HBox spacing="10" alignment="CENTER_LEFT">
-                        <Label text="Watch Folder:" prefWidth="100" style="-fx-font-weight: bold;"/>
-                        <TextField fx:id="watchFolderField" HBox.hgrow="ALWAYS" editable="false"
-                                   promptText="Select folder to watch..."/>
-                        <Button text="Browse..." onAction="#handleBrowseWatchFolder"/>
-                    </HBox>
-                    
                     <!-- Output Folder -->
                     <HBox spacing="10" alignment="CENTER_LEFT">
                         <Label text="Output Folder:" prefWidth="100" style="-fx-font-weight: bold;"/>
@@ -43,23 +35,40 @@
                                    promptText="Select output folder..."/>
                         <Button text="Browse..." onAction="#handleBrowseOutputFolder"/>
                     </HBox>
+                </VBox>
+            </TitledPane>
+            
+            <!-- Section 2: Watch Folders -->
+            <TitledPane text="Watch Folders" collapsible="false" VBox.vgrow="SOMETIMES">
+                <VBox spacing="10">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
                     
-                    <!-- File Pattern and Interval -->
-                    <HBox spacing="20" alignment="CENTER_LEFT">
-                        <Label text="File Pattern:" style="-fx-font-weight: bold;"/>
-                        <TextField fx:id="filePatternField" promptText="*.txt,*.asc" prefWidth="150"/>
-                        
-                        <Region HBox.hgrow="ALWAYS"/>
-                        
-                        <Label text="Scan Interval:" style="-fx-font-weight: bold;"/>
-                        <Spinner fx:id="intervalSpinner" prefWidth="80"/>
-                        <Label text="seconds"/>
+                    <!-- Watch Folders Container (dynamic rows) -->
+                    <ScrollPane fitToWidth="true" prefHeight="120" style="-fx-background-color: white;">
+                        <VBox fx:id="watchFoldersContainer" spacing="5">
+                            <padding>
+                                <Insets top="5" right="5" bottom="5" left="5"/>
+                            </padding>
+                            <!-- Watch folder rows will be added here dynamically -->
+                            <Label text="No watch folders added yet. Click 'Add Watch Folder' to begin." 
+                                   style="-fx-text-fill: #999; -fx-font-style: italic;"/>
+                        </VBox>
+                    </ScrollPane>
+                    
+                    <!-- Add Watch Folder Button -->
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <Button fx:id="addWatchFolderButton" text="+ Add Watch Folder" 
+                                onAction="#handleAddWatchFolder" disable="true"
+                                style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+                        <Label text="(Load a mapping file first)" style="-fx-text-fill: #999; -fx-font-size: 10px;"/>
                     </HBox>
                 </VBox>
             </TitledPane>
             
-            <!-- Section 2: Status -->
-            <TitledPane text="Status" collapsible="false" VBox.vgrow="ALWAYS">
+            <!-- Section 3: Status and Activity Log -->
+            <TitledPane text="Status and Activity Log" collapsible="false" VBox.vgrow="ALWAYS">
                 <VBox spacing="5">
                     <padding>
                         <Insets top="5" right="5" bottom="5" left="5"/>
