@@ -16,4 +16,13 @@
     "type" : "odd",
     "start" : 0
   }
+}, {
+  "sourceColumn" : 2,
+  "startCell" : "C2",
+  "direction" : "vertical",
+  "title" : "Diameter title",
+  "rowPattern" : {
+    "type" : "odd",
+    "start" : 0
+  }
 } ]
