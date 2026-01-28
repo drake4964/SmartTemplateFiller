@@ -39,6 +39,17 @@ dependencies {
     implementation 'org.apache.poi:poi:5.2.3'
     // Log4j required by POI recent versions often
     implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+    
+    // OSHI for hardware detection (license verification)
+    implementation 'com.github.oshi:oshi-core:6.4.13'
+    
+    // JUnit 5 for testing
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    
+    // Mockito for mocking
+    testImplementation 'org.mockito:mockito-core:5.7.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.7.0'
 }
 
 java {

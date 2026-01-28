@@ -40,14 +40,14 @@
 
 **Purpose**: Project initialization and basic structure for license verification module
 
-- [ ] T001 Create `src/main/java/com/example/smarttemplatefiller/license/` package directory
-- [ ] T002 Create `src/test/java/com/example/smarttemplatefiller/license/` test package directory
-- [ ] T003 Create `tools/HardwareInfoExtractor/` directory for customer utility
-- [ ] T004 Create `tools/LicenseGenerator/` directory for admin utility
-- [ ] T005 Create `tools/LicenseRenewer/` directory for renewal utility
-- [ ] T006 [P] Add OSHI dependency (`com.github.oshi:oshi-core:6.4.+`) to `build.gradle`
-- [ ] T007 [P] Create `src/main/resources/license_config.json` with default configuration (enabled=false for development)
-- [ ] T008 [P] Create `src/main/resources/fxml/license_error_dialog.fxml` UI layout file
+- [x] T001 Create `src/main/java/com/example/smarttemplatefiller/license/` package directory
+- [x] T002 Create `src/test/java/com/example/smarttemplatefiller/license/` test package directory
+- [x] T003 Create `tools/HardwareInfoExtractor/` directory for customer utility
+- [x] T004 Create `tools/LicenseGenerator/` directory for admin utility
+- [x] T005 Create `tools/LicenseRenewer/` directory for renewal utility
+- [x] T006 [P] Add OSHI dependency (`com.github.oshi:oshi-core:6.4.+`) to `build.gradle`
+- [x] T007 [P] Create `src/main/resources/license_config.json` with default configuration (enabled=false for development)
+- [x] T008 [P] Create `src/main/resources/fxml/license_error_dialog.fxml` UI layout file
 
 ---
 

@@ -1,0 +1,6 @@
+{
+  "enabled": false,
+  "errorMessage": "This application requires a valid license to run. Please contact your administrator for assistance.",
+  "logoPath": "logo.png",
+  "licenseFilePath": "license.json"
+}
