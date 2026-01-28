@@ -57,11 +57,11 @@
 
 **⚠️ CRITICAL**: These data models are required before implementing services
 
-- [ ] T009 Create `LicenseData.java` data model in `src/main/java/.../license/` with fields: version, encryptedData, signature
-- [ ] T010 Create `ValidationResult.java` with ErrorCode enum in `src/main/java/.../license/`
-- [ ] T011 Create `LicenseConfig.java` POJO in `src/main/java/.../license/` (enabled, errorMessage, logoPath, licenseFilePath)
-- [ ] T012 Create `CurrentHardwareInfo.java` in `src/main/java/.../license/` (macAddresses, motherboardSerial)
-- [ ] T017 [P] Create unit test `LicenseDataTest.java` in `src/test/java/.../license/` to test JSON deserialization
+- [x] T009 Create `LicenseData.java` data model in `src/main/java/.../license/` with fields: version, encryptedData, signature
+- [x] T010 Create `ValidationResult.java` with ErrorCode enum in `src/main/java/.../license/`
+- [x] T011 Create `LicenseConfig.java` POJO in `src/main/java/.../license/` (enabled, errorMessage, logoPath, licenseFilePath)
+- [x] T012 Create `CurrentHardwareInfo.java` in `src/main/java/.../license/` (macAddresses, motherboardSerial)
+- [x] T017 [P] Create unit test `LicenseDataTest.java` in `src/test/java/.../license/` to test JSON deserialization
 
 **Checkpoint**: Basic data structures ready - can now implement core services
 
@@ -75,12 +75,12 @@
 
 **Dependencies**: Requires Phase 2A completion (data models must exist)
 
-- [ ] T013 Implement `HardwareIdentifier.java` interface in `src/main/java/.../license/` (getMacAddresses, getMotherboardSerial, getCurrentHardware)
-- [ ] T014 Implement `OshiHardwareIdentifier.java` in `src/main/java/.../license/` using OSHI library to extract MAC addresses and motherboard serial
-- [ ] T015 Implement `EncryptionValidator.java` in `src/main/java/.../license/` with AES-256 decryption + HMAC-SHA256 verification methods
-- [ ] T016 Implement `LicenseFileReader.java` in `src/main/java/.../license/` to parse JSON license files using Jackson
-- [ ] T018 [P] Create unit test `EncryptionValidatorTest.java` in `src/test/java/.../license/` with test vectors for AES + HMAC
-- [ ] T019 [P] Create `MockHardwareIdentifier.java` test utility in `src/test/java/.../license/` for controlled hardware simulation
+- [x] T013 Implement `HardwareIdentifier.java` interface in `src/main/java/.../license/` (getMacAddresses, getMotherboardSerial, getCurrentHardware)
+- [x] T014 Implement `OshiHardwareIdentifier.java` in `src/main/java/.../license/` using OSHI library to extract MAC addresses and motherboard serial
+- [x] T015 Implement `EncryptionValidator.java` in `src/main/java/.../license/` with AES-256 decryption + HMAC-SHA256 verification methods
+- [x] T016 Implement `LicenseFileReader.java` in `src/main/java/.../license/` to parse JSON license files using Jackson
+- [x] T018 [P] Create unit test `EncryptionValidatorTest.java` in `src/test/java/.../license/` with test vectors for AES + HMAC
+- [x] T019 [P] Create `MockHardwareIdentifier.java` test utility in `src/test/java/.../license/` for controlled hardware simulation
 
 **🛑 CRITICAL CHECKPOINT - DO NOT PROCEED WITHOUT VALIDATION**:
 
@@ -113,20 +113,20 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T020 [P] [US4] Create unit test `LicenseValidatorTest.java` in `src/test/java/.../license/` (basic structure for all license tests)
-- [ ] T021 [P] [US4] Add test case: LicenseConfig.enabled=false → validation bypassed, returns ValidationResult.success()
-- [ ] T022 [P] [US4] Add test case: enabled=false with missing license file → no error, app launches
+- [x] T020 [P] [US4] Create unit test `LicenseValidatorTest.java` in `src/test/java/.../license/` (basic structure for all license tests)
+- [x] T021 [P] [US4] Add test case: LicenseConfig.enabled=false → validation bypassed, returns ValidationResult.success()
+- [x] T022 [P] [US4] Add test case: enabled=false with missing license file → no error, app launches
 
 ### Implementation for User Story 4
 
-- [ ] T023 [US4] Implement `LicenseValidator.java` interface in `src/main/java/.../license/`
-- [ ] T024 [US4] Implement `DefaultLicenseValidator.java` in `src/main/java/.../license/` with config-check-first logic
-- [ ] T025 [US4] In `DefaultLicenseValidator.validate()`: check LicenseConfig.enabled first
-- [ ] T026 [US4] If enabled=false, skip all validation logic and return ValidationResult.success()
-- [ ] T027 [US4] Add logging: "License checking disabled via configuration" (INFO level)
-- [ ] T028 [US4] Integrate license validation into `MainApp.java` start() method before showing primary stage
-- [ ] T029 [US4] Test with `license_config.json` enabled=false: verify app launches without license file
-- [ ] T030 [US4] Run unit tests to verify bypass works correctly
+- [x] T023 [US4] Implement `LicenseValidator.java` interface in `src/main/java/.../license/`
+- [x] T024 [US4] Implement `DefaultLicenseValidator.java` in `src/main/java/.../license/` with config-check-first logic
+- [x] T025 [US4] In `DefaultLicenseValidator.validate()`: check LicenseConfig.enabled first
+- [x] T026 [US4] If enabled=false, skip all validation logic and return ValidationResult.success()
+- [x] T027 [US4] Add logging: "License checking disabled via configuration" (INFO level)
+- [x] T028 [US4] Integrate license validation into `MainApp.java` start() method before showing primary stage
+- [x] T029 [US4] Test with `license_config.json` enabled=false: verify app launches without license file
+- [x] T030 [US4] Run unit tests to verify bypass works correctly
 
 **Checkpoint**: ✅ Development unblocked! App now launches with `enabled=false`. You can continue developing while building license features.
 

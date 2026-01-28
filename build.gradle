@@ -58,6 +58,11 @@ java {
     }
 }
 
+// Configure JUnit 5 for tests
+test {
+    useJUnitPlatform()
+}
+
 // Configuration for generating a standalone native executable
 runtime {
     options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
