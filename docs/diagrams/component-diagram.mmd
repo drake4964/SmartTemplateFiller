@@ -14,6 +14,7 @@ classDiagram
         +handleLoadTxt(ActionEvent event)
         +handleTeachMode(ActionEvent event)
         +handleExportToExcel(ActionEvent event)
+        +handleRunningMode(ActionEvent event)
         -showAlert(String title, String message)
         -showInfo(String title, String message)
     }
@@ -45,6 +46,75 @@ classDiagram
         -clearInputFields()
         -showValidationError(String message)
         -showInfo(String message)
+    }
+    
+    class RunningModeController {
+        -TextField mappingFileField
+        -TextField watchFolderField
+        -TextField outputFolderField
+        -TextField filePatternField
+        -TextField intervalField
+        -TextArea logArea
+        -Button startButton
+        -Button stopButton
+        -Label statusLabel
+        -Stage stage
+        -RunningModeConfig config
+        -FolderWatcher watcher
+        +initialize(URL, ResourceBundle)
+        +setStage(Stage stage)
+        +handleBrowseMapping(ActionEvent)
+        +handleBrowseWatchFolder(ActionEvent)
+        +handleBrowseOutputFolder(ActionEvent)
+        +handleStart(ActionEvent)
+        +handleStop(ActionEvent)
+        +handleOpenOutputFolder(ActionEvent)
+        +handleClose(ActionEvent)
+        -loadConfigToUI()
+        -saveConfig()
+        -validateConfig()
+        -setConfigFieldsDisabled(boolean)
+        -logMessage(String)
+        -showAlert(String, String)
+    }
+    
+    class FolderWatcher {
+        -Path watchFolder
+        -Set fileExtensions
+        -File mappingFile
+        -Path outputFolder
+        -int intervalSeconds
+        -Consumer logCallback
+        -ScheduledExecutorService scheduler
+        -boolean running
+        -Set processingFiles
+        +FolderWatcher(RunningModeConfig, Consumer)
+        +start()
+        +stop()
+        +isRunning()
+        -scanFolder()
+        -processFile(File)
+        -log(String)
+    }
+    
+    class RunningModeConfig {
+        -String mappingFile
+        -String watchFolder
+        -String outputFolder
+        -String filePattern
+        -int intervalSeconds
+        +getMappingFile()
+        +setMappingFile(String)
+        +getWatchFolder()
+        +setWatchFolder(String)
+        +getOutputFolder()
+        +setOutputFolder(String)
+        +getFilePattern()
+        +setFilePattern(String)
+        +getIntervalSeconds()
+        +setIntervalSeconds(int)
+        +save()
+        +load()$
     }
     
     class TxtParser {
@@ -86,8 +156,14 @@ classDiagram
     MainApp --> MainController : loads
     MainController --> TxtParser : uses
     MainController --> TeachModeController : opens
+    MainController --> RunningModeController : opens
     MainController --> ExcelWriter : uses
     MainController --> FileChooserBuilder : uses
     TeachModeController --> TxtParser : uses generateIndexes
     TeachModeController --> MappingData : creates
+    TeachModeController --> FileChooserBuilder : uses
     ExcelWriter --> TxtParser : uses parseFile
+    RunningModeController --> FolderWatcher : creates
+    RunningModeController --> RunningModeConfig : uses
+    FolderWatcher --> ExcelWriter : uses
+    FolderWatcher --> RunningModeConfig : reads

@@ -43,11 +43,14 @@ SmartTemplateFiller follows the **Model-View-Controller (MVC)** pattern as imple
 | Component | Responsibility |
 |-----------|----------------|
 | `MainApp` | Application bootstrap, loads main FXML, injects primary stage |
-| `MainController` | Main window actions: load file, launch teach mode, export Excel |
+| `MainController` | Main window actions: load file, launch teach mode, export Excel, launch running mode |
 | `TeachModeController` | Mapping configuration UI: add/remove/save/load mappings |
+| `RunningModeController` | Running mode UI: configure/start/stop automated folder watching |
 | `TxtParser` | File parsing with 3 strategies based on content detection |
 | `ExcelWriter` | Applies mappings to parsed data, writes XLSX via Apache POI |
-| `FileChooserBuilder` | Fluent API for configuring file dialogs (unused but available) |
+| `FileChooserBuilder` | Fluent API for configuring file dialogs with directory memory |
+| `FolderWatcher` | Background service for scheduled folder scanning and auto-conversion |
+| `RunningModeConfig` | Configuration POJO with JSON persistence for running mode settings |
 
 ## Data Flow
 
@@ -68,6 +71,12 @@ Export Excel  ──▶   MainController    ──▶    ExcelWriter.write()
                           │                         │
                           ▼                         ▼
               Save as .xlsx file         Apache POI Workbook
+
+Running Mode  ──▶   RunningModeController ──▶  FolderWatcher.start()
+                          │                         │
+                          ▼                         ▼
+              Auto-process files          Timestamped output folders
+              in watch folder             with archived originals
 ```
 
 ## Related Diagrams
@@ -75,3 +84,5 @@ Export Excel  ──▶   MainController    ──▶    ExcelWriter.write()
 - [System Context Diagram](../diagrams/system-context.mmd)
 - [Container Diagram](../diagrams/container-diagram.mmd)
 - [Component Diagram](../diagrams/component-diagram.mmd)
+- [Source Code Map](SOURCE_CODE_MAP.md) (detailed class reference)
+
