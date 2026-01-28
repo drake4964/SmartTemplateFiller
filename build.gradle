@@ -2,9 +2,18 @@ plugins {
     id 'application'
     id 'java'
     id 'org.openjfx.javafxplugin' version '0.0.13'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'org.beryx.runtime' version '1.13.1'
 }
 
-mainClassName = 'com.example.smarttemplatefiller.MainApp'
+group = 'com.example'
+version = '1.0.0'
+
+application {
+    // Use the Launcher class to avoid JavaFX runtime issues in FatJars
+    mainClass = 'com.example.smarttemplatefiller.Launcher'
+    mainClassName = 'com.example.smarttemplatefiller.Launcher'
+}
 
 repositories {
     mavenCentral()
@@ -14,7 +23,7 @@ def javafxVersion = '17.0.15'
 
 javafx {
     version = '17.0.15'
-    modules = [ 'javafx.controls', 'javafx.fxml' ]
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics' ]
 }
 
 dependencies {
@@ -28,15 +37,29 @@ dependencies {
     // Apache POI for Excel
     implementation 'org.apache.poi:poi-ooxml:5.2.3'
     implementation 'org.apache.poi:poi:5.2.3'
-}
-
-application {
-    mainClass = 'com.example.smarttemplatefiller.MainApp'
+    // Log4j required by POI recent versions often
+    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
 }
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+// Configuration for generating a standalone native executable
+runtime {
+    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+    
+    launcher {
+        noConsole = true 
+    }
+    
+    jpackage {
+        // You can use 'jpackageImage' to build a folder, or build installers with other tasks
+        imageName = 'SmartTemplateFiller'
+        skipInstaller = true // Set to false if you want an MSI/EXE installer file
+        installerOptions = ['--win-per-user-install', '--win-menu', '--win-shortcut']
     }
 }
 

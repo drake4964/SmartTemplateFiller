@@ -162,7 +162,7 @@ public class RunningModeController implements Initializable {
         // Update UI state
         startButton.setDisable(true);
         stopButton.setDisable(false);
-        statusLabel.setText("● Watching: " + config.getWatchFolder());
+        statusLabel.setText("Watching: " + config.getWatchFolder());
         statusLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #4CAF50;");
         setConfigFieldsDisabled(true);
     }

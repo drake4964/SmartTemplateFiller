@@ -19,6 +19,27 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# virtual machine crash logs
 hs_err_pid*
 replay_pid*
+
+# Gradle Build Artifacts (HUGE)
+build/
+.gradle/
+gradle-app.setting
+
+# IDE files
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+
+# Operating System
+Thumbs.db
+Desktop.ini
+
+# Output
+out/
+dist/
+target/
