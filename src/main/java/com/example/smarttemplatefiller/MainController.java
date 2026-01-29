@@ -126,20 +126,122 @@ public class MainController {
         if (mappingFile == null)
             return;
 
-        File outputFile = new FileChooserBuilder(stage)
-                .withTitle("Save Excel File")
-                .withExtension("Excel Files", "*.xlsx")
-                .save("output.xlsx");
-        if (outputFile == null)
-            return;
+        // T009: Show export mode choice dialog
+        boolean appendMode = showExportModeDialog();
 
-        try {
-            ExcelWriter.writeAdvancedMappedFile(txtFile, mappingFile, outputFile);
-            showInfo("Success", "Excel file saved:\n" + outputFile.getAbsolutePath());
-        } catch (Exception e) {
-            e.printStackTrace();
-            showAlert("Error", "Failed to export: " + e.getMessage());
+        if (appendMode) {
+            // Append to existing file
+            File existingFile = new FileChooserBuilder(stage)
+                    .withTitle("Select Existing Excel File to Append To")
+                    .withExtension("Excel Files", "*.xlsx")
+                    .open();
+            if (existingFile == null)
+                return;
+
+            // T010: Call appendToMappedFile and show result
+            AppendResult result = ExcelWriter.appendToMappedFile(txtFile, mappingFile, existingFile);
+
+            if (result.isSuccess()) {
+                StringBuilder message = new StringBuilder();
+                message.append("Successfully appended to Excel file!\n\n");
+                message.append("Rows added: ").append(result.getRowsAdded()).append("\n");
+                message.append("Row offset: ").append(result.getRowOffset()).append("\n");
+                message.append("Target: ").append(existingFile.getName());
+
+                if (result.hasWarnings()) {
+                    message.append("\n\nWarnings:\n");
+                    for (String warning : result.getWarnings()) {
+                        message.append("• ").append(warning).append("\n");
+                    }
+                }
+
+                showInfo("Append Successful", message.toString());
+            } else {
+                // T011B: Check if file appears corrupted and offer fallback
+                String errorMsg = result.getErrorMessage();
+                if (isCorruptedFileError(errorMsg)) {
+                    // Show corrupted file dialog with option to create new
+                    boolean createNew = showCorruptedFileDialog(existingFile.getName());
+                    if (createNew) {
+                        // Fallback to create new file
+                        File outputFile = new FileChooserBuilder(stage)
+                                .withTitle("Save New Excel File")
+                                .withExtension("Excel Files", "*.xlsx")
+                                .save("output.xlsx");
+                        if (outputFile != null) {
+                            try {
+                                ExcelWriter.writeAdvancedMappedFile(txtFile, mappingFile, outputFile);
+                                showInfo("Success", "New Excel file saved:\n" + outputFile.getAbsolutePath());
+                            } catch (Exception e) {
+                                showAlert("Error", "Failed to create new file: " + e.getMessage());
+                            }
+                        }
+                    }
+                } else {
+                    // T011: Show error (includes locked file detection from AppendResult)
+                    showAlert("Append Failed", errorMsg);
+                }
+            }
+        } else {
+            // Create new file (original behavior)
+            File outputFile = new FileChooserBuilder(stage)
+                    .withTitle("Save Excel File")
+                    .withExtension("Excel Files", "*.xlsx")
+                    .save("output.xlsx");
+            if (outputFile == null)
+                return;
+
+            try {
+                ExcelWriter.writeAdvancedMappedFile(txtFile, mappingFile, outputFile);
+                showInfo("Success", "Excel file saved:\n" + outputFile.getAbsolutePath());
+            } catch (Exception e) {
+                e.printStackTrace();
+                showAlert("Error", "Failed to export: " + e.getMessage());
+            }
         }
+    }
+
+    /**
+     * Show dialog to choose between creating new file or appending to existing.
+     * 
+     * @return true if user chose append mode, false for create new file
+     */
+    private boolean showExportModeDialog() {
+        // Create a custom dialog with radio buttons
+        javafx.scene.control.Dialog<Boolean> dialog = new javafx.scene.control.Dialog<>();
+        dialog.setTitle("Export Mode");
+        dialog.setHeaderText("Choose export mode:");
+
+        // Create radio buttons
+        javafx.scene.control.ToggleGroup toggleGroup = new javafx.scene.control.ToggleGroup();
+        javafx.scene.control.RadioButton createNewRadio = new javafx.scene.control.RadioButton("Create New File");
+        createNewRadio.setToggleGroup(toggleGroup);
+        createNewRadio.setSelected(true); // Default
+
+        javafx.scene.control.RadioButton appendRadio = new javafx.scene.control.RadioButton("Append to Existing File");
+        appendRadio.setToggleGroup(toggleGroup);
+
+        // Layout
+        javafx.scene.layout.VBox content = new javafx.scene.layout.VBox(10);
+        content.getChildren().addAll(createNewRadio, appendRadio);
+        content.setPadding(new javafx.geometry.Insets(20, 20, 10, 20));
+
+        dialog.getDialogPane().setContent(content);
+        dialog.getDialogPane().getButtonTypes().addAll(
+                javafx.scene.control.ButtonType.OK,
+                javafx.scene.control.ButtonType.CANCEL);
+
+        // Result converter
+        dialog.setResultConverter(buttonType -> {
+            if (buttonType == javafx.scene.control.ButtonType.OK) {
+                return appendRadio.isSelected();
+            }
+            return null;
+        });
+
+        // Show and get result
+        java.util.Optional<Boolean> result = dialog.showAndWait();
+        return result.orElse(false);
     }
 
     @FXML
@@ -180,6 +282,41 @@ public class MainController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    /**
+     * T011B: Check if error message indicates corrupted file.
+     */
+    private boolean isCorruptedFileError(String errorMessage) {
+        if (errorMessage == null)
+            return false;
+        String lowerMsg = errorMessage.toLowerCase();
+        return lowerMsg.contains("corrupt") ||
+                lowerMsg.contains("invalid") ||
+                lowerMsg.contains("malformed") ||
+                lowerMsg.contains("not a valid") ||
+                lowerMsg.contains("zip") || // POI often reports zip errors for corrupt xlsx
+                lowerMsg.contains("truncated");
+    }
+
+    /**
+     * T011B: Show dialog offering to create new file when existing is corrupted.
+     * 
+     * @return true if user wants to create new file, false to cancel
+     */
+    private boolean showCorruptedFileDialog(String fileName) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("File Corrupted");
+        alert.setHeaderText("File appears corrupted");
+        alert.setContentText("The file \"" + fileName + "\" appears to be corrupted or unreadable.\n\n" +
+                "Would you like to create a new file instead?");
+
+        alert.getButtonTypes().setAll(
+                javafx.scene.control.ButtonType.YES,
+                javafx.scene.control.ButtonType.NO);
+
+        java.util.Optional<javafx.scene.control.ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == javafx.scene.control.ButtonType.YES;
     }
 
 }

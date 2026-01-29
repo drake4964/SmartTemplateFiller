@@ -19,8 +19,8 @@
 
 **Purpose**: Project structure for append feature - minimal changes needed since extending existing codebase
 
-- [ ] T001 Verify branch `002-excel-append-mode` is checked out and up-to-date with main
-- [ ] T002 Review existing `ExcelWriter.java` and `FolderWatcher.java` for integration points
+- [x] T001 Verify branch `002-excel-append-mode` is checked out and up-to-date with main
+- [x] T002 Review existing `ExcelWriter.java` and `FolderWatcher.java` for integration points
 
 **Checkpoint**: Setup complete
 
@@ -32,19 +32,19 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T003 [P] Create `AppendResult.java` data class in `src/main/java/com/example/smarttemplatefiller/AppendResult.java`
+- [x] T003 [P] Create `AppendResult.java` data class in `src/main/java/com/example/smarttemplatefiller/AppendResult.java`
   - Fields: `success` (boolean), `rowsAdded` (int), `rowOffset` (int), `targetFilePath` (String), `warnings` (List<String>), `errorMessage` (String)
   - Add constructor, getters, and static factory methods for success/failure
 
-- [ ] T004 [P] Create `ExportConfiguration.java` POJO in `src/main/java/com/example/smarttemplatefiller/ExportConfiguration.java`
+- [x] T004 [P] Create `ExportConfiguration.java` POJO in `src/main/java/com/example/smarttemplatefiller/ExportConfiguration.java`
   - Fields: `appendMode` (boolean), `appendTargetPath` (String)
   - Add getters/setters
 
-- [ ] T005 Add `calculateRowOffset()` helper method to `ExcelWriter.java` in `src/main/java/com/example/smarttemplatefiller/ExcelWriter.java`
+- [x] T005 Add `calculateRowOffset()` helper method to `ExcelWriter.java` in `src/main/java/com/example/smarttemplatefiller/ExcelWriter.java`
   - Signature: `private static int calculateRowOffset(Sheet sheet)`
   - Returns `sheet.getLastRowNum() + 1` (or 0 if empty)
 
-- [ ] T006 Add `appendToMappedFile()` method to `ExcelWriter.java` in `src/main/java/com/example/smarttemplatefiller/ExcelWriter.java`
+- [x] T006 Add `appendToMappedFile()` method to `ExcelWriter.java` in `src/main/java/com/example/smarttemplatefiller/ExcelWriter.java`
   - Signature: `public static AppendResult appendToMappedFile(File txtFile, File mappingFile, File existingExcelFile)`
   - Implementation: Open existing file, calculate offset, apply mappings with offset, write back
 
@@ -58,14 +58,14 @@
 
 **Files**: `ExcelWriterAppendTest.java` only
 
-- [ ] T007 [P] [US1] Create `ExcelWriterAppendTest.java` test class in `src/test/java/com/example/smarttemplatefiller/ExcelWriterAppendTest.java`
+- [x] T007 [P] [US1] Create `ExcelWriterAppendTest.java` test class in `src/test/java/com/example/smarttemplatefiller/ExcelWriterAppendTest.java`
   - Test: `testAppendToEmptyFile()` - offset should be 0
   - Test: `testAppendToFileWithData()` - offset calculated correctly (e.g., 3 rows → offset 3)
   - Test: `testAppendPreservesExistingData()` - existing rows unchanged after append
   - Test: `testCalculateRowOffsetEdgeCases()` - gaps, empty rows
   - Test: `testAppendDoesNotDuplicateHeaders()` - verify headers not duplicated when appending
 
-- [ ] T008 [P] [US1] Add locked file test to `ExcelWriterAppendTest.java`
+- [x] T008 [P] [US1] Add locked file test to `ExcelWriterAppendTest.java`
   - Test: `testAppendWithLockedFile()` - appropriate error returned in AppendResult
 
 **Checkpoint**: US1 tests written and failing
@@ -78,13 +78,13 @@
 
 **Files**: `MainController.java` only
 
-- [ ] T009 [US1] Modify `handleExportToExcel()` in `MainController.java` in `src/main/java/com/example/smarttemplatefiller/MainController.java`
+- [x] T009 [US1] Modify `handleExportToExcel()` in `MainController.java` in `src/main/java/com/example/smarttemplatefiller/MainController.java`
   - After selecting mapping file, show dialog with mode choice:
     - Radio button: "Create New File" (default)
     - Radio button: "Append to Existing File"
   - If append selected, open file browser for existing .xlsx file
 
-- [ ] T010 [US1] Add append branch logic in `handleExportToExcel()` in `MainController.java`
+- [x] T010 [US1] Add append branch logic in `handleExportToExcel()` in `MainController.java`
   - If append mode: Call `ExcelWriter.appendToMappedFile()`
   - Show result dialog with rows added and offset applied
   - Handle errors with clear user message
@@ -99,21 +99,21 @@
 
 **Files**: `MainController.java`, `ExcelWriter.java`
 
-- [ ] T011 [US1] Add file locked error handling in `MainController.java`
+- [x] T011 [US1] Add file locked error handling in `MainController.java`
   - Catch IOException for locked files
   - Display: "Cannot access file: It may be open in another application. Please close the file and try again."
 
-- [ ] T011B [US1] Add corrupted file fallback handling in `MainController.java`
+- [x] T011B [US1] Add corrupted file fallback handling in `MainController.java`
   - Detect corrupted/unreadable Excel file in append mode
   - Show dialog: "File appears corrupted. Would you like to create a new file instead?"
   - Provide Yes (create new) / No (cancel) options
 
-- [ ] T011C [US1] Add row limit warning in `ExcelWriter.appendToMappedFile()`
+- [x] T011C [US1] Add row limit warning in `ExcelWriter.appendToMappedFile()`
   - Check if resulting row count approaches Excel limit (1,048,576)
   - Warn user when exceeding 1,000,000 rows or within 5% of limit
   - Add warning to AppendResult.warnings list
 
-- [ ] T012 [US1] Log append operations in `ExcelWriter.appendToMappedFile()`
+- [x] T012 [US1] Log append operations in `ExcelWriter.appendToMappedFile()`
   - Log: source file name, target file name, rows added, offset applied
 
 **Checkpoint**: User Story 1 complete - manual export with append option works ✅
