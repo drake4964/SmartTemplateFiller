@@ -239,21 +239,22 @@
 
 **⚠️ CRITICAL**: This phase contains complex cryptography matching Phase 2B - focus required
 
-- [ ] T067 [P] Create `tools/LicenseGenerator/build.gradle` with Jackson and javax.crypto dependencies
-- [ ] T068 [P] Create `SecretKeyHolder.java` in `tools/LicenseGenerator/src/main/java/` with embedded 256-bit secret key
-- [ ] T069 [P] Create `EncryptionUtils.java` in `tools/LicenseGenerator/src/main/java/` with AES-256 + HMAC methods
-- [ ] T070 Create `LicenseGeneratorCLI.java` in `tools/LicenseGenerator/src/main/java/` with CLI argument parsing
-- [ ] T071 Implement deviceId hash computation: SHA-256(macAddresses.sorted().join("|") + motherboardSerial)
-- [ ] T072 Implement payload generation: deviceId + "|" + expiryTimestamp
-- [ ] T073 Implement AES-256 encryption with random IV
-- [ ] T074 Implement HMAC-SHA256 signature over version + encryptedData
-- [ ] T075 Output license file in JSON format: {"v": "1.0", "d": "<encrypted>", "s": "<signature>"}
-- [ ] T076 Add validation: MAC format, non-empty serial, future expiry date
-- [ ] T077 Support interactive mode (prompts for inputs) and command-line mode (--mac, --serial, --expiry, --output flags)
-- [ ] T078 [P] Create `tools/LicenseGenerator/README.md` with usage instructions for administrators
-- [ ] T079 Build `LicenseGenerator.jar` and test generating license for known hardware
+- [x] T067 [P] Create `tools/LicenseGenerator/build.gradle` with Jackson and javax.crypto dependencies
+- [x] T068 [P] Create `SecretKeyHolder.java` in `tools/LicenseGenerator/src/main/java/` with embedded 256-bit secret key
+- [x] T069 [P] Create `EncryptionUtils.java` in `tools/LicenseGenerator/src/main/java/` with AES-256 + HMAC methods
+- [x] T070 Create `LicenseGeneratorCLI.java` in `tools/LicenseGenerator/src/main/java/` with CLI argument parsing
+- [x] T071 Implement deviceId hash computation: SHA-256(macAddresses.sorted().join("|") + motherboardSerial)
+- [x] T072 Implement payload generation: deviceId + "|" + expiryTimestamp
+- [x] T073 Implement AES-256 encryption with random IV
+- [x] T074 Implement HMAC-SHA256 signature over version + encryptedData
+- [x] T075 Output license file in JSON format: {"v": "1.0", "d": "<encrypted>", "s": "<signature>"}
+- [x] T076 Add validation: MAC format, non-empty serial, future expiry date
+- [x] T077 Support interactive mode (prompts for inputs) and command-line mode (--mac, --serial, --expiry, --output flags)
+- [x] T078 [P] Create `tools/LicenseGenerator/README.md` with usage instructions for administrators
+- [x] T079 Build `LicenseGenerator.jar` and test generating license for known hardware
 
 **Checkpoint**: License generation tool complete - admins can now create encrypted licenses
+
 
 ---
 
