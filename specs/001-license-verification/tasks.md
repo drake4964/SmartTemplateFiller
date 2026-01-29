@@ -264,14 +264,15 @@
 
 **Tool Context**: This utility decrypts existing licenses, updates the expiry date, then re-encrypts. Requires the same secret key as LicenseGenerator.
 
-- [ ] T080 [P] Create `tools/LicenseRenewer/build.gradle` with Jackson and javax.crypto dependencies
-- [ ] T081 [P] Create `LicenseRenewer.java` in `tools/LicenseRenewer/src/main/java/`
-- [ ] T082 Implement decrypt existing license → extract deviceId → create new payload with same deviceId but new expiry → re-encrypt → re-sign
-- [ ] T083 Support command-line mode: --license <existing> --new-expiry <date> --output <file>
-- [ ] T084 [P] Create `tools/LicenseRenewer/README.md` with renewal workflow instructions
-- [ ] T085 Build `LicenseRenewer.jar` and test renewing an existing license
+- [x] T080 [P] Create `tools/LicenseRenewer/build.gradle` with Jackson and javax.crypto dependencies
+- [x] T081 [P] Create `LicenseRenewer.java` in `tools/LicenseRenewer/src/main/java/`
+- [x] T082 Implement decrypt existing license → extract deviceId → create new payload with same deviceId but new expiry → re-encrypt → re-sign
+- [x] T083 Support command-line mode: --license <existing> --new-expiry <date> --output <file>
+- [x] T084 [P] Create `tools/LicenseRenewer/README.md` with renewal workflow instructions
+- [x] T085 Build `LicenseRenewer.jar` and test renewing an existing license
 
 **Checkpoint**: All three utility tools complete - full license management workflow ready
+
 
 ---
 
