@@ -280,14 +280,15 @@
 
 **Purpose**: End-to-end validation of all user stories working together
 
-- [ ] T086 Create integration test: valid license → app launches → main window visible
-- [ ] T087 Create integration test: missing license → error dialog → app exits
-- [ ] T088 Create integration test: expired license → error dialog with default message
-- [ ] T089 Create integration test: custom config (message + logo) → error dialog shows custom values
-- [ ] T090 Create integration test: disabled license checking (US4) → app launches without license file
-- [ ] T091 Generate license using LicenseGenerator → place in app directory → verify app launches
-- [ ] T092 Extract hardware using HardwareInfoExtractor → generate matching license → verify validation succeeds
-- [ ] T093 Renew license using LicenseRenewer → verify renewed license validates correctly
+- [x] T086 Create integration test: valid license → app launches → main window visible
+- [x] T087 Create integration test: missing license → error dialog → app exits
+- [x] T088 Create integration test: expired license → error dialog with default message
+- [x] T089 Create integration test: custom config (message + logo) → error dialog shows custom values
+- [x] T090 Create integration test: disabled license checking (US4) → app launches without license file
+- [x] T091 Generate license using LicenseGenerator → place in app directory → verify app launches
+- [x] T092 Extract hardware using HardwareInfoExtractor → generate matching license → verify validation succeeds
+- [x] T093 Renew license using LicenseRenewer → verify renewed license validates correctly
+
 
 ---
 
