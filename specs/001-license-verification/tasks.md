@@ -219,14 +219,15 @@
 
 **Tool Context**: This is a SIMPLE utility that customers run to get their hardware info. It does NOT contain the secret key and cannot generate licenses.
 
-- [ ] T061 [P] Create `tools/HardwareInfoExtractor/build.gradle` with OSHI dependency
-- [ ] T062 [P] Create `HardwareExtractor.java` in `tools/HardwareInfoExtractor/src/main/java/`
-- [ ] T063 Use OSHI to extract MAC addresses and motherboard serial number
-- [ ] T064 Display hardware info in formatted console output for customer to send to admin
-- [ ] T065 [P] Create `tools/HardwareInfoExtractor/README.md` with usage instructions for customers
-- [ ] T066 Build `HardwareInfoExtractor.jar` and test extraction on real hardware
+- [x] T061 [P] Create `tools/HardwareInfoExtractor/build.gradle` with OSHI dependency
+- [x] T062 [P] Create `HardwareExtractor.java` in `tools/HardwareInfoExtractor/src/main/java/`
+- [x] T063 Use OSHI to extract MAC addresses and motherboard serial number
+- [x] T064 Display hardware info in formatted console output for customer to send to admin
+- [x] T065 [P] Create `tools/HardwareInfoExtractor/README.md` with usage instructions for customers
+- [x] T066 Build `HardwareInfoExtractor.jar` and test extraction on real hardware
 
 **Checkpoint**: Customer utility complete - customers can now extract their hardware info
+
 
 ---
 
