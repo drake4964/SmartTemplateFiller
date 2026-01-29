@@ -31,7 +31,12 @@ SmartTemplateFiller/
 │   ├── ExcelWriter.java             # Excel generation via Apache POI (107 lines)
 │   ├── FileChooserBuilder.java      # Fluent file dialog API (88 lines)
 │   ├── FolderWatcher.java           # Background file monitoring service (188 lines)
-│   └── RunningModeConfig.java       # Running mode configuration POJO (103 lines)
+│   ├── RunningModeConfig.java       # Running mode configuration POJO (103 lines)
+│   └── license/                      # License verification module
+│       ├── LicenseValidator.java     # Interface for license validation
+│       ├── DefaultLicenseValidator.java # Main implementation
+│       ├── EncryptionValidator.java  # AES-256 + HMAC cryptography
+│       └── LicenseErrorDialog.java   # Error dialog UI
 │
 ├── src/main/resources/
 │   ├── fxml/
@@ -207,6 +212,7 @@ From `.specify/memory/constitution.md` (v1.3.0):
 | Feature List | [docs/features/feature-list.md](features/feature-list.md) |
 | Teach Mode | [docs/features/feature-teach-mode.md](features/feature-teach-mode.md) |
 | Running Mode | [docs/features/feature-running-mode.md](features/feature-running-mode.md) |
+| License Verification | [docs/features/feature-license-verification.md](features/feature-license-verification.md) |
 | Component Diagram | [docs/diagrams/component-diagram.mmd](diagrams/component-diagram.mmd) |
 | Constitution | [.specify/memory/constitution.md](../.specify/memory/constitution.md) |
 

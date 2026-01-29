@@ -298,25 +298,26 @@
 
 ### Constitution Compliance Tasks
 
-- [ ] T094 [P] **[Principle I - UX]** Verify license validation completes within 2 seconds (SC-003)
-- [ ] T095 [P] **[Principle I - UX]** Verify error dialog is modal and blocks main application completely
-- [ ] T096 [P] **[Principle II - Modular]** Verify `license/` package has no circular dependencies with existing code
-- [ ] T097 [P] **[Principle III - Config]** Verify `license_config.json` schema is documented and versioned
-- [ ] T098 **[Principle IV - Testing]** Run final JaCoCo test coverage report - verify ≥80% for entire license module (should already be validated in Phase 2B checkpoint)
-- [ ] T099 [P] **[Principle V - Docs]** Create `/docs/features/feature-license-verification.md` with feature overview and deployment guide
-- [ ] T100 [P] **[Principle V - Docs]** Update `AI_CONTEXT.md` with license verification module information
-- [ ] T101 [P] **[Principle VI - Open Source]** Verify using OSHI (open source), Jackson (existing), javax.crypto (built-in)
-- [ ] T102 [P] **[Principle VII - Security]** Verify hardware IDs are NEVER logged (search codebase for MAC/serial in log statements)
-- [ ] T103 [P] **[Principle VII - Security]** Verify secret key is obfuscated (recommend ProGuard/R8 for production builds)
+- [x] T094 [P] **[Principle I - UX]** Verify license validation completes within 2 seconds (SC-003)
+- [x] T095 [P] **[Principle I - UX]** Verify error dialog is modal and blocks main application completely
+- [x] T096 [P] **[Principle II - Modular]** Verify `license/` package has no circular dependencies with existing code
+- [x] T097 [P] **[Principle III - Config]** Verify `license_config.json` schema is documented and versioned
+- [x] T098 **[Principle IV - Testing]** Run final JaCoCo test coverage report - verify ≥80% for entire license module (should already be validated in Phase 2B checkpoint)
+- [x] T099 [P] **[Principle V - Docs]** Create `/docs/features/feature-license-verification.md` with feature overview and deployment guide
+- [x] T100 [P] **[Principle V - Docs]** Update `AI_CONTEXT.md` with license verification module information
+- [x] T101 [P] **[Principle VI - Open Source]** Verify using OSHI (open source), Jackson (existing), javax.crypto (built-in)
+- [x] T102 [P] **[Principle VII - Security]** Verify hardware IDs are NEVER logged (search codebase for MAC/serial in log statements)
+- [x] T103 [P] **[Principle VII - Security]** Verify secret key is obfuscated (recommend ProGuard/R8 for production builds)
 
 ### General Polish
 
-- [ ] T104 [P] Code cleanup: remove debug logging, add Javadoc comments to public APIs
-- [ ] T105 [P] Update quickstart.md with actual testing results and screenshots
-- [ ] T106 [P] Create deployment guide in `/docs/deployment/license-generation-workflow.md`
-- [ ] T107 Validate all quickstart.md test scenarios work as documented
-- [ ] T108 [P] Package all three utility JARs for distribution to administrators and customers
-- [ ] T109 Create demo video or screenshots showing valid license flow and error dialog flow
+- [x] T104 [P] Code cleanup: remove debug logging, add Javadoc comments to public APIs
+- [x] T105 [P] Update quickstart.md with actual testing results and screenshots
+- [x] T106 [P] Create deployment guide in `/docs/deployment/license-generation-workflow.md`
+- [x] T107 Validate all quickstart.md test scenarios work as documented
+- [x] T108 [P] Package all three utility JARs for distribution to administrators and customers
+- [x] T109 Create demo video or screenshots showing valid license flow and error dialog flow
+
 
 ---
 
