@@ -142,16 +142,16 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T031 [P] [US1] Add test case to `LicenseValidatorTest.java`: valid license with matching deviceId and future expiry → ValidationResult.success()
-- [ ] T032 [P] [US1] Add test case: valid license with multiple MAC addresses, one matching → ValidationResult.success()
+- [x] T031 [P] [US1] Add test case to `LicenseValidatorTest.java`: valid license with matching deviceId and future expiry → ValidationResult.success()
+- [x] T032 [P] [US1] Add test case: valid license with multiple MAC addresses, one matching → ValidationResult.success()
 
 ### Implementation for User Story 1
 
-- [ ] T033 [US1] Update `DefaultLicenseValidator.validate()` to implement full validation logic (after enabled check)
-- [ ] T034 [US1] Implement: load config → load license file → verify HMAC → decrypt AES → compute deviceId → compare → check expiry
-- [ ] T035 [US1] Add logging for validation steps (DEBUG level, no hardware IDs logged per security principle)
-- [ ] T036 [US1] Run unit tests to verify validation succeeds with valid license
-- [ ] T037 [US1] Test with real license file: set enabled=true, place valid license, verify app launches
+- [x] T033 [US1] Update `DefaultLicenseValidator.validate()` to implement full validation logic (after enabled check)
+- [x] T034 [US1] Implement: load config → load license file → verify HMAC → decrypt AES → compute deviceId → compare → check expiry
+- [x] T035 [US1] Add logging for validation steps (DEBUG level, no hardware IDs logged per security principle)
+- [x] T036 [US1] Run unit tests to verify validation succeeds with valid license
+- [x] T037 [US1] Test with real license file: set enabled=true, place valid license, verify app launches
 
 **Checkpoint**: At this point, User Story 1 should be fully functional - valid licenses pass validation and app launches normally
 
@@ -165,21 +165,21 @@
 
 ### Tests for User Story 2
 
-- [ ] T038 [P] [US2] Add test case to `LicenseValidatorTest.java`: missing license file → ValidationResult.failure(FILE_NOT_FOUND)
-- [ ] T039 [P] [US2] Add test case: invalid JSON format → ValidationResult.failure(INVALID_FORMAT)  
-- [ ] T040 [P] [US2] Add test case: HMAC signature mismatch → ValidationResult.failure(SIGNATURE_MISMATCH)
-- [ ] T041 [P] [US2] Add test case: incorrect deviceId → ValidationResult.failure(HARDWARE_MISMATCH)
-- [ ] T042 [P] [US2] Add test case: expired license (past timestamp) → ValidationResult.failure(LICENSE_EXPIRED)
+- [x] T038 [P] [US2] Add test case to `LicenseValidatorTest.java`: missing license file → ValidationResult.failure(FILE_NOT_FOUND)
+- [x] T039 [P] [US2] Add test case: invalid JSON format → ValidationResult.failure(INVALID_FORMAT)  
+- [x] T040 [P] [US2] Add test case: HMAC signature mismatch → ValidationResult.failure(SIGNATURE_MISMATCH)
+- [x] T041 [P] [US2] Add test case: incorrect deviceId → ValidationResult.failure(HARDWARE_MISMATCH)
+- [x] T042 [P] [US2] Add test case: expired license (past timestamp) → ValidationResult.failure(LICENSE_EXPIRED)
 
 ### Implementation for User Story 2
 
-- [ ] T043 [US2] Create `LicenseErrorDialog.java` JavaFX controller in `src/main/java/.../license/`
-- [ ] T044 [US2] Implement FXML layout in `src/main/resources/fxml/license_error_dialog.fxml` with ImageView (logo), Label (message), OK button
-- [ ] T045 [US2] Implement dialog display logic: load config → show modal dialog → block main window → Platform.exit() on close
-- [ ] T046 [US2] Handle missing logo file gracefully (hide ImageView if logo file doesn't exist)
-- [ ] T047 [US2] Integrate error dialog into `MainApp.java`: if validation fails, show dialog and exit
-- [ ] T048 [US2] Add error handling for all ValidationResult.ErrorCode cases
-- [ ] T049 [US2] Run unit tests to verify all error cases trigger failure results
+- [x] T043 [US2] Create `LicenseErrorDialog.java` JavaFX controller in `src/main/java/.../license/`
+- [x] T044 [US2] Implement FXML layout in `src/main/resources/fxml/license_error_dialog.fxml` with ImageView (logo), Label (message), OK button
+- [x] T045 [US2] Implement dialog display logic: load config → show modal dialog → block main window → Platform.exit() on close
+- [x] T046 [US2] Handle missing logo file gracefully (hide ImageView if logo file doesn't exist)
+- [x] T047 [US2] Integrate error dialog into `MainApp.java`: if validation fails, show dialog and exit
+- [x] T048 [US2] Add error handling for all ValidationResult.ErrorCode cases
+- [x] T049 [US2] Run unit tests to verify all error cases trigger failure results
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work - valid licenses pass, invalid licenses block with error dialog
 
@@ -193,22 +193,23 @@
 
 ### Tests for User Story 3
 
-- [ ] T050 [P] [US3] Create unit test `LicenseConfigTest.java` in `src/test/java/.../license/` to test JSON deserialization
-- [ ] T051 [P] [US3] Add test case: custom errorMessage → dialog displays custom message
-- [ ] T052 [P] [US3] Add test case: custom logoPath → ImageView loads custom logo
-- [ ] T053 [P] [US3] Add test case: missing config file → fallback to default message
-- [ ] T054 [P] [US3] Add test case: invalid logoPath → dialog displays without logo (no crash)
+- [x] T050 [P] [US3] Create unit test `LicenseConfigTest.java` in `src/test/java/.../license/` to test JSON deserialization
+- [x] T051 [P] [US3] Add test case: custom errorMessage → dialog displays custom message
+- [x] T052 [P] [US3] Add test case: custom logoPath → ImageView loads custom logo
+- [x] T053 [P] [US3] Add test case: missing config file → fallback to default message
+- [x] T054 [P] [US3] Add test case: invalid logoPath → dialog displays without logo (no crash)
 
 ### Implementation for User Story 3
 
-- [ ] T055 [US3] Implement `LicenseConfig.load(String filePath)` static method in `LicenseConfig.java` using Jackson
-- [ ] T056 [US3] Add fallback to default values if config file missing or invalid
-- [ ] T057 [US3] Update `LicenseErrorDialog.java` to load message from LicenseConfig
-- [ ] T058 [US3] Update `LicenseErrorDialog.java` to load logo image from LicenseConfig.logoPath
-- [ ] T059 [US3] Handle FileNotFoundException for logo file (hide ImageView, log warning)
-- [ ] T060 [US3] Test with custom `license_config.json`: verify message and logo change without code rebuild
+- [x] T055 [US3] Implement `LicenseConfig.load(String filePath)` static method in `LicenseConfig.java` using Jackson
+- [x] T056 [US3] Add fallback to default values if config file missing or invalid
+- [x] T057 [US3] Update `LicenseErrorDialog.java` to load message from LicenseConfig
+- [x] T058 [US3] Update `LicenseErrorDialog.java` to load logo image from LicenseConfig.logoPath
+- [x] T059 [US3] Handle FileNotFoundException for logo file (hide ImageView, log warning)
+- [x] T060 [US3] Test with custom `license_config.json`: verify message and logo change without code rebuild
 
 **Checkpoint**: All core user stories (US1, US2, US3, US4) should now be independently functional with customizable branding
+
 
 ---
 
