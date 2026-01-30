@@ -127,7 +127,12 @@ public class MainController {
             return;
 
         // T009: Show export mode choice dialog
-        boolean appendMode = showExportModeDialog();
+        ExportConfiguration exportConfig = ExportConfiguration.load();
+        boolean appendMode = showExportModeDialog(exportConfig.isAppendMode());
+
+        // Update and save preference
+        exportConfig.setAppendMode(appendMode);
+        exportConfig.save();
 
         if (appendMode) {
             // Append to existing file
@@ -206,7 +211,7 @@ public class MainController {
      * 
      * @return true if user chose append mode, false for create new file
      */
-    private boolean showExportModeDialog() {
+    private boolean showExportModeDialog(boolean initialAppendMode) {
         // Create a custom dialog with radio buttons
         javafx.scene.control.Dialog<Boolean> dialog = new javafx.scene.control.Dialog<>();
         dialog.setTitle("Export Mode");
@@ -216,10 +221,11 @@ public class MainController {
         javafx.scene.control.ToggleGroup toggleGroup = new javafx.scene.control.ToggleGroup();
         javafx.scene.control.RadioButton createNewRadio = new javafx.scene.control.RadioButton("Create New File");
         createNewRadio.setToggleGroup(toggleGroup);
-        createNewRadio.setSelected(true); // Default
+        createNewRadio.setSelected(!initialAppendMode); // Default based on preference
 
         javafx.scene.control.RadioButton appendRadio = new javafx.scene.control.RadioButton("Append to Existing File");
         appendRadio.setToggleGroup(toggleGroup);
+        appendRadio.setSelected(initialAppendMode);
 
         // Layout
         javafx.scene.layout.VBox content = new javafx.scene.layout.VBox(10);

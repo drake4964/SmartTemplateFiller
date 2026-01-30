@@ -212,7 +212,10 @@ public class ExcelWriter {
                         String value = (sourceColumn < rowData.size()) ? rowData.get(sourceColumn) : "";
 
                         if (direction.equals("vertical")) {
-                            int targetRow = startRow + rowOffset + i;
+                            // BUG-FIX: Use Math.max to avoid double-counting startRow when appending
+                            // When appending, we want to start at the end of the file (rowOffset),
+                            // unless the file is empty and rowOffset < startRow.
+                            int targetRow = Math.max(startRow, rowOffset) + i;
 
                             // Check row limit
                             if (targetRow >= EXCEL_ROW_LIMIT) {
@@ -226,7 +229,8 @@ public class ExcelWriter {
                             row.createCell(startCol).setCellValue(value);
                             rowsAdded = Math.max(rowsAdded, i + 1);
                         } else {
-                            int targetRow = startRow + rowOffset;
+                            // BUG-FIX: Same logic for horizontal
+                            int targetRow = Math.max(startRow, rowOffset);
                             Row row = sheet.getRow(targetRow);
                             if (row == null)
                                 row = sheet.createRow(targetRow);
@@ -247,10 +251,6 @@ public class ExcelWriter {
                 try (FileOutputStream out = new FileOutputStream(existingExcelFile)) {
                     workbook.write(out);
                 }
-
-                // Log the operation
-                System.out.println(String.format("[ExcelWriter] Appended %d rows to %s (offset: %d)",
-                        rowsAdded, existingExcelFile.getName(), rowOffset));
 
                 if (warnings.isEmpty()) {
                     return AppendResult.success(rowsAdded, rowOffset, existingExcelFile.getAbsolutePath());

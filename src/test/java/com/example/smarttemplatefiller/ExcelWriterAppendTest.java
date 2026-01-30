@@ -228,6 +228,61 @@ class ExcelWriterAppendTest {
         }
     }
 
+    @Test
+    @DisplayName("Append should handle startRow > 0 without creating gaps")
+    void testAppendWithStartRowOne() throws Exception {
+        // Create mapping starting at A2 (row index 1)
+        List<Map<String, Object>> mappings = List.of(
+                Map.of(
+                        "sourceColumn", 0,
+                        "startCell", "A2",
+                        "direction", "vertical",
+                        "title", "Header",
+                        "rowPattern", Map.of("start", 0, "type", "all")));
+        File mappingFile = tempDir.resolve("mapping_A2.json").toFile();
+        mapper.writeValue(mappingFile, mappings);
+
+        // Create Excel file with data up to row index 28 (Row 29)
+        // This simulates the user's case where data exists, and next append should be
+        // at row index 29 (Row 30)
+        File excelFile = tempDir.resolve("start_row_test.xlsx").toFile();
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("Result");
+            // Fill rows 0 to 28
+            for (int i = 0; i <= 28; i++) {
+                sheet.createRow(i).createCell(0).setCellValue("row_" + i);
+            }
+            try (FileOutputStream fos = new FileOutputStream(excelFile)) {
+                workbook.write(fos);
+            }
+        }
+
+        // Create source
+        File sourceFile = createSourceFile("new_data\nmore_data");
+
+        // Append
+        AppendResult result = ExcelWriter.appendToMappedFile(sourceFile, mappingFile, excelFile);
+
+        assertTrue(result.isSuccess());
+        // Last row was index 28. Offset = 29.
+        assertEquals(29, result.getRowOffset());
+
+        // Verify data placement
+        try (FileInputStream fis = new FileInputStream(excelFile);
+                Workbook workbook = new XSSFWorkbook(fis)) {
+            Sheet sheet = workbook.getSheet("Result");
+
+            // User reported bug: creates gap at row 30 (index 29) because target =
+            // startRow(1) + offset(29) = 30
+            // We expect data at index 29
+            Row row29 = sheet.getRow(29);
+            assertNotNull(row29, "Row 29 (30th row) should not be null");
+            Cell cell29 = row29.getCell(0);
+            assertNotNull(cell29, "Cell at 29 should not be null");
+            assertEquals("new_data", cell29.getStringCellValue(), "New data should be at row index 29");
+        }
+    }
+
     // ========== T008 Tests ==========
 
     @Test

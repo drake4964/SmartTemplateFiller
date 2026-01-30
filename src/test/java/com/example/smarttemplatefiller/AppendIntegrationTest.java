@@ -28,8 +28,14 @@ class AppendIntegrationTest {
     private File outputFolder;
     private ObjectMapper mapper = new ObjectMapper();
 
+    private String originalUserHome;
+
     @BeforeEach
     void setUp() throws Exception {
+        // Save original user.home to avoid overwriting real config
+        originalUserHome = System.getProperty("user.home");
+        System.setProperty("user.home", tempDir.toAbsolutePath().toString());
+
         // Create a simple mapping file that maps column 0 to A1 vertically
         List<Map<String, Object>> mappings = List.of(
                 Map.of(
@@ -43,6 +49,14 @@ class AppendIntegrationTest {
         // Create output folder
         outputFolder = tempDir.resolve("output").toFile();
         outputFolder.mkdirs();
+    }
+
+    @AfterEach
+    void tearDown() {
+        // Restore original user.home
+        if (originalUserHome != null) {
+            System.setProperty("user.home", originalUserHome);
+        }
     }
 
     // ========== T013 Tests ==========
@@ -212,6 +226,62 @@ class AppendIntegrationTest {
         AppendResult result4 = ExcelWriter.appendToMappedFile(sourceFile4, mappingFile, excelFile);
         assertTrue(result4.isSuccess(), "Append to new file should succeed");
         assertEquals(2, getRowCount(excelFile), "Should have 2 rows after recovery");
+    }
+
+    // ========== T023 Tests (Persistence) ==========
+
+    /**
+     * Test persistence of RunningModeConfig append setting.
+     * Verifies that the appendModeEnabled flag is saved and reloaded correctly.
+     */
+    @Test
+    @DisplayName("RunningModeConfig persists append mode setting")
+    void testAppendModePreferencePersistence() throws Exception {
+        // 1. Create config with default values
+        RunningModeConfig config = new RunningModeConfig();
+        assertFalse(config.isAppendModeEnabled(), "Default should be false");
+
+        // 2. Change setting and save
+        config.setAppendModeEnabled(true);
+        config.save();
+
+        // 3. Load new instance and verify persistence
+        RunningModeConfig loadedConfig = RunningModeConfig.load();
+        assertTrue(loadedConfig.isAppendModeEnabled(), "Append mode should be true after loading");
+
+        // 4. Update again and verify
+        loadedConfig.setAppendModeEnabled(false);
+        loadedConfig.save();
+
+        RunningModeConfig config3 = RunningModeConfig.load();
+        assertFalse(config3.isAppendModeEnabled(), "Append mode should be false after second update");
+    }
+
+    /**
+     * Test persistence of ExportConfiguration (used in Manual Export dialog).
+     * Verifies that the user's last choice for "Create New" vs "Append" is saved.
+     */
+    @Test
+    @DisplayName("ExportConfiguration persists export dialog preference")
+    void testExportDialogPreferencePersistence() {
+        // 1. Initial load (defaults)
+        ExportConfiguration config = new ExportConfiguration();
+        assertFalse(config.isAppendMode(), "Default export mode should be false (Create New)");
+
+        // 2. Set to Append Mode and save
+        config.setAppendMode(true);
+        config.save();
+
+        // 3. Load from disk and verify
+        ExportConfiguration loaded = ExportConfiguration.load();
+        assertTrue(loaded.isAppendMode(), "Export preference should be persisted as true");
+
+        // 4. Set back to Create New and save
+        loaded.setAppendMode(false);
+        loaded.save();
+
+        ExportConfiguration finalConfig = ExportConfiguration.load();
+        assertFalse(finalConfig.isAppendMode(), "Export preference should be persisted as false");
     }
 
     // ========== Helper Methods ==========
