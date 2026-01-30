@@ -165,12 +165,12 @@
 
 **Files**: `FolderWatcher.java`, `RunningModeController.java`
 
-- [ ] T018 [US2] Extend `FolderWatcher.java` constructor in `src/main/java/com/example/smarttemplatefiller/FolderWatcher.java`
+- [x] T018 [US2] Extend `FolderWatcher.java` constructor in `src/main/java/com/example/smarttemplatefiller/FolderWatcher.java`
   - Add field: `private boolean appendModeEnabled;`
   - Add field: `private String lastGeneratedFilePath;`
   - Read `appendModeEnabled` from `RunningModeConfig` in constructor
 
-- [ ] T019 [US2] Modify `processFile()` in `FolderWatcher.java` for append logic
+- [x] T019 [US2] Modify `processFile()` in `FolderWatcher.java` for append logic
   - If appendModeEnabled AND lastGeneratedFilePath exists AND file exists:
     - Call `ExcelWriter.appendToMappedFile()` instead of `writeAdvancedMappedFile()`
     - Log: "Appended X rows to {filename}"
@@ -179,11 +179,11 @@
     - Store path in `lastGeneratedFilePath`
     - Log: "Created new file: {filename}"
 
-- [ ] T020 [US2] Add file deleted handling in `FolderWatcher.processFile()`
+- [x] T020 [US2] Add file deleted handling in `FolderWatcher.processFile()`
   - Check if `lastGeneratedFilePath` file exists before append
   - If deleted: Create new file, warn in log, update `lastGeneratedFilePath`
 
-- [ ] T021 [US2] Add restart prompt in `RunningModeController.handleStart()`
+- [x] T021 [US2] Add restart prompt in `RunningModeController.handleStart()`
   - If appendModeEnabled AND lastGeneratedFilePath exists from previous session:
     - Show dialog: "Continue appending to {filename}?" with Yes/No/Cancel
     - Yes: keep lastGeneratedFilePath

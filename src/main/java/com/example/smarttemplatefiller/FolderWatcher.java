@@ -26,6 +26,10 @@ public class FolderWatcher {
     private int intervalSeconds;
     private Consumer<String> logCallback;
 
+    // Append mode configuration (T018)
+    private boolean appendModeEnabled;
+    private String lastGeneratedFilePath;
+
     private ScheduledExecutorService scheduler;
     private volatile boolean running;
 
@@ -38,6 +42,10 @@ public class FolderWatcher {
         this.outputFolder = Paths.get(config.getOutputFolder());
         this.intervalSeconds = config.getIntervalSeconds();
         this.logCallback = logCallback;
+
+        // T018: Read append mode settings from config
+        this.appendModeEnabled = config.isAppendModeEnabled();
+        this.lastGeneratedFilePath = config.getLastGeneratedFilePath();
 
         // Parse file extensions from pattern (e.g., "*.txt,*.asc" -> ["txt", "asc"])
         this.fileExtensions = new HashSet<>();
@@ -63,6 +71,11 @@ public class FolderWatcher {
         scheduler.scheduleAtFixedRate(this::scanFolder, 0, intervalSeconds, TimeUnit.SECONDS);
         log("Started watching: " + watchFolder);
         log("Pattern: " + String.join(", ", fileExtensions.stream().map(e -> "*." + e).toArray(String[]::new)));
+        if (appendModeEnabled) {
+            log("Append Mode: ENABLED" + (lastGeneratedFilePath != null
+                    ? " (continuing to: " + new File(lastGeneratedFilePath).getName() + ")"
+                    : ""));
+        }
     }
 
     /**
@@ -89,6 +102,13 @@ public class FolderWatcher {
 
     public boolean isRunning() {
         return running;
+    }
+
+    /**
+     * Get the last generated file path for session persistence.
+     */
+    public String getLastGeneratedFilePath() {
+        return lastGeneratedFilePath;
     }
 
     /**
@@ -132,6 +152,7 @@ public class FolderWatcher {
 
     /**
      * Process a single file: convert to Excel and archive.
+     * T019/T020: Handles append mode with file deleted detection.
      */
     private void processFile(File sourceFile) {
         String fileName = sourceFile.getName();
@@ -145,12 +166,53 @@ public class FolderWatcher {
         }
 
         try {
-            // Create timestamp folder structure
+            log("Processing: " + fileName);
+
+            // Create timestamp folder structure for archive
             String mappingName = mappingFile.getName().replace(".json", "");
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HHmmss"));
             Path timestampFolder = outputFolder.resolve(mappingName).resolve(timestamp);
             Path archiveFolder = timestampFolder.resolve("archive");
 
+            // T019/T020: Check if we should append to existing file
+            if (appendModeEnabled && lastGeneratedFilePath != null) {
+                File existingFile = new File(lastGeneratedFilePath);
+
+                // T020: Check if file was deleted
+                if (existingFile.exists()) {
+                    // Append to existing file
+                    AppendResult result = ExcelWriter.appendToMappedFile(sourceFile, mappingFile, existingFile);
+
+                    if (result.isSuccess()) {
+                        log("Appended " + result.getRowsAdded() + " rows to " + existingFile.getName() +
+                                " (offset: " + result.getRowOffset() + ")");
+
+                        // Log any warnings
+                        for (String warning : result.getWarnings()) {
+                            log("WARNING: " + warning);
+                        }
+
+                        // Archive source file to the original output folder's archive
+                        Path originalFolder = existingFile.toPath().getParent();
+                        Path originalArchive = originalFolder.resolve("archive");
+                        Files.createDirectories(originalArchive);
+                        Path archivePath = originalArchive.resolve(fileName);
+                        Files.move(sourceFile.toPath(), archivePath, StandardCopyOption.REPLACE_EXISTING);
+                        log("Archived: " + fileName);
+                        return;
+                    } else {
+                        log("ERROR: Failed to append: " + result.getErrorMessage());
+                        log("Creating new file instead...");
+                        // Fall through to create new file
+                    }
+                } else {
+                    // T020: File was deleted, warn and create new
+                    log("WARNING: Target file was deleted: " + existingFile.getName());
+                    log("Creating new file instead...");
+                }
+            }
+
+            // Create new file (either first file or append not enabled/failed)
             Files.createDirectories(archiveFolder);
 
             // Generate output file name
@@ -158,9 +220,14 @@ public class FolderWatcher {
             File outputFile = timestampFolder.resolve(baseName + ".xlsx").toFile();
 
             // Convert using ExcelWriter
-            log("Processing: " + fileName);
             ExcelWriter.writeAdvancedMappedFile(sourceFile, mappingFile, outputFile);
-            log("Created: " + outputFile.getName());
+            log("Created new file: " + outputFile.getName());
+
+            // T019: Store path for subsequent appends
+            if (appendModeEnabled) {
+                lastGeneratedFilePath = outputFile.getAbsolutePath();
+                log("Append target set to: " + outputFile.getName());
+            }
 
             // Move source file to archive
             Path archivePath = archiveFolder.resolve(fileName);

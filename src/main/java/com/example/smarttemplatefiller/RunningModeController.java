@@ -12,6 +12,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -159,6 +160,44 @@ public class RunningModeController implements Initializable {
         // Update config from UI
         saveConfig();
 
+        // T021: Check if append mode is enabled and we have a previous file
+        if (appendModeCheckBox.isSelected() && config.getLastGeneratedFilePath() != null) {
+            File lastFile = new File(config.getLastGeneratedFilePath());
+            if (lastFile.exists()) {
+                // Show dialog asking user what to do
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Append Mode");
+                alert.setHeaderText("Continue appending to existing file?");
+                alert.setContentText("Found previous session file:\n" + lastFile.getName() +
+                        "\n\nDo you want to continue appending to this file?");
+
+                ButtonType yesButton = new ButtonType("Yes, Continue");
+                ButtonType noButton = new ButtonType("No, Start Fresh");
+                ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                alert.getButtonTypes().setAll(yesButton, noButton, cancelButton);
+
+                Optional<ButtonType> result = alert.showAndWait();
+
+                if (result.isPresent()) {
+                    if (result.get() == cancelButton) {
+                        // User cancelled, abort start
+                        return;
+                    } else if (result.get() == noButton) {
+                        // User wants to start fresh, clear the path
+                        config.setLastGeneratedFilePath(null);
+                    }
+                    // If yesButton, keep the path as is
+                } else {
+                    // Dialog was closed, abort start
+                    return;
+                }
+            } else {
+                // File no longer exists, clear the path silently
+                config.setLastGeneratedFilePath(null);
+            }
+        }
+
         // Start watcher
         watcher = new FolderWatcher(config, this::logMessage);
         watcher.start();
@@ -174,6 +213,10 @@ public class RunningModeController implements Initializable {
     @FXML
     private void handleStop(ActionEvent event) {
         if (watcher != null) {
+            // Save the last generated file path for session persistence
+            if (watcher.getLastGeneratedFilePath() != null) {
+                config.setLastGeneratedFilePath(watcher.getLastGeneratedFilePath());
+            }
             watcher.stop();
             watcher = null;
         }
