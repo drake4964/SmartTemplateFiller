@@ -142,15 +142,15 @@
 
 **Files**: `RunningModeConfig.java`, `running_mode.fxml`, `RunningModeController.java`
 
-- [ ] T015 [US2] Extend `RunningModeConfig.java` in `src/main/java/com/example/smarttemplatefiller/RunningModeConfig.java`
+- [x] T015 [US2] Extend `RunningModeConfig.java` in `src/main/java/com/example/smarttemplatefiller/RunningModeConfig.java`
   - Add field: `private boolean appendModeEnabled = false;`
   - Add field: `@JsonIgnore private transient String lastGeneratedFilePath;`
   - Add getters/setters for both fields
 
-- [ ] T016 [US2] Add CheckBox to `running_mode.fxml` in `src/main/resources/fxml/running_mode.fxml`
+- [x] T016 [US2] Add CheckBox to `running_mode.fxml` in `src/main/resources/fxml/running_mode.fxml`
   - Add after File Pattern row: `<CheckBox fx:id="appendModeCheckBox" text="Append Mode (accumulate to single file)"/>`
 
-- [ ] T017 [US2] Bind CheckBox in `RunningModeController.java` in `src/main/java/com/example/smarttemplatefiller/RunningModeController.java`
+- [x] T017 [US2] Bind CheckBox in `RunningModeController.java` in `src/main/java/com/example/smarttemplatefiller/RunningModeController.java`
   - Add FXML field: `@FXML private CheckBox appendModeCheckBox;`
   - Update `loadConfigToUI()`: set checkbox from config
   - Update `saveConfig()`: save checkbox to config

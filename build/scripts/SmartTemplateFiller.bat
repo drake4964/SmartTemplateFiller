@@ -70,11 +70,11 @@ goto fail
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\SmartTemplateFiller.jar;%APP_HOME%\lib\javafx-fxml-17.0.15-win.jar;%APP_HOME%\lib\javafx-fxml-17.0.15.jar;%APP_HOME%\lib\javafx-controls-17.0.15-win.jar;%APP_HOME%\lib\javafx-controls-17.0.15.jar;%APP_HOME%\lib\javafx-graphics-17.0.15-win.jar;%APP_HOME%\lib\javafx-graphics-17.0.15.jar;%APP_HOME%\lib\javafx-base-17.0.15-win.jar;%APP_HOME%\lib\javafx-base-17.0.15.jar;%APP_HOME%\lib\jackson-annotations-2.15.3.jar;%APP_HOME%\lib\jackson-core-2.15.3.jar;%APP_HOME%\lib\jackson-databind-2.15.3.jar;%APP_HOME%\lib\poi-ooxml-5.2.3.jar;%APP_HOME%\lib\poi-5.2.3.jar;%APP_HOME%\lib\poi-ooxml-lite-5.2.3.jar;%APP_HOME%\lib\xmlbeans-5.1.1.jar;%APP_HOME%\lib\commons-compress-1.21.jar;%APP_HOME%\lib\commons-io-2.11.0.jar;%APP_HOME%\lib\curvesapi-1.07.jar;%APP_HOME%\lib\log4j-api-2.18.0.jar;%APP_HOME%\lib\commons-collections4-4.4.jar;%APP_HOME%\lib\commons-codec-1.15.jar;%APP_HOME%\lib\commons-math3-3.6.1.jar;%APP_HOME%\lib\SparseBitSet-1.2.jar
+set CLASSPATH=%APP_HOME%\lib\SmartTemplateFiller-1.0.0.jar;%APP_HOME%\lib\javafx-fxml-17.0.15-win.jar;%APP_HOME%\lib\javafx-fxml-17.0.15.jar;%APP_HOME%\lib\javafx-controls-17.0.15-win.jar;%APP_HOME%\lib\javafx-controls-17.0.15.jar;%APP_HOME%\lib\javafx-graphics-17.0.15-win.jar;%APP_HOME%\lib\javafx-graphics-17.0.15.jar;%APP_HOME%\lib\javafx-base-17.0.15-win.jar;%APP_HOME%\lib\javafx-base-17.0.15.jar;%APP_HOME%\lib\jackson-annotations-2.15.3.jar;%APP_HOME%\lib\jackson-core-2.15.3.jar;%APP_HOME%\lib\jackson-databind-2.15.3.jar;%APP_HOME%\lib\poi-ooxml-5.2.3.jar;%APP_HOME%\lib\poi-5.2.3.jar;%APP_HOME%\lib\log4j-core-2.20.0.jar;%APP_HOME%\lib\oshi-core-6.4.13.jar;%APP_HOME%\lib\poi-ooxml-lite-5.2.3.jar;%APP_HOME%\lib\xmlbeans-5.1.1.jar;%APP_HOME%\lib\commons-compress-1.21.jar;%APP_HOME%\lib\commons-io-2.11.0.jar;%APP_HOME%\lib\curvesapi-1.07.jar;%APP_HOME%\lib\log4j-api-2.20.0.jar;%APP_HOME%\lib\commons-collections4-4.4.jar;%APP_HOME%\lib\commons-codec-1.15.jar;%APP_HOME%\lib\commons-math3-3.6.1.jar;%APP_HOME%\lib\SparseBitSet-1.2.jar;%APP_HOME%\lib\jna-platform-5.14.0.jar;%APP_HOME%\lib\jna-5.14.0.jar;%APP_HOME%\lib\slf4j-api-2.0.12.jar
 
 
 @rem Execute SmartTemplateFiller
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %SMART_TEMPLATE_FILLER_OPTS%  -classpath "%CLASSPATH%" com.example.smarttemplatefiller.MainApp %*
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %SMART_TEMPLATE_FILLER_OPTS%  -classpath "%CLASSPATH%" com.example.smarttemplatefiller.Launcher %*
 
 :end
 @rem End local scope for the variables with windows NT shell

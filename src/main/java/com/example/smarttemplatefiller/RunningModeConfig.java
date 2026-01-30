@@ -1,5 +1,6 @@
 package com.example.smarttemplatefiller;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -21,6 +22,12 @@ public class RunningModeConfig {
     private String outputFolder;
     private String filePattern = "*.txt,*.asc";
     private int intervalSeconds = 1;
+
+    // Append mode fields (for Excel Append Mode feature)
+    private boolean appendModeEnabled = false;
+
+    @JsonIgnore
+    private transient String lastGeneratedFilePath;
 
     private static final String CONFIG_DIR = System.getProperty("user.home") + "/.smarttemplatefiller";
     private static final String CONFIG_FILE = CONFIG_DIR + "/running_mode_config.json";
@@ -68,6 +75,22 @@ public class RunningModeConfig {
 
     public void setIntervalSeconds(int intervalSeconds) {
         this.intervalSeconds = intervalSeconds;
+    }
+
+    public boolean isAppendModeEnabled() {
+        return appendModeEnabled;
+    }
+
+    public void setAppendModeEnabled(boolean appendModeEnabled) {
+        this.appendModeEnabled = appendModeEnabled;
+    }
+
+    public String getLastGeneratedFilePath() {
+        return lastGeneratedFilePath;
+    }
+
+    public void setLastGeneratedFilePath(String lastGeneratedFilePath) {
+        this.lastGeneratedFilePath = lastGeneratedFilePath;
     }
 
     /**

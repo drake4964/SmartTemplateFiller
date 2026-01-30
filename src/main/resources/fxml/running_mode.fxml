@@ -55,6 +55,11 @@
                         <Spinner fx:id="intervalSpinner" prefWidth="80"/>
                         <Label text="seconds"/>
                     </HBox>
+                    
+                    <!-- Append Mode -->
+                    <HBox spacing="10" alignment="CENTER_LEFT">
+                        <CheckBox fx:id="appendModeCheckBox" text="Append Mode (accumulate to single file)"/>
+                    </HBox>
                 </VBox>
             </TitledPane>
             

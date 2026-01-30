@@ -37,6 +37,8 @@ public class RunningModeController implements Initializable {
     private Button startButton;
     @FXML
     private Button stopButton;
+    @FXML
+    private CheckBox appendModeCheckBox;
 
     private Stage stage;
     private RunningModeConfig config;
@@ -77,6 +79,7 @@ public class RunningModeController implements Initializable {
         }
         filePatternField.setText(config.getFilePattern());
         intervalSpinner.getValueFactory().setValue(config.getIntervalSeconds());
+        appendModeCheckBox.setSelected(config.isAppendModeEnabled());
     }
 
     private void saveConfig() {
@@ -85,6 +88,7 @@ public class RunningModeController implements Initializable {
         config.setOutputFolder(outputFolderField.getText());
         config.setFilePattern(filePatternField.getText());
         config.setIntervalSeconds(intervalSpinner.getValue());
+        config.setAppendModeEnabled(appendModeCheckBox.isSelected());
 
         try {
             config.save();
@@ -249,6 +253,7 @@ public class RunningModeController implements Initializable {
         outputFolderField.setDisable(disabled);
         filePatternField.setDisable(disabled);
         intervalSpinner.setDisable(disabled);
+        appendModeCheckBox.setDisable(disabled);
     }
 
     private void logMessage(String message) {
