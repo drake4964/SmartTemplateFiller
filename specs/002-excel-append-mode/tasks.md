@@ -126,10 +126,10 @@
 
 **Files**: `AppendIntegrationTest.java` only
 
-- [ ] T013 [P] [US2] Create `AppendIntegrationTest.java` test class in `src/test/java/com/example/smarttemplatefiller/AppendIntegrationTest.java`
+- [x] T013 [P] [US2] Create `AppendIntegrationTest.java` test class in `src/test/java/com/example/smarttemplatefiller/AppendIntegrationTest.java`
   - Test: `testRunModeAppendMultipleFiles()` - 3 sequential files → single Excel with 3× data
 
-- [ ] T014 [P] [US2] Add file deleted edge case test to `AppendIntegrationTest.java`
+- [x] T014 [P] [US2] Add file deleted edge case test to `AppendIntegrationTest.java`
   - Test: `testRunModeAppendWhenFileDeleted()` - creates new file and warns
 
 **Checkpoint**: US2 tests written and failing
