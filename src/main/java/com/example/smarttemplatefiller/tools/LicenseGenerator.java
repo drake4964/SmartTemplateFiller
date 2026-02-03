@@ -8,6 +8,9 @@ import java.io.FileWriter;
 import java.nio.file.Files;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -60,9 +63,33 @@ public class LicenseGenerator {
                 serialInput = scanner.nextLine().trim();
             }
 
-            System.out.print("Enter validity in days (default 365): ");
-            String daysStr = scanner.nextLine().trim();
-            int days = daysStr.isEmpty() ? 365 : Integer.parseInt(daysStr);
+            // Expiry Option
+            System.out.println("\nSelect Expiry Option:");
+            System.out.println("1. Duration (in days)");
+            System.out.println("2. Explicit Date (yyyyMMdd)");
+            System.out.print("Select option (1/2): ");
+            String expiryOption = scanner.nextLine().trim();
+
+            long expiryTime;
+
+            if ("2".equals(expiryOption)) {
+                System.out.print("Enter expiry date (yyyyMMdd): ");
+                String dateStr = scanner.nextLine().trim();
+                try {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+                    LocalDate date = LocalDate.parse(dateStr, formatter);
+                    // Set expiry to end of that day (23:59:59)
+                    expiryTime = date.atTime(23, 59, 59).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+                } catch (Exception e) {
+                    System.err.println("Invalid date format. Using default 365 days.");
+                    expiryTime = Instant.now().plus(365, ChronoUnit.DAYS).toEpochMilli();
+                }
+            } else {
+                System.out.print("Enter validity in days (default 365): ");
+                String daysStr = scanner.nextLine().trim();
+                int days = daysStr.isEmpty() ? 365 : Integer.parseInt(daysStr);
+                expiryTime = Instant.now().plus(days, ChronoUnit.DAYS).toEpochMilli();
+            }
 
             // Generate
             List<String> macList = Arrays.stream(macsInput.split(","))
@@ -71,8 +98,6 @@ public class LicenseGenerator {
 
             CurrentHardwareInfo info = new CurrentHardwareInfo(macList, serialInput);
             String deviceId = info.computeDeviceId();
-
-            long expiryTime = Instant.now().plus(days, ChronoUnit.DAYS).toEpochMilli();
 
             // Create License content
             String payload = deviceId + "|" + expiryTime;

@@ -6,6 +6,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -41,11 +44,35 @@ public class LicenseRenewer {
             System.out.println("Current Expiry: " + Instant.ofEpochMilli(currentExpiry));
 
             // Extend
-            System.out.print("Enter number of DAYS to extend from TODAY (default 365): ");
-            String daysStr = scanner.nextLine().trim();
-            int days = daysStr.isEmpty() ? 365 : Integer.parseInt(daysStr);
+            // Extend Option
+            System.out.println("\nSelect Extension Option:");
+            System.out.println("1. Duration (in days from TODAY)");
+            System.out.println("2. Explicit Date (yyyyMMdd)");
+            System.out.print("Select option (1/2): ");
+            String expiryOption = scanner.nextLine().trim();
 
-            long newExpiry = Instant.now().plus(days, ChronoUnit.DAYS).toEpochMilli();
+            long newExpiry;
+
+            if ("2".equals(expiryOption)) {
+                System.out.print("Enter expiry date (yyyyMMdd): ");
+                String dateStr = scanner.nextLine().trim();
+                try {
+                    java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter
+                            .ofPattern("yyyyMMdd");
+                    java.time.LocalDate date = java.time.LocalDate.parse(dateStr, formatter);
+                    // Set expiry to end of that day (23:59:59)
+                    newExpiry = date.atTime(23, 59, 59).atZone(java.time.ZoneId.systemDefault()).toInstant()
+                            .toEpochMilli();
+                } catch (Exception e) {
+                    System.err.println("Invalid date format. Using default 365 days.");
+                    newExpiry = Instant.now().plus(365, ChronoUnit.DAYS).toEpochMilli();
+                }
+            } else {
+                System.out.print("Enter number of DAYS to extend from TODAY (default 365): ");
+                String daysStr = scanner.nextLine().trim();
+                int days = daysStr.isEmpty() ? 365 : Integer.parseInt(daysStr);
+                newExpiry = Instant.now().plus(days, ChronoUnit.DAYS).toEpochMilli();
+            }
 
             // Generate New
             String newPayload = deviceId + "|" + newExpiry;
