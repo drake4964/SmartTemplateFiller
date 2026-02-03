@@ -61,9 +61,25 @@ public class LicenseFileReader {
         }
 
         if (!file.exists()) {
-            LOGGER.log(Level.INFO, "License file not found: {0}", filePath);
-            throw new LicenseReadException("License file not found: " + filePath,
-                    LicenseReadException.ErrorType.FILE_NOT_FOUND);
+            // Try fallback locations for jpackage directory structure
+            // 1. Try parent directory (if running from 'app' folder)
+            File parentFile = new File(".." + File.separator + filePath);
+            if (parentFile.exists()) {
+                file = parentFile;
+                LOGGER.log(Level.INFO, "Found license file in parent directory: {0}", parentFile.getAbsolutePath());
+            }
+            // 2. Try 'app' directory (if running from root but file is in app)
+            else {
+                File appFile = new File("app" + File.separator + filePath);
+                if (appFile.exists()) {
+                    file = appFile;
+                    LOGGER.log(Level.INFO, "Found license file in app directory: {0}", appFile.getAbsolutePath());
+                } else {
+                    LOGGER.log(Level.INFO, "License file not found: {0}", filePath);
+                    throw new LicenseReadException("License file not found: " + filePath,
+                            LicenseReadException.ErrorType.FILE_NOT_FOUND);
+                }
+            }
         }
 
         if (!file.isFile()) {

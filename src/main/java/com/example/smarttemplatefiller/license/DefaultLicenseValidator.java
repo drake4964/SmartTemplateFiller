@@ -158,7 +158,7 @@ public class DefaultLicenseValidator implements LicenseValidator {
         return switch (e.getErrorType()) {
             case FILE_NOT_FOUND -> ValidationResult.failure(
                     ValidationResult.ErrorCode.FILE_NOT_FOUND,
-                    config != null ? config.getErrorMessage() : e.getMessage());
+                    "License file missing. Please ensure 'license.json' is in the application folder.");
             case INVALID_PATH, INVALID_FORMAT -> ValidationResult.failure(
                     ValidationResult.ErrorCode.INVALID_FORMAT,
                     config != null ? config.getErrorMessage() : e.getMessage());
