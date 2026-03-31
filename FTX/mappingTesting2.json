@@ -1,0 +1,10 @@
+[ {
+  "sourceColumn" : 1,
+  "startCell" : "A2",
+  "direction" : "vertical",
+  "title" : "Mesuarement1",
+  "rowPattern" : {
+    "type" : "odd",
+    "start" : 0
+  }
+} ]

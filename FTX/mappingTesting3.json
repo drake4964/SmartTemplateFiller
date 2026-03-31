@@ -1,0 +1,45 @@
+[ {
+  "sourceColumn" : 2,
+  "startCell" : "C2",
+  "direction" : "vertical",
+  "title" : "Diameter title",
+  "rowPattern" : {
+    "type" : "odd",
+    "start" : 0
+  }
+}, {
+  "sourceColumn" : 4,
+  "startCell" : "D2",
+  "direction" : "vertical",
+  "rowPattern" : {
+    "type" : "odd",
+    "start" : 0
+  }
+}, {
+  "sourceColumn" : 5,
+  "startCell" : "E2",
+  "direction" : "vertical",
+  "title" : "UTA",
+  "rowPattern" : {
+    "type" : "odd",
+    "start" : 0
+  }
+}, {
+  "sourceColumn" : 5,
+  "startCell" : "F2",
+  "direction" : "vertical",
+  "title" : "UTB",
+  "rowPattern" : {
+    "type" : "even",
+    "start" : 0
+  }
+}, {
+  "sourceColumn" : 6,
+  "startCell" : "G2",
+  "direction" : "vertical",
+  "title" : "result1",
+  "rowPattern" : {
+    "type" : "odd",
+    "start" : 0
+  }
+} ]

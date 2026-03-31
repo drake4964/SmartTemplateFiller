@@ -2,7 +2,7 @@
 
 > **Auto-generated documentation** for AI agents and human developers.
 > 
-> *Last updated: 2026-01-28*
+> *Last updated: 2026-02-03*
 
 ## Quick Links
 
@@ -13,6 +13,7 @@
 | [Architecture](overview/architecture-overview.md) | MVC pattern, component diagram |
 | [Source Code Map](overview/SOURCE_CODE_MAP.md) | Class responsibilities and relationships |
 | [Technology Stack](overview/technology-stack.md) | Java 17, JavaFX, Apache POI |
+| [Packaging](PACKAGING.md) | Build instructions & distribution |
 
 ## Documentation Index
 
@@ -31,6 +32,8 @@
 - [Teach Mode](features/feature-teach-mode.md) - Interactive mapping with Excel preview
 - [Running Mode](features/feature-running-mode.md) - Automated folder watching
 - [Excel Export](features/feature-excel-export.md) - XLSX generation
+- [Excel Append Mode](features/excel-append-mode.md) - Append data to existing Excel files
+- [License Verification](features/feature-license-verification.md) - Hardware-bound licensing system
 - [FileChooserBuilder](features/feature-file-chooser.md) - Fluent file dialogs
 - [Feature Dependencies](features/feature-dependencies.md) - Component interactions
 
@@ -38,6 +41,10 @@
 - [Workflow Summary](workflows/workflow-summary.md) - User workflow catalog
 - [Data to Excel Sequence](workflows/data-to-excel-sequence.md) - Main export flow
 - [Mapping Creation Sequence](workflows/mapping-creation-sequence.md) - Teach mode flow
+
+### Deployment & Packaging
+- [Packaging Guide](PACKAGING.md) - Building FatJars and JRE bundling
+- [License Generation](deployment/license-generation-workflow.md) - Admin workflow for creating licenses
 
 ### Diagrams (Mermaid)
 - [System Context](diagrams/system-context.mmd) - C4 Level 1
@@ -48,8 +55,12 @@
 - [ERD](diagrams/erd.mmd) - Data model
 
 ### Decisions
-- [Architectural Decisions](decisions/architectural-decisions.md) - Key ADRs (9 total)
+- [Architectural Decisions](decisions/architectural-decisions.md) - Key ADRs
 - [Assumptions](decisions/assumptions.md) - Analysis assumptions + change log
+
+### Meta
+- [Documentation Plan](Documentations/DOC-OUTPUT-PLAN.md) - Strategy for docs
+- [Doc Structure](Documentations/DOC-STRUCTURE.md) - Folder layout guide
 
 ## For AI Agents
 
@@ -66,12 +77,14 @@ This documentation is structured for programmatic consumption:
 |----------|-------|
 | AI Context | 1 |
 | Overview | 4 |
-| Features | 7 |
+| Features | 9 |
 | Workflows | 3 |
+| Deployment | 2 |
 | Diagrams | 6 |
 | Decisions | 2 |
+| Meta | 2 |
 | Index | 1 |
-| **Total** | **24** |
+| **Total** | **30** |
 
 ## Change Log
 
@@ -82,5 +95,5 @@ This documentation is structured for programmatic consumption:
 | Update 2 | Teach Mode UX: drag-drop, Excel preview added |
 | Update 3 | Fixed row pattern logic, removed emoji encoding issues |
 | Update 4 | Running Mode implementation documented |
-| **2026-01-28** | Added AI_CONTEXT.md, SOURCE_CODE_MAP.md, updated component diagram |
-
+| 2026-01-28 | Added AI_CONTEXT.md, SOURCE_CODE_MAP.md, updated component diagram |
+| **2026-02-03** | Added License Verification, Excel Append Mode, and Packaging docs |
