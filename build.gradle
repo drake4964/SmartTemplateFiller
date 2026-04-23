@@ -1,6 +1,7 @@
 plugins {
     id 'application'
     id 'java'
+    id 'jacoco'
     id 'org.openjfx.javafxplugin' version '0.0.13'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'org.beryx.runtime' version '1.13.1'
@@ -76,6 +77,38 @@ runtime {
         imageName = 'SmartTemplateFiller'
         skipInstaller = true // Set to false if you want an MSI/EXE installer file
         installerOptions = ['--win-per-user-install', '--win-menu', '--win-shortcut']
+        imageOptions = ['--add-launcher', 'HardwareInfoExtractor=hw.properties', '--add-launcher', 'LicenseGenerator=lg.properties', '--add-launcher', 'LicenseRenewer=lr.properties']
     }
 }
 
+// T022 [Principle IV]: JaCoCo coverage configuration for Row Pattern Flex feature
+jacoco {
+    toolVersion = '0.8.11'
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
+    }
+}
+
+// Enforce ≥80% coverage on the two key row-pattern-flex classes
+jacocoTestCoverageVerification {
+    dependsOn jacocoTestReport
+    violationRules {
+        rule {
+            element = 'CLASS'
+            includes = [
+                'com.example.smarttemplatefiller.mapping.RowPatternDescriptor',
+                'com.example.smarttemplatefiller.engine.MappingPathResolver'
+            ]
+            limit {
+                counter = 'INSTRUCTION'
+                value   = 'COVEREDRATIO'
+                minimum = 0.80
+            }
+        }
+    }
+}

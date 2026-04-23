@@ -9,6 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.stage.FileChooser;
 import org.apache.poi.ss.util.CellReference;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,11 +25,20 @@ public class TeachModeController {
     @FXML
     private ComboBox<String> directionComboBox;
     @FXML
-    private ComboBox<String> rowPatternComboBox;
+    private RadioButton modePatternRadio;
+    @FXML
+    private RadioButton modeManualRadio;
+    @FXML
+    private VBox flexPatternContainer;
+    @FXML
+    private HBox manualRowContainer;
     @FXML
     private TextField manualRowField;
     @FXML
     private TextField titleField;
+    @FXML
+    private Button addMappingButton;
+    private FlexPatternPanel flexPatternPanel;
     @FXML
     private ListView<String> mappingListView;
     @FXML
@@ -56,10 +67,56 @@ public class TeachModeController {
     public void initialize() {
         directionComboBox.setItems(FXCollections.observableArrayList("vertical", "horizontal"));
         directionComboBox.setValue("vertical");
-        rowPatternComboBox.setItems(FXCollections.observableArrayList("Odd Rows", "Even Rows", "All Rows"));
+
+        ToggleGroup modeGroup = new ToggleGroup();
+        if (modePatternRadio != null) modePatternRadio.setToggleGroup(modeGroup);
+        if (modeManualRadio != null) modeManualRadio.setToggleGroup(modeGroup);
+
+        flexPatternPanel = new FlexPatternPanel();
+        if (flexPatternContainer != null) {
+            flexPatternContainer.getChildren().add(flexPatternPanel);
+        }
+
+        modeGroup.selectedToggleProperty().addListener((obs, oldV, newV) -> {
+            boolean isManual = (newV == modeManualRadio);
+            if (flexPatternContainer != null) {
+                flexPatternContainer.setVisible(!isManual);
+                flexPatternContainer.setManaged(!isManual);
+            }
+            if (manualRowContainer != null) {
+                manualRowContainer.setVisible(isManual);
+                manualRowContainer.setManaged(isManual);
+            }
+            validateAddButton();
+        });
+
+        flexPatternPanel.setValidityChangeListener(this::validateAddButton);
+
+        columnComboBox.getSelectionModel().selectedIndexProperty().addListener((obs, o, n) -> updateFlexContext());
+        cellField.textProperty().addListener((obs, o, n) -> updateFlexContext());
+        directionComboBox.valueProperty().addListener((obs, o, n) -> updateFlexContext());
 
         // Setup drag-and-drop for ListView
         setupDragAndDrop();
+    }
+
+    private void updateFlexContext() {
+        if (flexPatternPanel != null) {
+            int col = columnComboBox.getSelectionModel().getSelectedIndex();
+            String cell = cellField.getText();
+            String dir = directionComboBox.getValue();
+            List<List<String>> data = tableView == null ? null : tableView.getItems();
+            flexPatternPanel.updateContext(cell, dir, col, data);
+        }
+    }
+
+    private void validateAddButton() {
+        if (addMappingButton == null) return;
+        if (modePatternRadio != null && modePatternRadio.isSelected()) {
+            addMappingButton.setDisable(!flexPatternPanel.isValid());
+        } else {
+            addMappingButton.setDisable(false);
+        }
     }
 
     /**
@@ -150,7 +207,6 @@ public class TeachModeController {
         int selectedCol = columnComboBox.getSelectionModel().getSelectedIndex();
         String startCell = cellField.getText().trim().toUpperCase();
         String direction = directionComboBox.getValue();
-        String rowPattern = rowPatternComboBox.getValue();
         String manualRows = manualRowField.getText().trim();
         String title = titleField.getText().trim();
 
@@ -182,7 +238,11 @@ public class TeachModeController {
             map.put("title", title);
         }
 
-        if (!manualRows.isEmpty()) {
+        if (modeManualRadio != null && modeManualRadio.isSelected()) {
+            if (manualRows.isEmpty()) {
+                showValidationError("Manual rows field is empty.");
+                return;
+            }
             try {
                 List<Integer> rowIndexes = Arrays.stream(manualRows.split(","))
                         .map(String::trim)
@@ -198,12 +258,14 @@ public class TeachModeController {
                 showValidationError("Invalid number in manual rows field.");
                 return;
             }
-        } else if (rowPattern != null) {
-            String type = rowPattern.toLowerCase().contains("odd") ? "odd"
-                    : rowPattern.toLowerCase().contains("even") ? "even" : "all";
-            // Start from index 0 to include all rows
-            int start = 0;
-            map.put("rowPattern", Map.of("type", type, "start", start));
+        } else {
+            if (!flexPatternPanel.isValid()) {
+                showValidationError("Flex pattern inputs are invalid.");
+                return;
+            }
+            map.put("startField", flexPatternPanel.getStart());
+            map.put("fillField", flexPatternPanel.getFill());
+            map.put("spaceField", flexPatternPanel.getSpace());
         }
 
         colMappings.add(map);
@@ -305,6 +367,35 @@ public class TeachModeController {
                 colMappings.addAll(mappings);
                 updateMappingListView();
                 updateExcelPreview();
+
+                // T017 [US3]: Restore UI mode and FlexPatternPanel state from the
+                // first mapping entry so the panel reflects the saved configuration.
+                if (!mappings.isEmpty()) {
+                    Map<String, Object> first = mappings.get(0);
+                    if (first.containsKey("fillField") && first.get("fillField") != null) {
+                        // Flex path: switch to Pattern mode and restore panel values
+                        if (modePatternRadio != null) modePatternRadio.setSelected(true);
+                        if (flexPatternPanel != null) {
+                            int start = (first.containsKey("startField") && first.get("startField") != null)
+                                    ? ((Number) first.get("startField")).intValue() : 1;
+                            int fill  = ((Number) first.get("fillField")).intValue();
+                            int space = (first.containsKey("spaceField") && first.get("spaceField") != null)
+                                    ? ((Number) first.get("spaceField")).intValue() : 0;
+                            flexPatternPanel.setValues(start, fill, space);
+                        }
+                    } else if (first.containsKey("rowIndexes")) {
+                        // Manual path: switch to Manual mode and surface the row list
+                        if (modeManualRadio != null) modeManualRadio.setSelected(true);
+                        if (manualRowField != null) {
+                            List<?> rawIndexes = (List<?>) first.get("rowIndexes");
+                            String rowStr = rawIndexes.stream()
+                                    .map(idx -> String.valueOf(((Number) idx).intValue() + 1))
+                                    .collect(Collectors.joining(", "));
+                            manualRowField.setText(rowStr);
+                        }
+                    }
+                }
+
                 showInfo("Loaded " + mappings.size() + " mappings from:\n" + file.getName());
             } catch (IOException e) {
                 showValidationError("Failed to load: " + e.getMessage());
@@ -326,7 +417,11 @@ public class TeachModeController {
             sb.append("Col ").append(source).append(" -> ").append(cell);
             sb.append(" [").append(dir).append("]");
 
-            if (map.containsKey("rowPattern")) {
+            if (map.containsKey("fillField")) {
+                sb.append(" (Flex: S=").append(map.get("startField"))
+                  .append(" F=").append(map.get("fillField"))
+                  .append(" Sp=").append(map.get("spaceField")).append(")");
+            } else if (map.containsKey("rowPattern")) {
                 Map<String, Object> rp = (Map<String, Object>) map.get("rowPattern");
                 sb.append(" (").append(rp.get("type")).append(" rows)");
             } else if (map.containsKey("rowIndexes")) {
@@ -376,7 +471,16 @@ public class TeachModeController {
 
             // Get row indexes
             List<Integer> rowIndexes;
-            if (map.containsKey("rowPattern")) {
+            if (map.containsKey("fillField")) {
+                int start = ((Number) map.get("startField")).intValue();
+                int fill = ((Number) map.get("fillField")).intValue();
+                int space = ((Number) map.get("spaceField")).intValue();
+                com.example.smarttemplatefiller.mapping.RowPatternDescriptor desc = 
+                    new com.example.smarttemplatefiller.mapping.RowPatternDescriptor(start, fill, space);
+                rowIndexes = desc.generateOutputSequence(tableView.getItems().size())
+                        .map(Map.Entry::getValue)
+                        .collect(Collectors.toList());
+            } else if (map.containsKey("rowPattern")) {
                 Map<String, Object> rp = (Map<String, Object>) map.get("rowPattern");
                 int start = ((Number) rp.get("start")).intValue();
                 String type = (String) rp.get("type");
@@ -538,7 +642,9 @@ public class TeachModeController {
         cellField.clear();
         manualRowField.clear();
         titleField.clear();
-        rowPatternComboBox.getSelectionModel().clearSelection();
+        if (flexPatternPanel != null) {
+            flexPatternPanel.setValues(1, 1, 0);
+        }
     }
 
     private void showValidationError(String message) {

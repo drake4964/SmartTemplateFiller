@@ -1,5 +1,7 @@
 package com.example.smarttemplatefiller;
 
+import com.example.smarttemplatefiller.engine.MappingPathResolver;
+import com.example.smarttemplatefiller.mapping.RowPatternDescriptor;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.poi.ss.usermodel.*;
@@ -38,9 +40,43 @@ public class ExcelWriter {
                     int startRow = ref.getRow();
                     int startCol = ref.getCol();
 
-                    // Determine row indexes
+                    // T015 [US2]: Determine row indexes — flex path takes priority over legacy paths
                     List<Integer> rowIndexes = new ArrayList<>();
-                    if (mapping.containsKey("rowPattern")) {
+                    if (MappingPathResolver.shouldUseFlexPath(mapping)) {
+                        // Flex path: build RowPatternDescriptor and stream output→source pairs
+                        int startField = (mapping.containsKey("startField") && mapping.get("startField") != null)
+                                ? ((Number) mapping.get("startField")).intValue() : 1;
+                        int fillField  = ((Number) mapping.get("fillField")).intValue();
+                        int spaceField = (mapping.containsKey("spaceField") && mapping.get("spaceField") != null)
+                                ? ((Number) mapping.get("spaceField")).intValue() : 0;
+
+                        RowPatternDescriptor descriptor = new RowPatternDescriptor(startField, fillField, spaceField);
+
+                        // Capture loop-locals for lambda
+                        final Sheet fSheet    = sheet;
+                        final int   fStartRow = startRow;
+                        final int   fStartCol = startCol;
+                        final int   fSrcCol   = sourceColumn;
+                        final String fDir     = direction;
+
+                        descriptor.generateOutputSequence(data.size()).forEach(entry -> {
+                            int outputPos    = entry.getKey();
+                            int srcRowIndex  = entry.getValue();
+                            List<String> rowData = data.get(srcRowIndex);
+                            String value = (fSrcCol < rowData.size()) ? rowData.get(fSrcCol) : "";
+
+                            if ("vertical".equals(fDir)) {
+                                Row excelRow = fSheet.getRow(fStartRow + outputPos);
+                                if (excelRow == null) excelRow = fSheet.createRow(fStartRow + outputPos);
+                                excelRow.createCell(fStartCol).setCellValue(value);
+                            } else {
+                                Row excelRow = fSheet.getRow(fStartRow);
+                                if (excelRow == null) excelRow = fSheet.createRow(fStartRow);
+                                excelRow.createCell(fStartCol + outputPos + 1).setCellValue(value);
+                            }
+                        });
+                        continue; // flex path handled — skip legacy rowIndexes write loop below
+                    } else if (mapping.containsKey("rowPattern")) {
                         Map<String, Object> rowPattern = (Map<String, Object>) mapping.get("rowPattern");
                         // BUG-005 FIX: Use Number.intValue() for safe casting
                         int start = ((Number) rowPattern.get("start")).intValue();
@@ -189,9 +225,52 @@ public class ExcelWriter {
                     int startRow = ref.getRow();
                     int startCol = ref.getCol();
 
-                    // Determine row indexes
+                    // T015 [US2]: Determine row indexes — flex path takes priority over legacy paths
                     List<Integer> rowIndexes = new ArrayList<>();
-                    if (mapping.containsKey("rowPattern")) {
+                    if (MappingPathResolver.shouldUseFlexPath(mapping)) {
+                        // Flex path: build RowPatternDescriptor and stream output→source pairs
+                        int startField = (mapping.containsKey("startField") && mapping.get("startField") != null)
+                                ? ((Number) mapping.get("startField")).intValue() : 1;
+                        int fillField  = ((Number) mapping.get("fillField")).intValue();
+                        int spaceField = (mapping.containsKey("spaceField") && mapping.get("spaceField") != null)
+                                ? ((Number) mapping.get("spaceField")).intValue() : 0;
+
+                        RowPatternDescriptor descriptor = new RowPatternDescriptor(startField, fillField, spaceField);
+
+                        // Capture loop-locals for lambda (rowOffset is effectively final here)
+                        final Sheet   fSheet    = sheet;
+                        final int     fStartRow = startRow;
+                        final int     fStartCol = startCol;
+                        final int     fSrcCol   = sourceColumn;
+                        final String  fDir      = direction;
+                        final int     fOffset   = rowOffset;
+                        final int[]   rowsAddedHolder = {rowsAdded};
+
+                        descriptor.generateOutputSequence(data.size()).forEach(entry -> {
+                            int outputPos   = entry.getKey();
+                            int srcRowIndex = entry.getValue();
+                            List<String> rowData = data.get(srcRowIndex);
+                            String value = (fSrcCol < rowData.size()) ? rowData.get(fSrcCol) : "";
+
+                            if ("vertical".equals(fDir)) {
+                                int targetRow = Math.max(fStartRow, fOffset) + outputPos;
+                                if (targetRow < EXCEL_ROW_LIMIT) {
+                                    Row excelRow = fSheet.getRow(targetRow);
+                                    if (excelRow == null) excelRow = fSheet.createRow(targetRow);
+                                    excelRow.createCell(fStartCol).setCellValue(value);
+                                    rowsAddedHolder[0] = Math.max(rowsAddedHolder[0], outputPos + 1);
+                                }
+                            } else {
+                                int targetRow = Math.max(fStartRow, fOffset);
+                                Row excelRow = fSheet.getRow(targetRow);
+                                if (excelRow == null) excelRow = fSheet.createRow(targetRow);
+                                excelRow.createCell(fStartCol + outputPos + 1).setCellValue(value);
+                                rowsAddedHolder[0] = 1;
+                            }
+                        });
+                        rowsAdded = rowsAddedHolder[0];
+                        continue; // flex path handled — skip legacy rowIndexes write loop below
+                    } else if (mapping.containsKey("rowPattern")) {
                         Map<String, Object> rowPattern = (Map<String, Object>) mapping.get("rowPattern");
                         int start = ((Number) rowPattern.get("start")).intValue();
                         String type = (String) rowPattern.get("type");
