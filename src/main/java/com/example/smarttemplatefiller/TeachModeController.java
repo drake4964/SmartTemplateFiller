@@ -45,6 +45,14 @@ public class TeachModeController {
     private TableView<ObservableList<String>> excelPreviewTable;
     @FXML
     private Label previewStatusLabel;
+    @FXML
+    private CheckBox semicolonFixedCheckbox;
+
+    private File currentSourceFile;
+
+    public void setCurrentSourceFile(File file) {
+        this.currentSourceFile = file;
+    }
 
     private TableView<List<String>> tableView;
     private final List<Map<String, Object>> colMappings = new ArrayList<>();
@@ -234,6 +242,7 @@ public class TeachModeController {
         map.put("sourceColumn", selectedCol);
         map.put("startCell", startCell);
         map.put("direction", direction);
+        map.put("fixed", semicolonFixedCheckbox.isSelected());
         if (!title.isEmpty()) {
             map.put("title", title);
         }
@@ -332,7 +341,10 @@ public class TeachModeController {
             showValidationError("No mappings to save.");
             return;
         }
+        saveMappingsToFile(colMappings);
+    }
 
+    private void saveMappingsToFile(List<Map<String, Object>> mappingsToSave) {
         ObjectMapper mapper = new ObjectMapper();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Mapping File");
@@ -342,7 +354,7 @@ public class TeachModeController {
 
         if (file != null) {
             try {
-                mapper.writerWithDefaultPrettyPrinter().writeValue(file, colMappings);
+                mapper.writerWithDefaultPrettyPrinter().writeValue(file, mappingsToSave);
                 showInfo("Mapping saved to:\n" + file.getName());
             } catch (IOException e) {
                 showValidationError("Failed to save: " + e.getMessage());
@@ -363,17 +375,15 @@ public class TeachModeController {
                 List<Map<String, Object>> mappings = mapper.readValue(
                         file,
                         mapper.getTypeFactory().constructCollectionType(List.class, Map.class));
+                
                 colMappings.clear();
                 colMappings.addAll(mappings);
                 updateMappingListView();
                 updateExcelPreview();
 
-                // T017 [US3]: Restore UI mode and FlexPatternPanel state from the
-                // first mapping entry so the panel reflects the saved configuration.
                 if (!mappings.isEmpty()) {
                     Map<String, Object> first = mappings.get(0);
                     if (first.containsKey("fillField") && first.get("fillField") != null) {
-                        // Flex path: switch to Pattern mode and restore panel values
                         if (modePatternRadio != null) modePatternRadio.setSelected(true);
                         if (flexPatternPanel != null) {
                             int start = (first.containsKey("startField") && first.get("startField") != null)
@@ -384,7 +394,6 @@ public class TeachModeController {
                             flexPatternPanel.setValues(start, fill, space);
                         }
                     } else if (first.containsKey("rowIndexes")) {
-                        // Manual path: switch to Manual mode and surface the row list
                         if (modeManualRadio != null) modeManualRadio.setSelected(true);
                         if (manualRowField != null) {
                             List<?> rawIndexes = (List<?>) first.get("rowIndexes");
@@ -644,6 +653,9 @@ public class TeachModeController {
         titleField.clear();
         if (flexPatternPanel != null) {
             flexPatternPanel.setValues(1, 1, 0);
+        }
+        if (semicolonFixedCheckbox != null) {
+            semicolonFixedCheckbox.setSelected(false);
         }
     }
 

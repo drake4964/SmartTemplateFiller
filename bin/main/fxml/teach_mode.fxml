@@ -12,7 +12,6 @@
     
     <center>
         <VBox spacing="15">
-            
             <!-- Section 1: Mapping Configuration -->
             <TitledPane text="+ Add New Mapping" collapsible="false">
                 <VBox spacing="10">
@@ -20,7 +19,7 @@
                         <Insets top="10" right="10" bottom="10" left="10"/>
                     </padding>
                     
-                    <HBox spacing="15" alignment="CENTER_LEFT">
+                    <HBox fx:id="sourceColumnPane" spacing="15" alignment="CENTER_LEFT">
                         <Label text="Source Column:" style="-fx-font-weight: bold;"/>
                         <ComboBox fx:id="columnComboBox" prefWidth="120" promptText="Select..."/>
                         
@@ -31,6 +30,8 @@
                         
                         <Label text="Direction:" style="-fx-font-weight: bold;"/>
                         <ComboBox fx:id="directionComboBox" prefWidth="110"/>
+                        
+                        <CheckBox fx:id="semicolonFixedCheckbox" text="Fixed mapping"/>
                     </HBox>
                     
                     <HBox spacing="15" alignment="CENTER_LEFT">

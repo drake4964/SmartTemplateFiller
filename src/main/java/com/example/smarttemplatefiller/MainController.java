@@ -21,6 +21,7 @@ import java.util.List;
 
 public class MainController {
     private Stage stage;
+    private File currentSourceFile;
 
     @FXML
     private TableView<List<String>> tableView;
@@ -38,6 +39,7 @@ public class MainController {
                 .open();
 
         if (selectedFile != null) {
+            this.currentSourceFile = selectedFile;
             List<List<String>> parsedData = TxtParser.parseFile(selectedFile);
 
             tableView.getColumns().clear();
@@ -60,7 +62,7 @@ public class MainController {
                 tableView.getColumns().add(rowIndexCol);
 
                 // Add dynamic data columns
-                int columnCount = parsedData.get(0).size();
+                int columnCount = parsedData.stream().mapToInt(List::size).max().orElse(0);
                 for (int i = 0; i < columnCount; i++) {
                     final int colIndex = i;
                     TableColumn<List<String>, String> column = new TableColumn<>("Col " + (i + 1));
@@ -95,6 +97,7 @@ public class MainController {
 
             TeachModeController teachController = loader.getController();
             teachController.setTableView(tableView);
+            teachController.setCurrentSourceFile(currentSourceFile);
 
             Stage teachStage = new Stage();
             teachStage.setTitle("Teach Mode");

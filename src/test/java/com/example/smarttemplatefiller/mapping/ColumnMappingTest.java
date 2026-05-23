@@ -144,4 +144,37 @@ class ColumnMappingTest {
         assertFalse(MappingPathResolver.shouldUseFlexPath(mapping),
                 "null fillField must not trigger flex path");
     }
+
+    // -----------------------------------------------------------------------
+    // Semicolon Mode path
+    // -----------------------------------------------------------------------
+
+    @Test
+    void testSemicolonFieldsRoundTrip() throws Exception {
+        ColumnMapping original = new ColumnMapping();
+        original.setDelimiterMode("semicolon");
+        original.setSourceColumn(0);
+        original.setDirection("vertical");
+        original.setStartCell("C3");
+        original.setBlockRelativeRow(2);
+        original.setFieldIndex(1);
+        original.setFixed(true);
+        original.setGroupWidth(3);
+
+        String json = mapper.writeValueAsString(original);
+
+        assertTrue(json.contains("\"delimiterMode\":\"semicolon\""));
+        assertTrue(json.contains("\"blockRelativeRow\":2"));
+        assertTrue(json.contains("\"fieldIndex\":1"));
+        assertTrue(json.contains("\"fixed\":true"));
+        assertTrue(json.contains("\"groupWidth\":3"));
+
+        ColumnMapping loaded = mapper.readValue(json, ColumnMapping.class);
+
+        assertEquals("semicolon", loaded.getDelimiterMode());
+        assertEquals(2, loaded.getBlockRelativeRow());
+        assertEquals(1, loaded.getFieldIndex());
+        assertEquals(true, loaded.getFixed());
+        assertEquals(3, loaded.getGroupWidth());
+    }
 }
