@@ -155,13 +155,14 @@ public class DefaultLicenseValidator implements LicenseValidator {
      * Maps LicenseReadException to appropriate ValidationResult.
      */
     private ValidationResult mapReadException(LicenseFileReader.LicenseReadException e) {
+        String msg = config != null && config.getErrorMessage() != null ? config.getErrorMessage() : e.getMessage();
         return switch (e.getErrorType()) {
             case FILE_NOT_FOUND -> ValidationResult.failure(
                     ValidationResult.ErrorCode.FILE_NOT_FOUND,
-                    "License file missing. Please ensure 'license.json' is in the application folder.");
+                    config != null && config.getErrorMessage() != null && !config.getErrorMessage().equals("License error. Please contact support.") ? config.getErrorMessage() : "License file missing. Please ensure 'license.json' is in the application folder.");
             case INVALID_PATH, INVALID_FORMAT -> ValidationResult.failure(
                     ValidationResult.ErrorCode.INVALID_FORMAT,
-                    config != null ? config.getErrorMessage() : e.getMessage());
+                    msg);
         };
     }
 }

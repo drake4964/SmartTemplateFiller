@@ -104,6 +104,28 @@ class ConstitutionComplianceTest {
     }
 
     /**
+     * Phase 7 T033: Verify semicolon package has been fully cleaned up to avoid circular or redundant UI dependencies.
+     */
+    @Test
+    void t033_semicolonParserPackageCleanedUp() {
+        File dir = new File("src/main/java/com/example/smarttemplatefiller/semicolon");
+        assertFalse(dir.exists() && dir.list() != null && dir.list().length > 0, 
+                "Semicolon package should be removed or empty for core architectural simplification");
+    }
+
+    @Test
+    void t033_semicolonMappingEngineHasNoUiImports() throws Exception {
+        File source = new File("src/main/java/com/example/smarttemplatefiller/SemicolonMappingEngine.java");
+        if(source.exists()) {
+            List<String> lines = Files.readAllLines(source.toPath());
+            List<String> uiImports = lines.stream()
+                    .filter(l -> l.trim().startsWith("import") && (l.contains("TeachModeController") || l.contains("javafx")))
+                    .collect(Collectors.toList());
+            assertEquals(0, uiImports.size(), "SemicolonMappingEngine must have zero UI imports; found: " + uiImports);
+        }
+    }
+
+    /**
      * T020: Instantiate RowPatternDescriptor in a plain test (no JavaFX toolkit)
      * to confirm it runs without any display system requirement.
      */

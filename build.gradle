@@ -73,9 +73,9 @@ runtime {
     }
     
     jpackage {
-        // You can use 'jpackageImage' to build a folder, or build installers with other tasks
         imageName = 'SmartTemplateFiller'
-        skipInstaller = true // Set to false if you want an MSI/EXE installer file
+        skipInstaller = false 
+        installerType = 'exe'
         installerOptions = ['--win-per-user-install', '--win-menu', '--win-shortcut']
         imageOptions = ['--add-launcher', 'HardwareInfoExtractor=hw.properties', '--add-launcher', 'LicenseGenerator=lg.properties', '--add-launcher', 'LicenseRenewer=lr.properties']
     }

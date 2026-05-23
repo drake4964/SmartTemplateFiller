@@ -1,0 +1,64 @@
+[ {
+  "sourceColumn" : 0,
+  "startCell" : "A2",
+  "direction" : "vertical",
+  "fixed" : true,
+  "title" : "Element",
+  "startField" : 2,
+  "fillField" : 1,
+  "spaceField" : 0
+}, {
+  "sourceColumn" : 1,
+  "startCell" : "B2",
+  "direction" : "vertical",
+  "fixed" : true,
+  "title" : "Actual",
+  "startField" : 2,
+  "fillField" : 1,
+  "spaceField" : 0
+}, {
+  "sourceColumn" : 2,
+  "startCell" : "C2",
+  "direction" : "vertical",
+  "fixed" : true,
+  "title" : "Nominal",
+  "startField" : 2,
+  "fillField" : 1,
+  "spaceField" : 0
+}, {
+  "sourceColumn" : 3,
+  "startCell" : "D2",
+  "direction" : "vertical",
+  "fixed" : true,
+  "title" : "Deviation",
+  "startField" : 2,
+  "fillField" : 1,
+  "spaceField" : 0
+}, {
+  "sourceColumn" : 4,
+  "startCell" : "E2",
+  "direction" : "vertical",
+  "fixed" : false,
+  "title" : "Up Tol.",
+  "startField" : 2,
+  "fillField" : 1,
+  "spaceField" : 0
+}, {
+  "sourceColumn" : 5,
+  "startCell" : "F2",
+  "direction" : "vertical",
+  "fixed" : false,
+  "title" : "Low Tol.",
+  "startField" : 2,
+  "fillField" : 1,
+  "spaceField" : 0
+}, {
+  "sourceColumn" : 6,
+  "startCell" : "G2",
+  "direction" : "vertical",
+  "fixed" : false,
+  "title" : "Pass/Fail",
+  "startField" : 2,
+  "fillField" : 1,
+  "spaceField" : 0
+} ]

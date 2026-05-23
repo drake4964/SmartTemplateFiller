@@ -197,4 +197,48 @@ class RunningModeFlexIntegrationTest {
         assertEquals("data2", readCell(output, 0, 1, 0));
         assertEquals("data4", readCell(output, 0, 2, 0));
     }
+
+    /**
+     * T031 [US4]: Semicolon mapping json file written by RunningModeController must be handled gracefully.
+     */
+    @Test
+    void testSemicolonMappingHeadlessly() throws IOException {
+        // 1. Source file (semicolon delimited)
+        File source = tempDir.resolve("semi_source.txt").toFile();
+        try (PrintWriter w = new PrintWriter(new FileWriter(source))) {
+            w.println("Val1;Val2;Val3");
+            w.println("Val4;Val5;Val6");
+            w.println("@101");
+            w.println("Val7;Val8;Val9");
+            w.println("Val10;Val11;Val12");
+            w.println("@101");
+        }
+
+        // 2. Mapping JSON
+        File mappingJson = tempDir.resolve("semi_mapping.json").toFile();
+        ObjectMapper mapper = new ObjectMapper();
+        List<Map<String, Object>> mappings = new ArrayList<>();
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("delimiterMode", "semicolon");
+        map.put("sourceColumn", 0);
+        map.put("direction", "vertical");
+        map.put("startCell", "B2");
+        map.put("blockRelativeRow", 1);
+        map.put("fieldIndex", 2);
+        map.put("fixed", false);
+        map.put("groupWidth", 1);
+        mappings.add(map);
+        mapper.writerWithDefaultPrettyPrinter().writeValue(mappingJson, mappings);
+
+        // 3. Export
+        File output = tempDir.resolve("semi_output.xlsx").toFile();
+        ExcelWriter.writeAdvancedMappedFile(source, mappingJson, output);
+
+        assertTrue(output.exists());
+        // Block 0, relative row 1, field 2 -> "Val6"
+        // Block 1, relative row 1, field 2 -> "Val12"
+        // Due to groupWidth 1, they should be horizontally interleaved at B2, C2 (row 1, col 1 and 2)
+        assertEquals("Val6", readCell(output, 0, 1, 1)); // B2
+        assertEquals("Val12", readCell(output, 0, 1, 2)); // C2
+    }
 }

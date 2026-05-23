@@ -24,11 +24,14 @@ public class TxtParser {
             boolean isBlockHeader = previewLines.stream()
                     .anyMatch(l -> l.matches("(?i)(Circle|Line|Plane|Point|Distance|Angle).*\\(ID:.*\\).*"));
             boolean isFixedColumn = previewLines.stream().anyMatch(l -> l.matches("\\s*\\d+\\s+N\\d+\\s+.*\\s+\\*+.*"));
+            boolean isSemicolon = previewLines.stream().anyMatch(l -> l.contains(";"));
 
             if (isBlockHeader) {
                 return parseMultiLineGroupedBlock(file);
             } else if (isFixedColumn) {
                 return parseFixedColumnTable(file);
+            } else if (isSemicolon) {
+                return parseSemicolonTable(file);
             } else {
                 return parseFlatTable(file);
             }
@@ -91,16 +94,26 @@ public class TxtParser {
 
     public static List<List<String>> parseMultiLineGroupedBlock(File file) {
         List<List<String>> result = new ArrayList<>();
-        result.add(List.of("Element", "Actual", "Nominal", "Deviat.", "Up Tol.", "Low Tol.", "Pass/Fail"));
+        List<String> headers = List.of("Element", "Actual", "Nominal", "Deviat.", "Up Tol.", "Low Tol.", "Pass/Fail");
+        result.add(headers);
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             String currentHeader = null;
+            boolean hasParsedData = false;
 
             while ((line = br.readLine()) != null) {
                 line = line.trim();
                 if (line.isEmpty())
                     continue;
+
+                if ("@101".equals(line)) {
+                    if (hasParsedData) {
+                        result.add(List.of("@101"));
+                        result.add(headers);
+                    }
+                    continue;
+                }
 
                 if (line.matches("(?i)(Circle|Line|Plane|Point|Distance|Angle).*\\(ID:.*\\).*")) {
                     currentHeader = line;
@@ -123,6 +136,7 @@ public class TxtParser {
                     while (row.size() < 7)
                         row.add("");
                     result.add(row);
+                    hasParsedData = true;
                 }
             }
         } catch (Exception e) {
@@ -151,6 +165,34 @@ public class TxtParser {
                 while (row.size() < 8)
                     row.add("");
 
+                result.add(row);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public static List<List<String>> parseSemicolonTable(File file) {
+        List<List<String>> result = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+                if (line.isEmpty())
+                    continue;
+
+                List<String> row = new ArrayList<>();
+                if (line.contains(";")) {
+                    String[] parts = line.split(";", -1);
+                    for (String part : parts) {
+                        row.add(part.trim());
+                    }
+                } else {
+                    row.add(line);
+                }
                 result.add(row);
             }
         } catch (Exception e) {

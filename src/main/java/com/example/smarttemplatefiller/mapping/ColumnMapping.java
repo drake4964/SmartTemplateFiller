@@ -22,6 +22,13 @@ public class ColumnMapping {
     private Integer fillField;
     private Integer spaceField;
 
+    // Semicolon Mode fields
+    private String delimiterMode;
+    private Integer fieldIndex;
+    private Boolean fixed;
+    private Integer blockRelativeRow;
+    private Integer groupWidth;
+
     public ColumnMapping() {}
 
     public Integer getSourceColumn() { return sourceColumn; }
@@ -50,4 +57,19 @@ public class ColumnMapping {
 
     public Integer getSpaceField() { return spaceField; }
     public void setSpaceField(Integer spaceField) { this.spaceField = spaceField; }
+
+    public String getDelimiterMode() { return delimiterMode; }
+    public void setDelimiterMode(String delimiterMode) { this.delimiterMode = delimiterMode; }
+
+    public Integer getFieldIndex() { return fieldIndex; }
+    public void setFieldIndex(Integer fieldIndex) { this.fieldIndex = fieldIndex; }
+
+    public Boolean getFixed() { return fixed; }
+    public void setFixed(Boolean fixed) { this.fixed = fixed; }
+
+    public Integer getBlockRelativeRow() { return blockRelativeRow; }
+    public void setBlockRelativeRow(Integer blockRelativeRow) { this.blockRelativeRow = blockRelativeRow; }
+
+    public Integer getGroupWidth() { return groupWidth; }
+    public void setGroupWidth(Integer groupWidth) { this.groupWidth = groupWidth; }
 }
