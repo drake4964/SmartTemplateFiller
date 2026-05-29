@@ -10,17 +10,19 @@ public class DiagnoseBlocks {
     static List<String> HEADERS = List.of("Element", "Actual", "Nominal", "Deviat.", "Up Tol.", "Low Tol.", "Pass/Fail");
 
     public static void main(String[] args) throws Exception {
-        File file = new File("Results2 - sample 3 sets.txt");
-        if (args.length > 0) file = new File(args[0]);
-        
-        System.out.println("=== parseMultiLineGroupedBlock output ===");
-        List<List<String>> data = parseMultiLineGroupedBlock(file);
-        
-        for (int i = 0; i < data.size(); i++) {
-            List<String> row = data.get(i);
-            String col0 = row.isEmpty() ? "(empty)" : row.get(0);
-            System.out.printf("[%3d] size=%d  col0='%s'%n", i, row.size(), col0);
+        File inputFile = new File("FTX/QV Results Example No looping.txt");
+        System.out.println("Diagnosing file: " + inputFile.getAbsolutePath());
+
+        List<List<String>> data = com.example.smarttemplatefiller.TxtParser.parseMultiLineGroupedBlock(inputFile);
+        System.out.println("Parsed " + data.size() + " rows.");
+
+        File outputFile = new File("FTX/result QV.csv");
+        try (PrintWriter pw = new PrintWriter(outputFile)) {
+            for (List<String> row : data) {
+                pw.println(String.join(",", row));
+            }
         }
+        System.out.println("Wrote output to: " + outputFile.getAbsolutePath());
         
         System.out.println("\n=== blockStarts detection ===");
         List<Integer> blockStarts = new ArrayList<>();

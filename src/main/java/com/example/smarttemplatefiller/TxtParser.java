@@ -94,8 +94,9 @@ public class TxtParser {
 
     public static List<List<String>> parseMultiLineGroupedBlock(File file) {
         List<List<String>> result = new ArrayList<>();
-        List<String> headers = List.of("Element", "Actual", "Nominal", "Deviat.", "Up Tol.", "Low Tol.", "Pass/Fail");
-        result.add(headers);
+        List<String> dynamicHeaders = new ArrayList<>(List.of("Element", "Actual", "Nominal", "Deviat.", "Up Tol.", "Low Tol.", "Pass/Fail"));
+        List<Integer> absBoundaries = new ArrayList<>(List.of(22, 37, 53, 69, 85, 100));
+        result.add(dynamicHeaders);
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
@@ -103,14 +104,44 @@ public class TxtParser {
             boolean hasParsedData = false;
 
             while ((line = br.readLine()) != null) {
+                String originalLine = line;
                 line = line.trim();
                 if (line.isEmpty())
                     continue;
 
+                if (line.startsWith("Element") && line.split("\\s{2,}").length >= 2) {
+                    String[] headerParts = line.split("\\s{2,}");
+                    dynamicHeaders = new ArrayList<>();
+                    List<Integer> headerStarts = new ArrayList<>();
+                    List<Integer> headerEnds = new ArrayList<>();
+
+                    int searchFrom = 0;
+                    for (String part : headerParts) {
+                        String p = part.trim();
+                        dynamicHeaders.add(p);
+                        int idx = originalLine.indexOf(p, searchFrom);
+                        if (idx == -1) idx = searchFrom;
+                        headerStarts.add(idx);
+                        headerEnds.add(idx + p.length());
+                        searchFrom = idx + p.length();
+                    }
+
+                    absBoundaries = new ArrayList<>();
+                    for (int i = 0; i < dynamicHeaders.size() - 1; i++) {
+                        int mid = (headerEnds.get(i) + headerStarts.get(i+1)) / 2;
+                        absBoundaries.add(mid);
+                    }
+
+                    if (!hasParsedData) {
+                        result.set(0, dynamicHeaders);
+                    }
+                    continue;
+                }
+
                 if ("@101".equals(line)) {
                     if (hasParsedData) {
                         result.add(List.of("@101"));
-                        result.add(headers);
+                        result.add(dynamicHeaders);
                     }
                     continue;
                 }
@@ -123,18 +154,15 @@ public class TxtParser {
                 if (currentHeader != null && line.contains("=")) {
                     String[] parts = line.split("=");
                     String label = parts[0].trim();
-                    String valuesPart = parts.length > 1 ? parts[1].trim() : "";
-                    String[] values = valuesPart.isEmpty() ? new String[0] : valuesPart.split("\\s+");
 
                     List<String> row = new ArrayList<>();
                     row.add(currentHeader + " → " + label);
 
-                    for (String val : values) {
-                        row.add(val);
+                    for (int i = 0; i < dynamicHeaders.size() - 1; i++) {
+                        int start = absBoundaries.get(i);
+                        int end = (i + 1 < absBoundaries.size()) ? absBoundaries.get(i + 1) : originalLine.length();
+                        row.add(getSafeSubstring(originalLine, start, end));
                     }
-
-                    while (row.size() < 7)
-                        row.add("");
                     result.add(row);
                     hasParsedData = true;
                 }
@@ -144,6 +172,12 @@ public class TxtParser {
         }
 
         return result;
+    }
+
+    private static String getSafeSubstring(String s, int start, int end) {
+        if (start >= s.length()) return "";
+        int actualEnd = Math.min(end, s.length());
+        return s.substring(start, actualEnd).trim();
     }
 
     public static List<List<String>> parseFlatTable(File file) {
